@@ -23,6 +23,8 @@ import {
   Sparkles,
   Target,
   Users,
+  GraduationCap,
+  HelpCircle,
 } from "lucide-react";
 
 function cx(...classes) {
@@ -76,6 +78,7 @@ const navigation = [
   { id: "overview", label: "Genel Bakış", shortLabel: "Genel", icon: LayoutDashboard },
   { id: "path", label: "Güvenlik Yolu", shortLabel: "Yol", icon: ShieldCheck },
   { id: "ages", label: "Yaş İçerikleri", shortLabel: "Yaş", icon: Users },
+  { id: "quizzes", label: "Bilinç Testleri", shortLabel: "Test", icon: GraduationCap },
   { id: "plan", label: "Aile Planı", shortLabel: "Plan", icon: ListChecks },
 ];
 
@@ -410,6 +413,122 @@ const ageContentRoadmaps = [
   },
 ];
 
+const parentQuizQuestions = [
+  {
+    id: 1,
+    scenario: "Çocuğunuzun son zamanlarda cihazını sizden gizlediğini ve ekran başındayken aşırı gergin veya üzgün olduğunu fark ettiniz. İlk yapılması gereken nedir?",
+    icon: ShieldAlert,
+    options: [
+      { key: "A", text: "Önemsiz bir ergenlik dönemi davranışıdır, görmezden gelirim." },
+      { key: "B", text: "Cihazı hemen elinden alır ve ceza olarak interneti kapatırım." },
+      { key: "C", text: "Siber zorbalığa maruz kalıyor veya uygunsuz bir içeriğe denk gelmiş olabileceğinden şüphelenip onunla sakin bir güven konuşması yaparım.", isCorrect: true }
+    ],
+    explainer: "Çocukların ekrandayken gerilmesi ve cihaz kaçırması siber zorbalık veya tacizin en net göstergelerindendir. Tepkisel değil, güven verici yaklaşmak çocuğun durumu sizinle paylaşmasını kolaylaştırır."
+  },
+  {
+    id: 2,
+    scenario: "Çocuğunuz sosyal medyada birinin kendisini tehdit ettiğini veya uygunsuz fotoğraflarını paylaştığını söyledi. Hukuki süreç için kanıtları nasıl saklamalısınız?",
+    icon: ClipboardList,
+    options: [
+      { key: "A", text: "Tüm mesajları ve platformu hemen kapatıp silerim." },
+      { key: "B", text: "Ekran görüntülerini platform ismi, tarih, saat ve profil bağlantıları (URL) görünecek şekilde kaydederim.", isCorrect: true },
+      { key: "C", text: "Kanıt saklamaya gerek yoktur, sadece kişiyi engellerim." }
+    ],
+    explainer: "Siber zorbalıkta hukuki şikayetlerin geçerli olabilmesi için platform bilgisi, gönderici profil ID'si, tarih ve saat içeren ekran görüntülerinin silinmeden saklanması kritiktir."
+  },
+  {
+    id: 3,
+    scenario: "Family Link veya Apple Ekran Süresi gibi ebeveyn denetim araçlarını kurarken en sağlıklı yaklaşım hangisidir?",
+    icon: Smartphone,
+    options: [
+      { key: "A", text: "Uygulamayı çocuğa haber vermeden kurup gizlice izlemek." },
+      { key: "B", text: "Kuralları ve süreleri çocukla birlikte tartışarak, ortak bir 'Ekran Süresi Anlaşması' imzalayarak şeffafça kurmak.", isCorrect: true },
+      { key: "C", text: "Cihazdaki tüm interneti süresiz olarak kilitlemek." }
+    ],
+    explainer: "Dijital ebeveynlikte şeffaflık güven yaratır. Gizlice izleme veya katı yasaklar, çocukların alternatif ve güvensiz yollara (gizli cihazlar, VPN vb.) yönelmesine sebep olur."
+  },
+  {
+    id: 4,
+    scenario: "Ev ağınızın genel güvenliğini artırmak ve çocuğunuzun tüm cihazlardan zararlı/yetişkin sitelere girmesini engellemek için en teknik ve profesyonel çözüm nedir?",
+    icon: LockKeyhole,
+    options: [
+      { key: "A", text: "Antivirüs programı kurmak." },
+      { key: "B", text: "Modemin DNS adreslerini ebeveyn kontrollü güvenli DNS (NextDNS/Cloudflare Aile) ile değiştirmek veya Pi-hole kurmak.", isCorrect: true },
+      { key: "C", text: "Sadece Google Güvenli Arama seçeneğini aktif etmek." }
+    ],
+    explainer: "Modem veya DNS seviyesinde filtreleme yapmak, ev ağındaki tüm cihazların (TV, tablet, telefon) zararlı içeriklere erişimini tek bir merkezden ve cihaz bağımsız olarak engellemenin en etkili yoludur."
+  },
+  {
+    id: 5,
+    scenario: "Çocuğunuzun oynadığı çevrimiçi bir oyunda (Roblox, Discord vb.) yabancı bir kullanıcının ona ücretsiz oyun içi para (Robux vb.) hediye etmek istediğini öğrendiniz. Yaklaşımınız ne olmalıdır?",
+    icon: Gamepad2,
+    options: [
+      { key: "A", text: "Hediye olduğu için kabul etmesine izin veririm." },
+      { key: "B", text: "Çevrimiçi oyunlardaki bu tür tekliflerin hesap çalma veya kötü niyetli yaklaşım (grooming) başlangıcı olabileceğini anlatıp sohbeti kesmesini isterim.", isCorrect: true },
+      { key: "C", text: "Oyunu bilgisayardan tamamen silerim." }
+    ],
+    explainer: "Kötü niyetli kişiler, çocukların güvenini kazanmak için oyun içi hediyeleri (skin, para vb.) yem olarak kullanırlar. Çocuğa bu tip manipülasyonları fark etme bilinci aşılanmalıdır."
+  }
+];
+
+const childQuizQuestions = [
+  {
+    id: 1,
+    scenario: "Çevrimiçi bir oyunda oynarken tanımadığın biri sana 'Karakterini çok sevdim, şifreni verirsen sana bedava elmas yükleyebilirim' dedi. Ne yapmalısın?",
+    icon: Gamepad2,
+    options: [
+      { key: "A", text: "Hemen şifremi verip elmasları beklerim." },
+      { key: "B", text: "'Şifrem sadece bana ve aileme özeldir' deyip teklifi reddederim ve durumu ebeveynime haber veririm.", isCorrect: true },
+      { key: "C", text: "Şifremi veririm ama hemen ardından değiştiririm." }
+    ],
+    explainer: "Şifreler ve kişisel bilgiler asla kimseyle paylaşılmamalıdır. Bedava elmas veya para teklifleri genellikle hesap hırsızlığı tuzaklarıdır!"
+  },
+  {
+    id: 2,
+    scenario: "Bir grup sohbetinde veya sosyal medyada bir arkadaşının seninle dalga geçtiğini, üzücü mesajlar veya fotoğraflar paylaştığını gördün. İlk yapman gereken nedir?",
+    icon: MessageSquareWarning,
+    options: [
+      { key: "A", text: "Ben de ona daha kötü sözler söyleyerek karşılık veririm." },
+      { key: "B", text: "Mesajların ekran görüntüsünü alır, o kişiyi engeller ve durumu güvendiğim bir yetişkine (anne, baba veya öğretmen) söylerim.", isCorrect: true },
+      { key: "C", text: "Utanıp ağlarım ve bilgisayarı kapatıp kimseye bir şey demem." }
+    ],
+    explainer: "Siber zorbalıkla karşılaştığında asla sessiz kalmamalı veya aynı şekilde yanıt vermemelisin. Kanıtı saklayıp güvendiğin bir yetişkine söylemek en siber kahramanca adımdır."
+  },
+  {
+    id: 3,
+    scenario: "Yeni bir oyun indirmek istiyorsun ama ekranda aniden 'Tebrikler! 1 Milyonuncu ziyaretçimiz oldunuz, hemen buraya tıkla ve telefon numaranı yaz' diye bir kutu çıktı. Ne yapmalısın?",
+    icon: AlertTriangle,
+    options: [
+      { key: "A", text: "Hemen telefon numaramı yazarım ki ödülü kaçırmayayım." },
+      { key: "B", text: "Bu tip kutuların virüs bulaştırmak veya fatura çıkartmak için tasarlanmış birer tuzak olduğunu bilip tıklamadan kapatırım.", isCorrect: true },
+      { key: "C", text: "Arkadaşıma gönderirim, o tıklasın." }
+    ],
+    explainer: "İnternette 'Bedava ödül kazandınız' diyen pencereler veya pop-up'lar çoğunlukla virüs bulaştırma ya da üyelik dolandırıcılığı amaçlıdır."
+  },
+  {
+    id: 4,
+    scenario: "İnternette harika bir oyun oynarken veya video izlerken bir yabancı sana adını, soyadını, hangi okulda okuduğunu veya ev adresini sordu. Ne yapmalısın?",
+    icon: Smartphone,
+    options: [
+      { key: "A", text: "Arkadaş olmak istediği için okul adımı ve adımı söylerim." },
+      { key: "B", text: "'İnternette özel bilgilerimi yabancılarla paylaşamam' diyerek paylaşımı reddeder ve aileme bildiririm.", isCorrect: true },
+      { key: "C", text: "Uydurma bir okul ve adres yazarım." }
+    ],
+    explainer: "Gerçek hayatta yabancılara adresimizi vermediğimiz gibi internette de kişisel bilgilerimizi (okul, adres, ad soyad) paylaşmamalıyız."
+  },
+  {
+    id: 5,
+    scenario: "İnternette yanlışlıkla korkutucu veya seni çok rahatsız eden bir resim ya da video ile karşılaştın. Ne yapmalısın?",
+    icon: ShieldAlert,
+    options: [
+      { key: "A", text: "Kendimi suçlu hissedip kimseye söylemem ve içime kapanırım." },
+      { key: "B", text: "Ekranı kapatırım ve hemen ebeveynime gidip 'Böyle bir şey gördüm ve beni çok rahatsız etti' diyerek paylaşırım.", isCorrect: true },
+      { key: "C", text: "Merak edip izlemeye devam ederim." }
+    ],
+    explainer: "İnternette rahatsız edici içeriklerle karşılaşmak senin suçun değildir. Bunu ailene söylemek korkunu azaltır ve cihazı daha güvenli hale getirmelerine yardım eder."
+  }
+];
+
 function getEffortValue(effort) {
   return Number.parseInt(effort, 10) || 10;
 }
@@ -505,6 +624,14 @@ export default function FamilyDigitalSafetyDashboard() {
   const [profileTechLevel, setProfileTechLevel] = useState("intermediate");
   const [profileWorkStyle, setProfileWorkStyle] = useState("desk");
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  // YENİ BİLİNÇ TESTLERİ DURUM DEĞİŞKENLERİ
+  const [activeQuiz, setActiveQuiz] = useState(null); // 'parent', 'child' veya null
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState(null); // Seçilen şık nesnesi
+  const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
+  const [quizScore, setQuizScore] = useState(0);
+  const [quizCompleted, setQuizCompleted] = useState(false);
 
   // Yaş aralığı çakışma kontrolü yardımcısı
   const isAgeRangeOverlapping = (ageRangeStr, selectedRanges) => {
@@ -1303,6 +1430,331 @@ export default function FamilyDigitalSafetyDashboard() {
                   </Button>
                 </CardContent>
               </Card>
+            </motion.section>
+          )}
+
+          {activeTab === "quizzes" && (
+            <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6">
+              {/* QUIZ SEÇİMİ EKRANI */}
+              {!activeQuiz && (
+                <div className="grid gap-6 md:grid-cols-2">
+                  {/* Ebeveyn Testi Kartı */}
+                  <Card className="border-slate-200 bg-white hover:border-slate-300 transition overflow-hidden">
+                    <CardContent className="p-6 flex flex-col justify-between h-full min-h-[320px]">
+                      <div>
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-950 text-white mb-5 shadow-md">
+                          <Users className="h-6 w-6" />
+                        </div>
+                        <h2 className="text-xl font-bold text-slate-950">Ebeveyn Dijital Farkındalık Testi</h2>
+                        <p className="mt-3 text-sm leading-6 text-slate-600">
+                          Çocuklarımızın maruz kalabileceği siber zorbalık belirtilerini tanıma, cihaz denetimlerini doğru kurma ve kriz anında sergilenmesi gereken ebeveyn reflekslerini ölçen 5 senaryolu farkındalık testi.
+                        </p>
+                      </div>
+                      <div className="mt-6">
+                        <Button 
+                          className="w-full flex items-center justify-center gap-2"
+                          onClick={() => {
+                            setActiveQuiz("parent");
+                            setCurrentQuestionIndex(0);
+                            setSelectedAnswer(null);
+                            setIsAnswerSubmitted(false);
+                            setQuizScore(0);
+                            setQuizCompleted(false);
+                          }}
+                        >
+                          <GraduationCap className="h-4 w-4" />
+                          Testi Başlat (Ebeveyn)
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Çocuk Testi Kartı */}
+                  <Card className="border-slate-200 bg-white hover:border-slate-300 transition overflow-hidden">
+                    <CardContent className="p-6 flex flex-col justify-between h-full min-h-[320px]">
+                      <div>
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600 text-white mb-5 shadow-md">
+                          <Gamepad2 className="h-6 w-6" />
+                        </div>
+                        <h2 className="text-xl font-bold text-slate-950">Siber Süper Kahraman Testi (Çocuk)</h2>
+                        <p className="mt-3 text-sm leading-6 text-slate-600">
+                          İnternet dünyasında ve çevrimiçi oyunlarda şifre güvenliği, yabancı mesajlara yaklaşım, siber zorbalıkla baş etme ve zararlı linkleri ayırt edebilme becerisini ölçen eğlenceli ve çocuk dostu siber kahraman testi.
+                        </p>
+                      </div>
+                      <div className="mt-6">
+                        <Button 
+                          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white flex items-center justify-center gap-2"
+                          onClick={() => {
+                            setActiveQuiz("child");
+                            setCurrentQuestionIndex(0);
+                            setSelectedAnswer(null);
+                            setIsAnswerSubmitted(false);
+                            setQuizScore(0);
+                            setQuizCompleted(false);
+                          }}
+                        >
+                          <Rocket className="h-4 w-4" />
+                          Kahramanlık Testini Başlat
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+
+              {/* TEST SORU EKRANI */}
+              {activeQuiz && !quizCompleted && (
+                (() => {
+                  const questions = activeQuiz === "parent" ? parentQuizQuestions : childQuizQuestions;
+                  const currentQuestion = questions[currentQuestionIndex];
+                  const Icon = currentQuestion.icon;
+
+                  return (
+                    <Card className="border-slate-200 bg-white shadow-md max-w-3xl mx-auto">
+                      <CardContent className="p-6 sm:p-8">
+                        {/* Test İlerleme Çubuğu */}
+                        <div className="flex items-center justify-between text-xs font-semibold text-slate-500 mb-4 uppercase tracking-wider">
+                          <span>{activeQuiz === "parent" ? "Ebeveyn Testi" : "Siber Kahraman Testi"}</span>
+                          <span>Soru {currentQuestionIndex + 1} / {questions.length}</span>
+                        </div>
+                        <ScoreBar score={((currentQuestionIndex + 1) / questions.length) * 100} className={activeQuiz === "parent" ? "bg-slate-950" : "bg-indigo-600"} />
+
+                        {/* Senaryo Soru Kartı */}
+                        <div className="mt-8 flex items-start gap-4 p-5 rounded-xl border border-slate-100 bg-slate-50">
+                          <div className={cx(
+                            "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg shadow-sm text-white",
+                            activeQuiz === "parent" ? "bg-slate-950" : "bg-indigo-600"
+                          )}>
+                            <Icon className="h-5 w-5" />
+                          </div>
+                          <div>
+                            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">SENARYO</p>
+                            <p className="mt-1 text-base font-semibold leading-relaxed text-slate-900">{currentQuestion.scenario}</p>
+                          </div>
+                        </div>
+
+                        {/* Şıklar */}
+                        <div className="mt-6 space-y-3">
+                          {currentQuestion.options.map((option) => {
+                            const isSelected = selectedAnswer?.key === option.key;
+                            let optionClass = "border-slate-200 bg-white text-slate-800 hover:bg-slate-50 hover:border-slate-300";
+                            
+                            if (isAnswerSubmitted) {
+                              if (option.isCorrect) {
+                                optionClass = "border-emerald-500 bg-emerald-50 text-emerald-900 font-medium";
+                              } else if (isSelected) {
+                                optionClass = "border-rose-500 bg-rose-50 text-rose-900";
+                              } else {
+                                optionClass = "border-slate-100 bg-white text-slate-400 opacity-60 pointer-events-none";
+                              }
+                            } else if (isSelected) {
+                              optionClass = activeQuiz === "parent" 
+                                ? "border-slate-950 bg-slate-950 text-white font-medium shadow-sm" 
+                                : "border-indigo-600 bg-indigo-600 text-white font-medium shadow-sm";
+                            }
+
+                            return (
+                              <button
+                                key={option.key}
+                                type="button"
+                                disabled={isAnswerSubmitted}
+                                onClick={() => setSelectedAnswer(option)}
+                                className={cx(
+                                  "w-full flex items-start gap-3 p-4 rounded-xl border text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300",
+                                  optionClass
+                                )}
+                              >
+                                <span className={cx(
+                                  "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold border",
+                                  isAnswerSubmitted && option.isCorrect ? "bg-emerald-500 border-emerald-500 text-white" :
+                                  isAnswerSubmitted && isSelected && !option.isCorrect ? "bg-rose-500 border-rose-500 text-white" :
+                                  isSelected ? "bg-white border-transparent text-slate-950" : "bg-slate-50 border-slate-200 text-slate-500"
+                                )}>
+                                  {option.key}
+                                </span>
+                                <span className="flex-1 leading-normal">{option.text}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {/* Cevap Açıklaması */}
+                        {isAnswerSubmitted && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className={cx(
+                              "mt-6 p-5 rounded-xl border flex gap-3",
+                              selectedAnswer.isCorrect 
+                                ? "border-emerald-200 bg-emerald-50/30 text-emerald-800" 
+                                : "border-amber-200 bg-amber-50/30 text-amber-800"
+                            )}
+                          >
+                            <HelpCircle className="h-5 w-5 shrink-0 mt-0.5" />
+                            <div>
+                              <p className="font-bold text-sm">
+                                {selectedAnswer.isCorrect ? "Tebrikler! Doğru Cevap" : "Yanlış Şıkkı Seçtiniz"}
+                              </p>
+                              <p className="mt-1 text-xs leading-relaxed opacity-90">{currentQuestion.explainer}</p>
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {/* Alt Butonlar */}
+                        <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
+                          <Button variant="outline" size="sm" onClick={() => setActiveQuiz(null)}>
+                            Testten Çık
+                          </Button>
+
+                          {!isAnswerSubmitted ? (
+                            <Button
+                              size="md"
+                              disabled={!selectedAnswer}
+                              onClick={() => {
+                                setIsAnswerSubmitted(true);
+                                if (selectedAnswer.isCorrect) {
+                                  setQuizScore((prev) => prev + 1);
+                                }
+                              }}
+                              className={activeQuiz === "parent" ? "bg-slate-950" : "bg-indigo-600"}
+                            >
+                              Cevabı Kontrol Et
+                            </Button>
+                          ) : (
+                            <Button
+                              size="md"
+                              onClick={() => {
+                                if (currentQuestionIndex + 1 < questions.length) {
+                                  setCurrentQuestionIndex((prev) => prev + 1);
+                                  setSelectedAnswer(null);
+                                  setIsAnswerSubmitted(false);
+                                } else {
+                                  setQuizCompleted(true);
+                                }
+                              }}
+                              className={cx(
+                                "flex items-center gap-2",
+                                activeQuiz === "parent" ? "bg-slate-950" : "bg-indigo-600"
+                              )}
+                            >
+                              {currentQuestionIndex + 1 < questions.length ? "Sıradaki Soru" : "Sonuçları Gör"}
+                              <ArrowRight className="h-4 w-4" />
+                            </Button>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })()
+              )}
+
+              {/* TEST SONUÇ VE SERTİFİKA EKRANI */}
+              {quizCompleted && (
+                (() => {
+                  const questions = activeQuiz === "parent" ? parentQuizQuestions : childQuizQuestions;
+                  const scorePercentage = Math.round((quizScore / questions.length) * 100);
+                  
+                  let badgeTitle = "";
+                  let badgeDesc = "";
+                  let badgeColor = "";
+
+                  if (activeQuiz === "parent") {
+                    if (scorePercentage >= 80) {
+                      badgeTitle = "Bilinçli Dijital Ebeveyn";
+                      badgeDesc = "Çocuğunuzun dijital ayak izlerini, siber zorbalık risklerini ve modem/cihaz kilitlerini üst düzey farkındalıkla yönetebiliyorsunuz!";
+                      badgeColor = "from-amber-400 to-yellow-600 text-yellow-950 ring-yellow-300 bg-yellow-50";
+                    } else if (scorePercentage >= 50) {
+                      badgeTitle = "Gelişmekte Olan Dijital Koruyucu";
+                      badgeDesc = "Temel dijital güvenlik becerilerine sahipsiniz. Ebeveyn profilleme sihirbazı yardımıyla teknik kısımları daha da geliştirebilirsiniz.";
+                      badgeColor = "from-slate-400 to-slate-600 text-slate-950 ring-slate-300 bg-slate-50";
+                    } else {
+                      badgeTitle = "Aday Dijital Ebeveyn";
+                      badgeDesc = "Dijital tehlikeler karşısında ailenizi korumak için kontrol listelerimizi ve ebeveyn mini rehberlerimizi çalışmanız önerilir.";
+                      badgeColor = "from-rose-400 to-rose-600 text-rose-950 ring-rose-300 bg-rose-50";
+                    }
+                  } else {
+                    if (scorePercentage >= 80) {
+                      badgeTitle = "Siber Süper Kahraman";
+                      badgeDesc = "Şifre güvenliğinden şüpheli teklifleri ayırt etmeye kadar tüm siber tuzaklardan kaçınabilen gerçek bir internet süper kahramanısın!";
+                      badgeColor = "from-indigo-400 to-indigo-600 text-indigo-950 ring-indigo-300 bg-indigo-50";
+                    } else if (scorePercentage >= 50) {
+                      badgeTitle = "Çırak Siber Ajan";
+                      badgeDesc = "İnternette oldukça dikkatlisin ama yine de bazı oyun tuzaklarına karşı dikkatli olmalısın. İpuçlarımızı incelemeye devam et!";
+                      badgeColor = "from-emerald-400 to-emerald-600 text-emerald-950 ring-emerald-300 bg-emerald-50";
+                    } else {
+                      badgeTitle = "Siber Eğitimci Adayı";
+                      badgeDesc = "İnternette güvende kalmak için ebeveynlerinden destek almalı ve siber kurallar posterimizi odana asarak tekrar etmelisin.";
+                      badgeColor = "from-teal-400 to-teal-600 text-teal-950 ring-teal-300 bg-teal-50";
+                    }
+                  }
+
+                  return (
+                    <Card className="border-slate-200 bg-white shadow-xl max-w-xl mx-auto overflow-hidden">
+                      <div className={cx("h-3 bg-gradient-to-r", badgeColor)} />
+                      <CardContent className="p-8 text-center">
+                        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-slate-50 border border-slate-100 shadow-md mb-6 relative">
+                          <Sparkles className="h-10 w-10 text-amber-500" />
+                        </div>
+
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">TEST TAMAMLANDI</p>
+                        <h2 className="text-3xl font-extrabold text-slate-950 mt-1">Skorunuz: {quizScore} / {questions.length}</h2>
+                        
+                        <div className="mt-5 max-w-xs mx-auto">
+                          <ScoreBar score={scorePercentage} className={activeQuiz === "parent" ? "bg-amber-500" : "bg-indigo-600"} />
+                          <p className="text-xs text-slate-500 mt-2 font-medium">Bilinç Başarı Oranı: %{scorePercentage}</p>
+                        </div>
+
+                        <div className={cx(
+                          "mt-8 p-6 rounded-xl border ring-4 ring-offset-2 flex flex-col items-center justify-center text-center",
+                          badgeColor
+                        )}>
+                          <ShieldCheck className="h-12 w-12 mb-3 text-slate-900" />
+                          <p className="text-[10px] font-bold uppercase tracking-widest opacity-80">DİJİTAL BAŞARI SERTİFİKASI</p>
+                          <h3 className="text-lg font-black tracking-tight mt-1">{badgeTitle}</h3>
+                          <p className="mt-3 text-xs leading-relaxed max-w-sm font-medium opacity-90">{badgeDesc}</p>
+                        </div>
+
+                        <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:items-center justify-center">
+                          <Button 
+                            variant="outline"
+                            onClick={() => {
+                              setActiveQuiz(null);
+                              setQuizCompleted(false);
+                            }}
+                            className="w-full sm:w-auto"
+                          >
+                            Diğer Testleri Gör
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              setCurrentQuestionIndex(0);
+                              setSelectedAnswer(null);
+                              setIsAnswerSubmitted(false);
+                              setQuizScore(0);
+                              setQuizCompleted(false);
+                            }}
+                            className={cx(
+                              "w-full sm:w-auto",
+                              activeQuiz === "parent" ? "bg-slate-950" : "bg-indigo-600"
+                            )}
+                          >
+                            Yeniden Başlat
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              setActiveTab(activeQuiz === "parent" ? "path" : "ages");
+                            }}
+                            variant="subtle"
+                            className="w-full sm:w-auto"
+                          >
+                            Güvenlik Yoluna Dön
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })()
+              )}
             </motion.section>
           )}
 
