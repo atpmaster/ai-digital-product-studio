@@ -27,6 +27,7 @@ import {
   HelpCircle,
   BookOpen,
   LogOut,
+  X,
 } from "lucide-react";
 
 function cx(...classes) {
@@ -741,6 +742,7 @@ export default function FamilyDigitalSafetyDashboard() {
   const [passwordInput, setPasswordInput] = useState("");
   const [nameInput, setNameInput] = useState("");
   const [authError, setAuthError] = useState("");
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   // YENİ REHBER DURUM DEĞİŞKENLERİ
   const [selectedGuideAge, setSelectedGuideAge] = useState("12-14");
@@ -872,6 +874,7 @@ export default function FamilyDigitalSafetyDashboard() {
     setEmailInput("");
     setPasswordInput("");
     setAuthError("");
+    setIsAuthModalOpen(false);
   };
 
   const handleRegister = (e) => {
@@ -887,6 +890,7 @@ export default function FamilyDigitalSafetyDashboard() {
     setPasswordInput("");
     setNameInput("");
     setAuthError("");
+    setIsAuthModalOpen(false);
   };
 
   const handleDemoLogin = () => {
@@ -894,109 +898,13 @@ export default function FamilyDigitalSafetyDashboard() {
     localStorage.setItem("digital_safety_user", JSON.stringify(user));
     setCurrentUser(user);
     setAuthError("");
+    setIsAuthModalOpen(false);
   };
 
   const handleLogout = () => {
     localStorage.removeItem("digital_safety_user");
     setCurrentUser(null);
   };
-
-  if (!currentUser) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white px-4 relative overflow-hidden">
-        {/* Background Decorative Gradients */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-600/20 rounded-full blur-[120px] pointer-events-none" />
-
-        <div className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-8 shadow-2xl relative z-10">
-          <div className="text-center mb-6">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-slate-900 text-white mb-4 shadow-lg">
-              <ShieldCheck className="h-6 w-6 text-emerald-400" />
-            </div>
-            <h1 className="text-2xl font-black tracking-tight">Ebeveyn Dijital Stüdyosu</h1>
-            <p className="text-xs text-slate-400 mt-1">Çocuklar için güvenli dijital yaşam ve bilinç paneli</p>
-          </div>
-
-          {authError && (
-            <div className="mb-4 p-3 rounded-lg border border-red-500/20 bg-red-500/10 text-xs text-red-400 font-semibold flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 shrink-0" />
-              {authError}
-            </div>
-          )}
-
-          <form onSubmit={authMode === "login" ? handleLogin : handleRegister} className="space-y-4">
-            {authMode === "register" && (
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" htmlFor="name">Adınız Soyadınız</label>
-                <input
-                  id="name"
-                  type="text"
-                  required
-                  placeholder="Ahmet Yılmaz"
-                  value={nameInput}
-                  onChange={(e) => setNameInput(e.target.value)}
-                  className="w-full h-11 bg-white/5 border border-white/10 rounded-lg px-3.5 text-sm text-white placeholder-slate-500 outline-none focus:border-indigo-500 transition"
-                />
-              </div>
-            )}
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" htmlFor="email">E-posta Adresi</label>
-              <input
-                id="email"
-                type="email"
-                required
-                placeholder="ebeveyn@ornek.com"
-                value={emailInput}
-                onChange={(e) => setEmailInput(e.target.value)}
-                className="w-full h-11 bg-white/5 border border-white/10 rounded-lg px-3.5 text-sm text-white placeholder-slate-500 outline-none focus:border-indigo-500 transition"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" htmlFor="password">Şifre</label>
-              <input
-                id="password"
-                type="password"
-                required
-                placeholder="••••••••"
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
-                className="w-full h-11 bg-white/5 border border-white/10 rounded-lg px-3.5 text-sm text-white placeholder-slate-500 outline-none focus:border-indigo-500 transition"
-              />
-            </div>
-
-            <Button type="submit" className="w-full bg-slate-900 text-white hover:bg-slate-800 border border-white/10 font-semibold shadow-lg">
-              {authMode === "login" ? "Giriş Yap" : "Kayıt Ol"}
-            </Button>
-          </form>
-
-          <div className="relative my-5">
-            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10"></div></div>
-            <div className="relative flex justify-center text-xs uppercase"><span className="bg-[#0b0f19] px-2 text-slate-500">VEYA</span></div>
-          </div>
-
-          <Button type="button" variant="outline" onClick={handleDemoLogin} className="w-full border-white/10 bg-transparent text-white hover:bg-white/5 font-semibold">
-            Demo Girişi Yap (Tek Tıkla Dene)
-          </Button>
-
-          <p className="text-center text-xs text-slate-400 mt-6">
-            {authMode === "login" ? "Hesabınız yok mu? " : "Zaten üye misiniz? "}
-            <button
-              type="button"
-              onClick={() => {
-                setAuthMode(authMode === "login" ? "register" : "login");
-                setAuthError("");
-              }}
-              className="text-indigo-400 hover:underline font-bold"
-            >
-              {authMode === "login" ? "Hemen Kayıt Olun" : "Giriş Yapın"}
-            </button>
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-slate-100 text-slate-950">
@@ -1009,7 +917,7 @@ export default function FamilyDigitalSafetyDashboard() {
             <div>
               <p className="text-sm font-medium text-slate-500">Aile Dijital Güvenlik Stüdyosu</p>
               <h1 className="text-xl font-semibold text-slate-950">
-                Merhaba, <span className="text-indigo-600 font-bold">{currentUser.name}</span>
+                Merhaba, <span className="text-indigo-600 font-bold">{currentUser ? currentUser.name : "Misafir Ebeveyn"}</span>
               </h1>
             </div>
           </div>
@@ -1027,10 +935,17 @@ export default function FamilyDigitalSafetyDashboard() {
               <Rocket className="h-4 w-4" />
               Aile planı
             </Button>
-            <Button variant="outline" onClick={handleLogout} className="border-red-200 hover:bg-red-50 text-red-600">
-              <LogOut className="h-4 w-4" />
-              Çıkış
-            </Button>
+            {currentUser ? (
+              <Button variant="outline" onClick={handleLogout} className="border-red-200 hover:bg-red-50 text-red-600">
+                <LogOut className="h-4 w-4" />
+                Çıkış
+              </Button>
+            ) : (
+              <Button onClick={() => setIsAuthModalOpen(true)} className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
+                <ShieldCheck className="h-4 w-4" />
+                Giriş Yap / Üye Ol
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -2289,6 +2204,138 @@ export default function FamilyDigitalSafetyDashboard() {
           )}
         </main>
       </div>
+
+      {/* GİRİŞ / KAYIT MODALI */}
+      {isAuthModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-6 text-white relative overflow-hidden"
+          >
+            {/* Arka plan gradyan süslemesi */}
+            <div className="absolute -top-12 -right-12 h-32 w-32 rounded-full bg-indigo-500/20 blur-xl"></div>
+            <div className="absolute -bottom-12 -left-12 h-32 w-32 rounded-full bg-rose-500/10 blur-xl"></div>
+
+            {/* Kapatma Butonu */}
+            <button
+              onClick={() => {
+                setIsAuthModalOpen(false);
+                setAuthError("");
+              }}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white transition"
+              type="button"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            {/* Logo ve Başlık */}
+            <div className="flex flex-col items-center mb-6">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600 text-white mb-3">
+                <ShieldCheck className="h-6 w-6" />
+              </div>
+              <h2 className="text-xl font-bold text-slate-100">
+                {authMode === "login" ? "Hesabınıza Giriş Yapın" : "Yeni Hesap Oluşturun"}
+              </h2>
+              <p className="text-sm text-slate-400 mt-1 text-center">
+                {authMode === "login"
+                  ? "Aile Dijital Güvenlik dünyasına adım atın"
+                  : "Ailenizin dijital güvenliğini birlikte yönetin"}
+              </p>
+            </div>
+
+            {/* Hata Bildirimi */}
+            {authError && (
+              <div className="mb-4 rounded-lg bg-red-950/50 border border-red-800/50 p-3 text-xs text-red-400 flex items-start gap-2">
+                <AlertTriangle className="h-4 w-4 shrink-0 text-red-500" />
+                <span>{authError}</span>
+              </div>
+            )}
+
+            {/* Giriş / Kayıt Formu */}
+            <form onSubmit={authMode === "login" ? handleLogin : handleRegister} className="space-y-4 relative z-10">
+              {authMode === "register" && (
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                    Ad Soyad
+                  </label>
+                  <input
+                    type="text"
+                    value={nameInput}
+                    onChange={(e) => setNameInput(e.target.value)}
+                    placeholder="Örn: Ahmet Yılmaz"
+                    className="w-full h-11 px-3.5 rounded-lg bg-slate-950/80 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition text-sm"
+                    required
+                  />
+                </div>
+              )}
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                  E-Posta Adresi
+                </label>
+                <input
+                  type="email"
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  placeholder="name@example.com"
+                  className="w-full h-11 px-3.5 rounded-lg bg-slate-950/80 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition text-sm"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                  Şifre
+                </label>
+                <input
+                  type="password"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full h-11 px-3.5 rounded-lg bg-slate-950/80 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition text-sm"
+                  required
+                />
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full h-11 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2 mt-6 animate-pulse"
+              >
+                <LockKeyhole className="h-4 w-4" />
+                {authMode === "login" ? "Giriş Yap" : "Hesap Oluştur"}
+              </Button>
+            </form>
+
+            {/* Alternatif Butonlar ve Geçişler */}
+            <div className="mt-5 pt-5 border-t border-slate-800 text-center space-y-4 relative z-10">
+              <button
+                type="button"
+                onClick={handleDemoLogin}
+                className="w-full h-11 border border-slate-800 bg-slate-950/40 hover:bg-slate-950/80 text-indigo-400 font-semibold rounded-lg flex items-center justify-center gap-2 transition text-sm"
+              >
+                <Sparkles className="h-4 w-4 animate-bounce" />
+                Demo Girişi Yap (Hızlı İnceleme)
+              </button>
+
+              <p className="text-sm text-slate-400 font-medium">
+                {authMode === "login" ? "Hesabınız yok mu?" : "Zaten hesabınız var mı?"}{" "}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAuthMode(authMode === "login" ? "register" : "login");
+                    setAuthError("");
+                  }}
+                  className="text-indigo-400 hover:underline font-bold"
+                >
+                  {authMode === "login" ? "Kayıt Olun" : "Giriş Yapın"}
+                </button>
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
