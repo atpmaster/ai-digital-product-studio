@@ -3122,6 +3122,226 @@ export default function FamilyDigitalSafetyDashboard() {
               </div>
             </motion.section>
           )}
+
+          {activeTab === "pricing" && (
+            <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6">
+              {/* Premium Header Card */}
+              <Card className="overflow-hidden border-slate-200 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950 text-white shadow-lg mb-8 print-hide">
+                <CardContent className="p-8 relative">
+                  <div className="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-indigo-500/10 blur-2xl pointer-events-none" />
+                  <div className="absolute -left-16 -bottom-16 w-48 h-48 rounded-full bg-emerald-500/10 blur-2xl pointer-events-none" />
+                  
+                  <div className="max-w-2xl relative z-10 space-y-4">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase tracking-widest">
+                      <Sparkles className="h-3.5 w-3.5" /> Üyelik Paketleri
+                    </div>
+                    <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight">
+                      Çocuğunuz İçin En Güvenli Dijital Ortamı Seçin
+                    </h3>
+                    <p className="text-xs sm:text-sm leading-relaxed text-slate-355 max-w-xl">
+                      Ebeveyn bilinç testlerimiz, siber zorbalık tespit kitlerimiz ve A4 PDF yazdırma rehberlerimiz ile ailenizin dijital farkındalığını artırın. İhtiyacınıza uygun planı seçip saniyeler içinde simüle edebilirsiniz.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Monthly / Yearly billing cycle selector switch */}
+              <div className="flex justify-center items-center gap-3 mb-8 print-hide">
+                <span className={cx("text-xs font-bold transition", billingCycle === "monthly" ? "text-indigo-600" : "text-slate-500")}>
+                  Aylık Ödeme
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setBillingCycle(billingCycle === "monthly" ? "yearly" : "monthly")}
+                  className="w-12 h-6 bg-slate-200 hover:bg-slate-350 rounded-full p-0.5 transition relative flex items-center"
+                >
+                  <div className={cx("w-5 h-5 bg-indigo-600 rounded-full shadow transition-all duration-300 transform", billingCycle === "yearly" ? "translate-x-6 bg-indigo-500" : "translate-x-0")} />
+                </button>
+                <span className={cx("text-xs font-bold transition flex items-center gap-1.5", billingCycle === "yearly" ? "text-indigo-600" : "text-slate-500")}>
+                  Yıllık Ödeme <span className="bg-emerald-500/15 border border-emerald-500/20 text-emerald-600 text-[9px] px-1.5 py-0.5 rounded font-black tracking-wide">%20 İNDİRİM 🎁</span>
+                </span>
+              </div>
+
+              {/* Grid Pricing Tiers */}
+              <div className="grid gap-6 md:grid-cols-3 mb-10 print-hide">
+                {/* 1. Standart Free Plan */}
+                <Card className={cx("border-slate-200 bg-white transition shadow flex flex-col justify-between overflow-hidden relative", userPlan === "free" && "ring-2 ring-slate-900 border-slate-900")}>
+                  {userPlan === "free" && (
+                    <span className="absolute top-0 right-0 bg-slate-950 text-white text-[8px] font-black tracking-widest px-3 py-1 rounded-bl uppercase">
+                      Aktif Plan
+                    </span>
+                  )}
+                  <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">KADEME 1</span>
+                    <h4 className="text-base font-extrabold text-slate-950 mt-1">Standart Plan</h4>
+                    <p className="text-[11px] text-slate-500 leading-normal mt-1.5">Temel siber güvenlik farkındalığı arayan aileler için.</p>
+                    <div className="mt-4 flex items-baseline gap-1.5">
+                      <span className="text-2xl font-black text-slate-950">0 TL</span>
+                      <span className="text-[10px] text-slate-450 font-bold uppercase tracking-wider">/ sonsuza kadar</span>
+                    </div>
+                  </div>
+                  <div className="p-6 flex-1 flex flex-col justify-between gap-6">
+                    <ul className="space-y-3 text-[11px] text-slate-600 font-medium">
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span>Temel Bilinç Testlerine Erişim</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span>Yalnızca 3-5 Yaş Kılavuzu</span>
+                      </li>
+                      <li className="flex items-center gap-2 text-slate-400 font-medium">
+                        <span>🔒 PDF İndirme Sınırı (Sadece 3-5 yaş)</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span>1 Çocuk Cihazı Takibi</span>
+                      </li>
+                      <li className="flex items-center gap-2 text-slate-400 font-medium">
+                        <span>🚫 7/24 Siber Canlı Destek Yok</span>
+                      </li>
+                    </ul>
+                    <button
+                      type="button"
+                      disabled={userPlan === "free"}
+                      onClick={() => {
+                        setUserPlan("free");
+                        localStorage.setItem("digital_safety_plan", "free");
+                      }}
+                      className={cx(
+                        "w-full py-2.5 rounded-lg text-xs font-black tracking-wider transition uppercase",
+                        userPlan === "free"
+                          ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-default"
+                          : "bg-slate-950 hover:bg-slate-900 text-white"
+                      )}
+                    >
+                      {userPlan === "free" ? "Aktif Üyelik" : "Standart Plana Geç"}
+                    </button>
+                  </div>
+                </Card>
+
+                {/* 2. Aile Premium Plan */}
+                <Card className={cx("bg-white border-amber-200 transition shadow-lg flex flex-col justify-between overflow-hidden relative", userPlan === "premium" && "ring-2 ring-amber-500 border-amber-500")}>
+                  <div className="absolute top-0 right-0 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[8px] font-black tracking-widest px-3 py-1 rounded-bl uppercase">
+                    {userPlan === "premium" ? "Aktif Plan" : "POPÜLER ⭐"}
+                  </div>
+                  <div className="p-6 border-b border-amber-100 bg-amber-500/5">
+                    <span className="text-[9px] font-black text-amber-600 uppercase tracking-widest">KADEME 2</span>
+                    <h4 className="text-base font-extrabold text-slate-950 mt-1">Aile Premium Paketi</h4>
+                    <p className="text-[11px] text-slate-500 leading-normal mt-1.5">Siber dünyada tam kapsamlı dijital güvenlik ve PDF kütüphanesi.</p>
+                    <div className="mt-4 flex items-baseline gap-1.5">
+                      <span className="text-2xl font-black text-slate-950">
+                        {billingCycle === "monthly" ? "149 TL" : "119 TL"}
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                        / ay {billingCycle === "yearly" && "(Yıllık Ödeme)"}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-6 flex-1 flex flex-col justify-between gap-6">
+                    <ul className="space-y-3 text-[11px] text-slate-600 font-medium">
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span><b>Tüm Yaş Grupları</b> (3-17 Yaş) Rehberleri</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span><b>Sınırsız Vektörel PDF</b> İndirme & Çıktı</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span>Tüm Siber TV Simülasyonlarına Erişim</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span><b>3 Çocuk Cihazı</b> Takibi (Family Link)</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span>Haftalık Ebeveyn Gelişim Karnesi</span>
+                      </li>
+                    </ul>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (userPlan === "premium") return;
+                        setSelectedCheckoutPlan("premium");
+                        setIsCheckoutOpen(true);
+                      }}
+                      className={cx(
+                        "w-full py-2.5 rounded-lg text-xs font-black tracking-wider transition uppercase",
+                        userPlan === "premium"
+                          ? "bg-amber-100 text-amber-800 border border-amber-200 cursor-default"
+                          : "bg-amber-500 hover:bg-amber-600 text-white shadow-lg shadow-amber-500/20"
+                      )}
+                    >
+                      {userPlan === "premium" ? "Aktif Üyelik" : "Hemen Yükselt ⭐"}
+                    </button>
+                  </div>
+                </Card>
+
+                {/* 3. Siber Kahraman Plan */}
+                <Card className={cx("bg-white border-indigo-200 transition shadow-lg flex flex-col justify-between overflow-hidden relative", userPlan === "hero" && "ring-2 ring-indigo-650 border-indigo-650")}>
+                  <div className="absolute top-0 right-0 bg-gradient-to-r from-indigo-600 to-indigo-850 text-white text-[8px] font-black tracking-widest px-3 py-1 rounded-bl uppercase">
+                    {userPlan === "hero" ? "Aktif Plan" : "LİMİTSİZ 🏆"}
+                  </div>
+                  <div className="p-6 border-b border-indigo-100 bg-indigo-500/5">
+                    <span className="text-[9px] font-black text-indigo-600 uppercase tracking-widest">KADEME 3</span>
+                    <h4 className="text-base font-extrabold text-slate-950 mt-1">Siber Kahraman (Ultimate)</h4>
+                    <p className="text-[11px] text-slate-500 leading-normal mt-1.5">7/24 pedagog & siber güvenlik danışmanlığı ile profesyonel koruma.</p>
+                    <div className="mt-4 flex items-baseline gap-1.5">
+                      <span className="text-2xl font-black text-slate-950">
+                        {billingCycle === "monthly" ? "299 TL" : "239 TL"}
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                        / ay {billingCycle === "yearly" && "(Yıllık Ödeme)"}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-6 flex-1 flex flex-col justify-between gap-6">
+                    <ul className="space-y-3 text-[11px] text-slate-600 font-medium">
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span>Aile Premium'daki Tüm Özellikler</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span><b>Sınırsız Çocuk Cihazı</b> Takibi</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span><b>7/24 Canlı Siber Uzman & Pedagog Desteği</b></span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span>Özel Haftalık Raporlar & Tavsiyeler</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span>Öncelikli Telefon & Canlı Destek Hattı</span>
+                      </li>
+                    </ul>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (userPlan === "hero") return;
+                        setSelectedCheckoutPlan("hero");
+                        setIsCheckoutOpen(true);
+                      }}
+                      className={cx(
+                        "w-full py-2.5 rounded-lg text-xs font-black tracking-wider transition uppercase",
+                        userPlan === "hero"
+                          ? "bg-indigo-100 text-indigo-800 border border-indigo-200 cursor-default"
+                          : "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-650/20"
+                      )}
+                    >
+                      {userPlan === "hero" ? "Aktif Üyelik" : "Kahramana Yüksel ⚡"}
+                    </button>
+                  </div>
+                </Card>
+              </div>
+            </motion.section>
+          )}
         </main>
       </div>
 
