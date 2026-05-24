@@ -1413,7 +1413,15 @@ export default function FamilyDigitalSafetyDashboard() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="overflow-hidden">
+                <div className="h-32 overflow-hidden bg-slate-900 border-b border-slate-105 flex items-center justify-center relative">
+                  <img 
+                    src={`/safety_${selectedModule.age === "Tüm yaşlar" ? "hero" : selectedModule.age}.png`} 
+                    alt={selectedModule.title} 
+                    className="w-full h-full object-cover opacity-70"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent" />
+                </div>
                 <CardContent className="p-5">
                   <div className="flex items-start justify-between gap-4">
                     <div>
@@ -1576,7 +1584,15 @@ export default function FamilyDigitalSafetyDashboard() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="overflow-hidden">
+                <div className="h-32 overflow-hidden bg-slate-900 border-b border-slate-105 flex items-center justify-center relative">
+                  <img 
+                    src={`/safety_${selectedAgePath.range}.png`} 
+                    alt={selectedAgePath.title} 
+                    className="w-full h-full object-cover opacity-75"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent" />
+                </div>
                 <CardContent className="p-5">
                   <div className="flex items-start justify-between gap-4">
                     <div>
@@ -1728,7 +1744,15 @@ export default function FamilyDigitalSafetyDashboard() {
                   const Icon = currentQuestion.icon;
 
                   return (
-                    <Card className="border-slate-200 bg-white shadow-md max-w-3xl mx-auto">
+                    <Card className="border-slate-200 bg-white shadow-md max-w-3xl mx-auto overflow-hidden">
+                      <div className="h-32 overflow-hidden bg-slate-950 flex items-center justify-center relative">
+                        <img 
+                          src={activeQuiz === "parent" ? "/safety_hero.png" : "/safety_9-11.png"} 
+                          alt="Bilinç Testi" 
+                          className="w-full h-full object-cover opacity-60"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent" />
+                      </div>
                       <CardContent className="p-6 sm:p-8">
                         {/* Test İlerleme Çubuğu */}
                         <div className="flex items-center justify-between text-xs font-semibold text-slate-500 mb-4 uppercase tracking-wider">
@@ -2157,7 +2181,15 @@ export default function FamilyDigitalSafetyDashboard() {
 
           {activeTab === "plan" && (
             <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6 grid gap-6 xl:grid-cols-[390px_minmax(0,1fr)]">
-              <Card>
+              <Card className="overflow-hidden">
+                <div className="h-32 overflow-hidden bg-slate-900 border-b border-slate-105 flex items-center justify-center relative">
+                  <img 
+                    src="/safety_hero.png" 
+                    alt="Aile Güvenlik Kit MVP" 
+                    className="w-full h-full object-cover opacity-60"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent" />
+                </div>
                 <CardContent className="p-5 sm:p-6">
                   <div className="flex items-start justify-between gap-4">
                     <div>
