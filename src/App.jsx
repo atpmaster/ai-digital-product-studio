@@ -75,6 +75,7 @@ function Button({ className = "", variant = "default", size = "md", type = "butt
 const navigation = [
   { id: "overview", label: "Genel Bakış", shortLabel: "Genel", icon: LayoutDashboard },
   { id: "path", label: "Güvenlik Yolu", shortLabel: "Yol", icon: ShieldCheck },
+  { id: "ages", label: "Yaş İçerikleri", shortLabel: "Yaş", icon: Users },
   { id: "plan", label: "Aile Planı", shortLabel: "Plan", icon: ListChecks },
 ];
 
@@ -221,9 +222,11 @@ const channels = [
 const sprintTasks = [
   { id: "scope", label: "Tek ürün vaadini yaz", detail: "Ailelere çocuklarını dijital risklerden koruyan net sonuç cümlesi." },
   { id: "map", label: "6 güvenlik modülünü sırala", detail: "Zorbalık, ayak izi, Family Link, gizlilik, oyun, acil protokol." },
+  { id: "age-map", label: "Yaş grubu içerik haritasını çıkar", detail: "3-5, 6-8, 9-11, 12-14 ve 15-17 için ayrı çıktı planı." },
   { id: "template", label: "İlk kontrol listesini üret", detail: "Siber zorbalık kanıt toplama ve ilk 24 saat adımları." },
   { id: "familylink", label: "Family Link sayfasını hazırla", detail: "Ekran süresi, uygulama izni ve uyku saati kuralları." },
   { id: "footprint", label: "Dijital ayak izi envanteri", detail: "Eski hesaplar, açık profiller ve silme talepleri için takip tablosu." },
+  { id: "age-samples", label: "Her yaş için örnek sayfa üret", detail: "Bir ebeveyn sayfası, bir çocuk etkinliği ve bir kontrol listesi." },
   { id: "publish", label: "MVP paketini yayına al", detail: "PDF kapak, örnek sayfalar, satış açıklaması ve fiyat aralığı." },
 ];
 
@@ -248,6 +251,94 @@ const roadmap = [
     title: "Aile Rutini",
     goal: "Haftalık kontrol ve açık konuşma sistemiyle güvenliği sürdürülebilir yap.",
     tasks: ["Haftalık aile toplantısı", "Risk senaryoları", "Güvenli paylaşım kartları", "Aylık ayar kontrolü"],
+  },
+];
+
+const ageContentRoadmaps = [
+  {
+    id: "3-5",
+    range: "3-5",
+    title: "İlk ekran alışkanlıkları",
+    icon: Smartphone,
+    score: 74,
+    focus: "Ekran rutini, ebeveyn eşliği ve güvenli içerik seçimi.",
+    parentPromise: "Ekranı tek başına bırakılan bir ödül değil, birlikte kullanılan sınırlı bir araç haline getirir.",
+    childOutcome: "Çocuk ekranın ne zaman başlayıp biteceğini basit rutinlerle öğrenir.",
+    products: ["Ekran zamanı kartları", "Uyku öncesi ekran kapatma rutini", "Güvenli video listesi", "Aile ekran sözleşmesi"],
+    contentFormats: ["Printable kart", "Ebeveyn mini rehberi", "Günlük rutin çizelgesi"],
+    roadmap: [
+      { week: "Hafta 1", goal: "Ekran başlangıç ve bitiş rutinini kur", output: "3 kartlık görsel rutin seti" },
+      { week: "Hafta 2", goal: "İçerik seçimini ebeveyn kontrolüne bağla", output: "Güvenli içerik kontrol listesi" },
+      { week: "Hafta 3", goal: "Ekransız alternatifleri görünür yap", output: "20 aktivitelik aile kartı" },
+    ],
+  },
+  {
+    id: "6-8",
+    range: "6-8",
+    title: "İlk cihaz ve Family Link",
+    icon: Smartphone,
+    score: 88,
+    focus: "Family Link, uygulama onayı, ekran süresi ve basit mahremiyet dili.",
+    parentPromise: "İlk cihaz kullanımında sınırları tartışma yerine net bir sistemle yönetir.",
+    childOutcome: "Çocuk izin istemeyi, yabancı bağlantıları ve özel bilgiyi paylaşmamayı öğrenir.",
+    products: ["Family Link kurulum rehberi", "Uygulama izin kartları", "Ekran süresi anlaşması", "Özel bilgi paylaşma posteri"],
+    contentFormats: ["Kurulum checklist", "Aile anlaşması", "Çocuk dilinde poster"],
+    roadmap: [
+      { week: "Hafta 1", goal: "Family Link ve temel cihaz kurallarını ayarla", output: "Kurulum kontrol listesi" },
+      { week: "Hafta 2", goal: "Uygulama indirme ve satın alma iznini netleştir", output: "Uygulama izin matrisi" },
+      { week: "Hafta 3", goal: "Özel bilgi paylaşımı için çocuk dili geliştir", output: "Paylaşma/paylaşma kartları" },
+    ],
+  },
+  {
+    id: "9-11",
+    range: "9-11",
+    title: "Oyun, sohbet ve yabancı riski",
+    icon: Gamepad2,
+    score: 86,
+    focus: "Oyun içi sohbet, arkadaş ekleme, hediye dolandırıcılığı ve güvenli profil.",
+    parentPromise: "Oyunları yasaklamak yerine risk seviyesine göre izin ve takip düzeni kurar.",
+    childOutcome: "Çocuk yabancı mesajları ve manipülatif oyun tekliflerini ayırt eder.",
+    products: ["Oyun risk puanlama tablosu", "Yabancı mesaj senaryoları", "Güvenli profil checklist", "Haftalık oyun kontrol sayfası"],
+    contentFormats: ["Worksheet", "Rol yapma senaryosu", "Haftalık takip tablosu"],
+    roadmap: [
+      { week: "Hafta 1", goal: "Oynanan oyunların sohbet ve satın alma riskini çıkar", output: "Oyun izin matrisi" },
+      { week: "Hafta 2", goal: "Yabancı mesaj ve hediye dolandırıcılığı konuşmasını yap", output: "5 konuşma senaryosu" },
+      { week: "Hafta 3", goal: "Profil, kullanıcı adı ve arkadaş listesi güvenliğini kontrol et", output: "Profil güvenliği checklist" },
+    ],
+  },
+  {
+    id: "12-14",
+    range: "12-14",
+    title: "Sosyal medya ve siber zorbalık",
+    icon: MessageSquareWarning,
+    score: 96,
+    focus: "Siber zorbalık, grup sohbetleri, ekran görüntüsü kanıtı, gizlilik ve aileye haber verme.",
+    parentPromise: "Kriz anında panik yerine kanıt, destek ve bildirim adımlarını sıraya koyar.",
+    childOutcome: "Çocuk zorbalık yaşadığında utanmadan yardım istemeyi ve kanıt saklamayı bilir.",
+    products: ["Siber zorbalık müdahale akışı", "Grup sohbeti güvenlik rehberi", "Kanıt toplama şablonu", "Okul görüşme notu"],
+    contentFormats: ["Acil protokol", "Ebeveyn rehberi", "Çocuk konuşma kartı"],
+    roadmap: [
+      { week: "Hafta 1", goal: "Siber zorbalığı tanıma ve kanıt saklama sistemini kur", output: "Kanıt toplama şablonu" },
+      { week: "Hafta 2", goal: "Sosyal medya gizlilik ayarlarını kilitle", output: "Platform bazlı gizlilik kartları" },
+      { week: "Hafta 3", goal: "Okul, platform ve aile bildirim sırasını belirle", output: "İlk 24 saat müdahale planı" },
+    ],
+  },
+  {
+    id: "15-17",
+    range: "15-17",
+    title: "Dijital ayak izi ve itibar",
+    icon: Fingerprint,
+    score: 91,
+    focus: "Eski hesaplar, açık profiller, fotoğraf izinleri, arama sonuçları ve gelecek itibarı.",
+    parentPromise: "Genci kontrol etmek yerine dijital itibarını yönetebilen bağımsız bir birey olmaya hazırlar.",
+    childOutcome: "Genç, hangi içeriklerin kalıcı iz bıraktığını ve nasıl temizleneceğini bilir.",
+    products: ["Dijital ayak izi envanteri", "Eski hesap silme planı", "Profil temizlik checklist", "Paylaşmadan önce karar ağacı"],
+    contentFormats: ["30 günlük plan", "Notion/Sheet takip tablosu", "Genç rehberi"],
+    roadmap: [
+      { week: "Hafta 1", goal: "Tüm hesap ve görünür profil envanterini çıkar", output: "Hesap envanteri tablosu" },
+      { week: "Hafta 2", goal: "Eski hesapları kapat veya gizlilik seviyesini yükselt", output: "Silme talebi şablonları" },
+      { week: "Hafta 3", goal: "Gelecek okul/iş başvuruları için dijital itibar kontrolü yap", output: "Paylaşım karar ağacı" },
+    ],
   },
 ];
 
@@ -339,6 +430,7 @@ export default function FamilyDigitalSafetyDashboard() {
   const [priorityFilter, setPriorityFilter] = useState("Tümü");
   const [sortKey, setSortKey] = useState("score");
   const [completedTasks, setCompletedTasks] = useState(["scope"]);
+  const [activeAgeGroup, setActiveAgeGroup] = useState("12-14");
 
   const visibleModules = useMemo(() => {
     const normalizedQuery = normalizeSearchText(query.trim());
@@ -370,6 +462,8 @@ export default function FamilyDigitalSafetyDashboard() {
   const completedCount = completedTasks.length;
   const completionRate = Math.round((completedCount / sprintTasks.length) * 100);
   const topModule = securityModules.reduce((best, module) => (module.score > best.score ? module : best), securityModules[0]);
+  const selectedAgePath =
+    ageContentRoadmaps.find((item) => item.id === activeAgeGroup) || ageContentRoadmaps[0];
 
   function toggleTask(taskId) {
     setCompletedTasks((current) =>
@@ -396,6 +490,10 @@ export default function FamilyDigitalSafetyDashboard() {
               <Target className="h-4 w-4" />
               Güvenlik yolunu aç
             </Button>
+            <Button variant="subtle" onClick={() => setActiveTab("ages")}>
+              <Users className="h-4 w-4" />
+              Yaşa göre içerik
+            </Button>
             <Button onClick={() => setActiveTab("plan")}>
               <Rocket className="h-4 w-4" />
               Aile planı
@@ -406,7 +504,7 @@ export default function FamilyDigitalSafetyDashboard() {
 
       <div className="mx-auto grid w-full max-w-[1440px] gap-0 lg:grid-cols-[280px_minmax(0,1fr)]">
         <aside className="min-w-0 border-b border-slate-200 bg-white px-4 py-4 lg:min-h-[calc(100vh-73px)] lg:border-b-0 lg:border-r lg:px-5">
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 lg:block lg:space-y-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-4 lg:block lg:space-y-2">
             {navigation.map((item) => {
               const Icon = item.icon;
               return (
@@ -469,10 +567,11 @@ export default function FamilyDigitalSafetyDashboard() {
         </aside>
 
         <main className="min-w-0 px-4 py-6 sm:px-6 lg:px-8">
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
             <MetricTile icon={ShieldAlert} label="Öncelikli risk" value="Siber zorbalık" note="İlk müdahale paketi" tone="bg-rose-50 text-rose-700" />
             <MetricTile icon={Fingerprint} label="Ana dönüşüm" value="Ayak izi temizliği" note="30 günlük aile planı" tone="bg-cyan-50 text-cyan-700" />
             <MetricTile icon={Smartphone} label="Cihaz güvenliği" value="Family Link" note="Kurallar ve haftalık kontrol" tone="bg-emerald-50 text-emerald-700" />
+            <MetricTile icon={Users} label="Yaş içerikleri" value="5 grup" note="3-17 yaş arası yol haritası" tone="bg-violet-50 text-violet-700" />
             <MetricTile icon={Clock3} label="Sprint" value={`${completionRate}%`} note={`${completedCount}/${sprintTasks.length} görev tamamlandı`} tone="bg-amber-50 text-amber-800" />
           </div>
 
@@ -765,6 +864,139 @@ export default function FamilyDigitalSafetyDashboard() {
                   <Button className="mt-6 w-full" onClick={() => setActiveTab("plan")}>
                     <CheckCircle2 className="h-4 w-4" />
                     Aile planına geç
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.section>
+          )}
+
+          {activeTab === "ages" && (
+            <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
+              <Card>
+                <CardContent className="p-5 sm:p-6">
+                  <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-slate-500">Yaşa göre içerik üretimi</p>
+                      <h2 className="mt-1 text-2xl font-semibold">Her yaş grubuna özel dijital güvenlik yolu</h2>
+                      <p className="mt-3 max-w-3xl leading-7 text-slate-600">
+                        Aynı güvenlik konusunu her yaşa aynı dille anlatmıyoruz. Bu bölüm, ebeveyn rehberi, çocuk etkinliği,
+                        kontrol listesi ve haftalık üretim adımlarını yaş grubuna göre sınıflandırır.
+                      </p>
+                    </div>
+                    <Button onClick={() => setActiveTab("plan")}>
+                      <ArrowRight className="h-4 w-4" />
+                      Üretim sprinti
+                    </Button>
+                  </div>
+
+                  <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+                    {ageContentRoadmaps.map((agePath) => {
+                      const Icon = agePath.icon;
+                      const active = selectedAgePath.id === agePath.id;
+
+                      return (
+                        <button
+                          key={agePath.id}
+                          type="button"
+                          onClick={() => setActiveAgeGroup(agePath.id)}
+                          aria-pressed={active}
+                          className={cx(
+                            "rounded-lg border p-4 text-left transition hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400",
+                            active ? "border-slate-950 bg-slate-50" : "border-slate-200 bg-white"
+                          )}
+                        >
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-950 text-white">
+                              <Icon className="h-5 w-5" />
+                            </div>
+                            <span className="text-sm font-semibold text-slate-500">{agePath.score}</span>
+                          </div>
+                          <p className="mt-4 text-sm font-medium text-slate-500">{agePath.range} yaş</p>
+                          <h3 className="mt-1 font-semibold text-slate-950">{agePath.title}</h3>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <div className="mt-6 grid gap-4 lg:grid-cols-3">
+                    {selectedAgePath.roadmap.map((step) => (
+                      <div key={step.week} className="rounded-lg border border-slate-200 bg-white p-4">
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="rounded-full bg-slate-950 px-3 py-1 text-xs font-semibold text-white">{step.week}</span>
+                          <span className="text-xs font-medium text-slate-500">{selectedAgePath.range} yaş</span>
+                        </div>
+                        <h3 className="mt-4 font-semibold">{step.goal}</h3>
+                        <p className="mt-2 text-sm leading-6 text-slate-600">{step.output}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-5">
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white text-slate-700">
+                        <Sparkles className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-950">Bu yaş grubu için üretilecek içerik seti</p>
+                        <p className="mt-2 leading-7 text-slate-600">{selectedAgePath.focus}</p>
+                      </div>
+                    </div>
+
+                    <div className="mt-5 grid gap-3 md:grid-cols-2">
+                      {selectedAgePath.products.map((product) => (
+                        <div key={product} className="flex items-center gap-2 rounded-lg bg-white p-3 text-sm font-medium text-slate-700">
+                          <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
+                          {product}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-5">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-medium text-slate-500">Seçili yaş grubu</p>
+                      <h3 className="mt-1 text-xl font-semibold">{selectedAgePath.range} yaş · {selectedAgePath.title}</h3>
+                    </div>
+                    <span className="rounded-lg bg-slate-950 px-3 py-1 text-sm font-semibold text-white">{selectedAgePath.score}</span>
+                  </div>
+
+                  <div className="mt-5 space-y-4">
+                    <div>
+                      <p className="text-sm font-semibold text-slate-950">Ebeveyne vaat</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{selectedAgePath.parentPromise}</p>
+                    </div>
+                    <div className="border-t border-slate-200 pt-4">
+                      <p className="text-sm font-semibold text-slate-950">Çocukta hedeflenen davranış</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{selectedAgePath.childOutcome}</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 border-t border-slate-200 pt-5">
+                    <p className="text-sm font-semibold text-slate-950">Formatlar</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {selectedAgePath.contentFormats.map((format) => (
+                        <span key={format} className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
+                          {format}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-6 border-t border-slate-200 pt-5">
+                    <p className="text-sm font-semibold text-slate-950">Üretim talimatı</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                      {selectedAgePath.range} yaş için dili basit, uygulanabilir ve aile içi konuşmaya uygun tut. Her içerikte
+                      ebeveyn aksiyonu, çocuk cümlesi ve kontrol edilebilir bir çıktı üret.
+                    </p>
+                  </div>
+
+                  <Button className="mt-6 w-full" onClick={() => setActiveTab("path")}>
+                    <ShieldCheck className="h-4 w-4" />
+                    Güvenlik modüllerine bağla
                   </Button>
                 </CardContent>
               </Card>
