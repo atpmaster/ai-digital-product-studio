@@ -28,6 +28,8 @@ import {
   BookOpen,
   LogOut,
   X,
+  PlayCircle,
+  Tv,
 } from "lucide-react";
 
 function cx(...classes) {
@@ -83,6 +85,7 @@ const navigation = [
   { id: "ages", label: "Yaş İçerikleri", shortLabel: "Yaş", icon: Users },
   { id: "quizzes", label: "Bilinç Testleri", shortLabel: "Test", icon: GraduationCap },
   { id: "guides", label: "Güvenlik Rehberleri", shortLabel: "Rehber", icon: BookOpen },
+  { id: "videos", label: "Siber TV / Akademi", shortLabel: "TV", icon: Tv },
   { id: "plan", label: "Aile Planı", shortLabel: "Plan", icon: ListChecks },
 ];
 
@@ -684,6 +687,15 @@ function MetricTile({ icon: Icon, label, value, note, tone }) {
 
 function ModuleCard({ module, active, onClick }) {
   const Icon = module.icon;
+  const moduleImages = {
+    cyberbullying: "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=200&auto=format&fit=crop&q=60",
+    privacy: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=200&auto=format&fit=crop&q=60",
+    screentime: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=200&auto=format&fit=crop&q=60",
+    gaming: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=200&auto=format&fit=crop&q=60",
+    digitalfootprint: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=200&auto=format&fit=crop&q=60",
+    agreements: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=200&auto=format&fit=crop&q=60"
+  };
+  const imgUrl = moduleImages[module.id] || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=200&auto=format&fit=crop&q=60";
 
   return (
     <button
@@ -692,17 +704,20 @@ function ModuleCard({ module, active, onClick }) {
       aria-pressed={active}
       className={cx(
         "w-full rounded-lg border p-4 text-left transition hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400",
-        active ? "border-slate-950 bg-slate-50" : "border-slate-200 bg-white"
+        active ? "border-slate-950 bg-slate-50 shadow-md ring-1 ring-slate-950" : "border-slate-200 bg-white"
       )}
     >
-      <div className="flex items-start gap-3">
-        <div className={cx("flex h-10 w-10 shrink-0 items-center justify-center rounded-lg", module.iconAccent)}>
-          <Icon className="h-5 w-5" />
+      <div className="flex flex-col sm:flex-row items-start gap-4">
+        <div className="w-16 h-16 shrink-0 overflow-hidden rounded-lg border border-slate-200 hidden sm:block">
+          <img src={imgUrl} alt={module.title} className="w-full h-full object-cover" />
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="font-semibold text-slate-950">{module.title}</p>
+              <p className="font-semibold text-slate-950 flex items-center gap-1.5">
+                <Icon className="h-4 w-4 text-indigo-600 shrink-0" />
+                {module.title}
+              </p>
               <p className="mt-1 text-sm leading-5 text-slate-500">{module.summary}</p>
             </div>
             <span className="text-sm font-semibold text-slate-700">{module.score}</span>
@@ -717,6 +732,45 @@ function ModuleCard({ module, active, onClick }) {
 }
 
 export default function FamilyDigitalSafetyDashboard() {
+  const unsplashIds = [
+    "1544717297-fa95b6ee9643",
+    "1600132806370-bf17e65e942f",
+    "1502086223501-7ea6ecd79368",
+    "1511556532299-8f662fc26c06",
+    "1526374965328-7f61d4dc18c5",
+    "1550751827-4bd374c3f58b",
+    "1563986768609-322da13575f3",
+    "1510511459019-5dda7724fd87",
+    "1488590528505-98d2b5aba04b",
+    "1538481199705-c710c4e965fc",
+    "1509198397868-475647b2a1e5",
+    "1542751371-adc38448a05e",
+    "1607604276583-eef5d076aa5f",
+    "1511512578047-dfb367046420",
+    "1562577309-4932fdd64cd1",
+    "1611162617213-7d7a39e9b1d7",
+    "1611606063065-ee7946f0787a",
+    "1616469829581-73993eb86b02",
+    "1563986768494-0d2b44f2f2a8",
+    "1434030216411-0b793f4b4173",
+    "1522202176988-66273c2fd55f",
+    "1516321318423-f06f85e504b3",
+    "1517245386807-bb43f82c33c4"
+  ];
+
+  const quizUnsplashIds = [
+    "1550751827-4bd374c3f58b",
+    "1563986768609-322da13575f3",
+    "1607604276583-eef5d076aa5f",
+    "1562577309-4932fdd64cd1",
+    "1508739773434-c26b3d09e071",
+    "1542751371-adc38448a05e",
+    "1510511459019-5dda7724fd87",
+    "1611606063065-ee7946f0787a",
+    "1434030216411-0b793f4b4173",
+    "1511556532299-8f662fc26c06"
+  ];
+
   const [activeTab, setActiveTab] = useState("overview");
   const [selectedModuleId, setSelectedModuleId] = useState("cyberbullying");
   const [query, setQuery] = useState("");
@@ -1762,16 +1816,25 @@ export default function FamilyDigitalSafetyDashboard() {
                         <ScoreBar score={((currentQuestionIndex + 1) / questions.length) * 100} className={activeQuiz === "parent" ? "bg-slate-950" : "bg-indigo-600"} />
 
                         {/* Senaryo Soru Kartı */}
-                        <div className="mt-8 flex items-start gap-4 p-5 rounded-xl border border-slate-100 bg-slate-50">
-                          <div className={cx(
-                            "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg shadow-sm text-white",
-                            activeQuiz === "parent" ? "bg-slate-950" : "bg-indigo-600"
-                          )}>
-                            <Icon className="h-5 w-5" />
+                        <div className="mt-8 grid gap-4 p-5 rounded-xl border border-slate-100 bg-slate-50">
+                          <div className="flex items-start gap-4">
+                            <div className={cx(
+                              "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg shadow-sm text-white",
+                              activeQuiz === "parent" ? "bg-slate-950" : "bg-indigo-600"
+                            )}>
+                              <Icon className="h-5 w-5" />
+                            </div>
+                            <div>
+                              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">SENARYO</p>
+                              <p className="mt-1 text-base font-semibold leading-relaxed text-slate-900">{currentQuestion.scenario}</p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">SENARYO</p>
-                            <p className="mt-1 text-base font-semibold leading-relaxed text-slate-900">{currentQuestion.scenario}</p>
+                          <div className="w-full h-44 overflow-hidden rounded-lg border border-slate-200 shadow-md print-hide">
+                            <img 
+                              src={`https://images.unsplash.com/photo-${quizUnsplashIds[currentQuestionIndex % quizUnsplashIds.length]}?w=500&auto=format&fit=crop&q=60`} 
+                              alt="Senaryo Görseli" 
+                              className="w-full h-full object-cover" 
+                            />
                           </div>
                         </div>
 
@@ -2124,13 +2187,22 @@ export default function FamilyDigitalSafetyDashboard() {
                               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-950 text-white text-xs font-bold">1</span>
                               Ebeveyn Denetim Rehberi
                             </h3>
-                            <div className="space-y-3">
-                              {guide.parentTips.map((tip, idx) => (
-                                <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-600 leading-relaxed">
-                                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500 mt-0.5" />
-                                  <span>{tip}</span>
-                                </div>
-                              ))}
+                            <div className="grid gap-3">
+                              {guide.parentTips.map((tip, idx) => {
+                                const imgIdx = (Number(guide.id.split("-")[0]) || 3) + idx;
+                                const tipImageUrl = `https://images.unsplash.com/photo-${unsplashIds[imgIdx % unsplashIds.length]}?w=200&auto=format&fit=crop&q=60`;
+                                return (
+                                  <div key={idx} className="flex gap-3 p-2.5 rounded-lg border border-slate-100 bg-slate-50/50 hover:bg-slate-50 transition items-center">
+                                    <div className="w-16 h-12 shrink-0 overflow-hidden rounded-md border border-slate-200 hidden sm:block print-hide">
+                                      <img src={tipImageUrl} alt="İpucu" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="flex gap-2 items-start">
+                                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500 mt-0.5" />
+                                      <span className="text-xs text-slate-600 leading-normal font-semibold">{tip}</span>
+                                    </div>
+                                  </div>
+                                );
+                              })}
                             </div>
                           </div>
 
@@ -2140,13 +2212,22 @@ export default function FamilyDigitalSafetyDashboard() {
                               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-white text-xs font-bold">2</span>
                               Çocuk Siber Kuralları
                             </h3>
-                            <div className="space-y-3">
-                              {guide.childRules.map((rule, idx) => (
-                                <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-600 leading-relaxed">
-                                  <Sparkles className="h-4 w-4 shrink-0 text-amber-500 mt-0.5" />
-                                  <span>{rule}</span>
-                                </div>
-                              ))}
+                            <div className="grid gap-3">
+                              {guide.childRules.map((rule, idx) => {
+                                const imgIdx = (Number(guide.id.split("-")[0]) || 3) + idx + 7;
+                                const ruleImageUrl = `https://images.unsplash.com/photo-${unsplashIds[imgIdx % unsplashIds.length]}?w=200&auto=format&fit=crop&q=60`;
+                                return (
+                                  <div key={idx} className="flex gap-3 p-2.5 rounded-lg border border-slate-100 bg-slate-50/50 hover:bg-slate-50 transition items-center">
+                                    <div className="w-16 h-12 shrink-0 overflow-hidden rounded-md border border-slate-200 hidden sm:block print-hide">
+                                      <img src={ruleImageUrl} alt="Kural" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="flex gap-2 items-start">
+                                      <Sparkles className="h-4 w-4 shrink-0 text-amber-500 mt-0.5" />
+                                      <span className="text-xs text-slate-600 leading-normal font-semibold">{rule}</span>
+                                    </div>
+                                  </div>
+                                );
+                              })}
                             </div>
                           </div>
                         </div>
@@ -2175,6 +2256,85 @@ export default function FamilyDigitalSafetyDashboard() {
                     </Card>
                   );
                 })()}
+              </div>
+            </motion.section>
+          )}
+
+          {activeTab === "videos" && (
+            <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6">
+              <Card className="overflow-hidden border-slate-200 bg-gradient-to-br from-slate-900 to-indigo-950 text-white shadow-lg mb-6">
+                <CardContent className="p-0">
+                  <div className="grid gap-6 md:grid-cols-[1fr_200px] p-6 items-center">
+                    <div>
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/20 text-indigo-400 mb-3 border border-indigo-500/30">
+                        <Tv className="h-5 w-5" />
+                      </div>
+                      <h3 className="text-xl font-bold text-white">Siber Güvenlik Video Eğitim Kütüphanesi</h3>
+                      <p className="text-xs leading-relaxed text-indigo-200 mt-2">
+                        Çocukların ve ebeveynlerin dijital dünyada güvenle adım atması için özenle seçilmiş, gerçek siber uzmanlar ve pedagoglar tarafından hazırlanmış 3 harika video eğitim serisi.
+                      </p>
+                    </div>
+                    <div className="hidden md:block">
+                      <img 
+                        src="/safety_hero.png" 
+                        alt="Siber TV" 
+                        className="w-full h-auto rounded-lg object-cover shadow border border-white/10"
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="grid gap-6 md:grid-cols-3">
+                {[
+                  {
+                    title: "Google Family Link Parental Control Tutorial",
+                    desc: "Cihaz kilitleri, uygulama izinleri ve çocuk ekran süresi takibini adım adım nasıl yapacağınızı bu kapsamlı Family Link rehberiyle öğrenin.",
+                    embedId: "zoxzE69V5U0",
+                    tag: "Ebeveyn Rehberi",
+                    duration: "4:32"
+                  },
+                  {
+                    title: "Siber Zorbalığı Önleme & Farkındalık Kılavuzu",
+                    desc: "Çocukların siber zorbalığı tanıması, kanıtları saklaması ve durumu ebeveynlerine bildirmesini öğreten harika bir animasyon kılavuz.",
+                    embedId: "yC23MWehCew",
+                    tag: "Çocuklar İçin",
+                    duration: "5:15"
+                  },
+                  {
+                    title: "Çevrimiçi Oyunlarda (Roblox, Minecraft) Güvenli Kalın",
+                    desc: "Bedava oyun parası tuzaklarından, yabancı sohbet davetlerinden ve şifre çalma yöntemlerinden korunmanın en güvenli yolları.",
+                    embedId: "HxySrSbSy7o",
+                    tag: "Oyun Güvenliği",
+                    duration: "3:40"
+                  }
+                ].map((video, idx) => (
+                  <Card key={idx} className="border-slate-200 bg-white hover:border-slate-300 transition shadow-md overflow-hidden flex flex-col h-full justify-between">
+                    <div>
+                      {/* Video Embed Player */}
+                      <div className="w-full aspect-video bg-slate-950 border-b border-slate-200 overflow-hidden relative group">
+                        <iframe 
+                          src={`https://www.youtube.com/embed/${video.embedId}`}
+                          title={video.title}
+                          className="w-full h-full border-0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                      <div className="p-5">
+                        <div className="flex items-center justify-between gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                          <span className="rounded-full bg-indigo-50 border border-indigo-150 px-2 py-0.5 text-indigo-700">{video.tag}</span>
+                          <span className="flex items-center gap-1">
+                            <PlayCircle className="h-3.5 w-3.5 text-slate-400" />
+                            {video.duration}
+                          </span>
+                        </div>
+                        <h4 className="font-bold text-slate-900 leading-snug">{video.title}</h4>
+                        <p className="text-xs text-slate-500 leading-relaxed mt-2">{video.desc}</p>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
               </div>
             </motion.section>
           )}
