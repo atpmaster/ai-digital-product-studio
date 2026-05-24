@@ -801,6 +801,19 @@ export default function FamilyDigitalSafetyDashboard() {
   // YENİ REHBER DURUM DEĞİŞKENLERİ
   const [selectedGuideAge, setSelectedGuideAge] = useState("12-14");
 
+  // YENİ İNTERAKTİF VİDEO OYNATICI DURUM DEĞİŞKENLERİ
+  const [playingVideo, setPlayingVideo] = useState(null); // null veya 0 (Family Link), 1 (Siber Zorbalık), 2 (Oyun Güvenliği)
+  const [videoPlaying, setVideoPlaying] = useState(false);
+  const [videoProgress, setVideoProgress] = useState(0);
+  const [videoStep, setVideoStep] = useState(1);
+  const [videoChoice, setVideoChoice] = useState(null); // null, 'A', 'B'
+  const [v1ScreenTime, setV1ScreenTime] = useState(2); // saat limit
+  const [v1Apps, setV1Apps] = useState({ tiktok: 'engelli', instagram: 'engelli', minecraft: 'izinli' });
+  const [v1Bedtime, setV1Bedtime] = useState('21:30');
+  const [v1Stage, setV1Stage] = useState('config'); // config, success
+  const [v2Status, setV2Status] = useState('initial'); // initial, chat1, decision, result_a, result_b
+  const [v3Status, setV3Status] = useState('initial'); // initial, q1_prompt, q1_result_a, q1_result_b, q2_prompt, q2_result_a, q2_result_b, success
+
   // YENİ BİLİNÇ TESTLERİ DURUM DEĞİŞKENLERİ
   const [activeQuiz, setActiveQuiz] = useState(null); // 'parent', 'child' veya null
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -908,6 +921,77 @@ export default function FamilyDigitalSafetyDashboard() {
 
   const selectedAgePath =
     ageContentRoadmaps.find((item) => item.id === activeAgeGroup) || ageContentRoadmaps[0];
+
+  // İnteraktif Video Oynatıcı Zamanlayıcı Efekti
+  React.useEffect(() => {
+    let interval = null;
+    if (playingVideo !== null && videoPlaying) {
+      interval = setInterval(() => {
+        setVideoProgress((prev) => {
+          if (prev >= 100) {
+            setVideoPlaying(false);
+            if (playingVideo === 0) setV1Stage('success');
+            if (playingVideo === 1 && v2Status === 'result_b') setV2Status('success');
+            if (playingVideo === 2 && v3Status === 'q2_result_b') setV3Status('success');
+            return 100;
+          }
+          const nextVal = prev + 1.5;
+
+          // Video 0 (Family Link) adımları
+          if (playingVideo === 0) {
+            if (nextVal < 33) setVideoStep(1);
+            else if (nextVal < 66) setVideoStep(2);
+            else setVideoStep(3);
+          }
+
+          // Video 1 (Siber Zorbalık) adımları ve karar zamanı
+          if (playingVideo === 1) {
+            if (nextVal < 30) {
+              setVideoStep(1);
+              if (v2Status === 'initial') {
+                setV2Status('chat1');
+              }
+            } else if (nextVal >= 30 && nextVal < 70) {
+              setVideoStep(2);
+              if (v2Status === 'chat1' || v2Status === 'initial') {
+                setV2Status('decision');
+                setVideoPlaying(false); // Karar için duraklat
+                return 30;
+              }
+            } else {
+              setVideoStep(3);
+            }
+          }
+
+          // Video 2 (Oyun Güvenliği) adımları ve karar zamanları
+          if (playingVideo === 2) {
+            if (nextVal < 40) {
+              setVideoStep(1);
+              if (v3Status === 'initial') {
+                setV3Status('q1_prompt');
+                setVideoPlaying(false); // Duraklat
+                return 15;
+              }
+            } else if (nextVal >= 40 && nextVal < 80) {
+              setVideoStep(2);
+              if (v3Status === 'q1_result_b') {
+                setV3Status('q2_prompt');
+                setVideoPlaying(false); // Duraklat
+                return 50;
+              }
+            } else {
+              setVideoStep(3);
+            }
+          }
+
+          return nextVal > 100 ? 100 : nextVal;
+        });
+      }, 100);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [playingVideo, videoPlaying, v2Status, v3Status]);
 
   function toggleTask(taskId) {
     setCompletedTasks((current) =>
@@ -2262,80 +2346,677 @@ export default function FamilyDigitalSafetyDashboard() {
 
           {activeTab === "videos" && (
             <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6">
-              <Card className="overflow-hidden border-slate-200 bg-gradient-to-br from-slate-900 to-indigo-950 text-white shadow-lg mb-6">
-                <CardContent className="p-0">
-                  <div className="grid gap-6 md:grid-cols-[1fr_200px] p-6 items-center">
-                    <div>
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/20 text-indigo-400 mb-3 border border-indigo-500/30">
-                        <Tv className="h-5 w-5" />
+              {playingVideo !== null ? (
+                /* THEATER PLAYER VIEW */
+                <div className="grid gap-6 lg:grid-cols-[1fr_320px] mb-6">
+                  {/* Interactive Screen and controls */}
+                  <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between print-hide">
+                    {/* Header bar */}
+                    <div className="p-4 bg-slate-950 border-b border-slate-900 flex justify-between items-center text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="font-extrabold text-white uppercase tracking-wider">
+                          {playingVideo === 0 && "Google Family Link Parental Control Tutorial"}
+                          {playingVideo === 1 && "Siber Zorbalığı Önleme & Farkındalık Kılavuzu"}
+                          {playingVideo === 2 && "Çevrimiçi Oyunlarda (Roblox, Minecraft) Güvenli Kalın"}
+                        </span>
                       </div>
-                      <h3 className="text-xl font-bold text-white">Siber Güvenlik Video Eğitim Kütüphanesi</h3>
-                      <p className="text-xs leading-relaxed text-indigo-200 mt-2">
-                        Çocukların ve ebeveynlerin dijital dünyada güvenle adım atması için özenle seçilmiş, gerçek siber uzmanlar ve pedagoglar tarafından hazırlanmış 3 harika video eğitim serisi.
-                      </p>
+                      <button 
+                        onClick={() => { setPlayingVideo(null); setVideoPlaying(false); }}
+                        className="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-white font-extrabold rounded text-[10px] uppercase transition flex items-center gap-1"
+                      >
+                        Tüm Videoları Gör &larr;
+                      </button>
                     </div>
-                    <div className="hidden md:block">
-                      <img 
-                        src="/safety_hero.png" 
-                        alt="Siber TV" 
-                        className="w-full h-auto rounded-lg object-cover shadow border border-white/10"
-                      />
+
+                    {/* Simulator Container */}
+                    <div className="p-6 bg-slate-950/60 flex items-center justify-center flex-1 min-h-[460px]">
+                      {playingVideo === 0 && (
+                        /* Google Family Link Simulator */
+                        <div className="flex flex-col items-center justify-center w-full relative">
+                          <div className="w-[280px] h-[440px] bg-slate-900 rounded-[32px] border-4 border-slate-700 shadow-2xl relative flex flex-col overflow-hidden">
+                            {/* Notch */}
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-4 bg-slate-700 rounded-b-xl flex items-center justify-center z-10">
+                              <div className="w-8 h-1 bg-slate-900 rounded-full" />
+                            </div>
+
+                            {/* Internal Phone screen */}
+                            <div className="flex-1 p-4 pt-6 bg-slate-950 text-slate-100 flex flex-col justify-between overflow-y-auto">
+                              {v1Stage === 'config' ? (
+                                <div className="flex flex-col h-full justify-between">
+                                  <div>
+                                    <div className="text-center pb-2 border-b border-white/10 mb-3">
+                                      <span className="text-[9px] uppercase font-bold text-indigo-400 tracking-wider">Family Link Panel</span>
+                                      <h5 className="text-xs font-black text-white">Ebeveyn Denetimi Masası</h5>
+                                    </div>
+
+                                    {videoStep === 1 && (
+                                      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
+                                        <div className="p-2.5 bg-indigo-950/50 border border-indigo-500/20 rounded-lg">
+                                          <p className="text-[8px] text-slate-400 font-bold uppercase">ADIM 1 / 3</p>
+                                          <h6 className="text-[11px] font-extrabold text-white mt-0.5">Ekran Süresi Limiti</h6>
+                                          <p className="text-[10px] text-indigo-200/80 mt-1 leading-normal">
+                                            Günlük aktif telefon kullanım süresini sınırlandırın.
+                                          </p>
+                                        </div>
+
+                                        <div className="py-1 space-y-2">
+                                          <div className="flex justify-between items-center text-[10px] font-bold">
+                                            <span>Süre:</span>
+                                            <span className="text-indigo-400 px-2 py-0.5 rounded bg-indigo-500/20 border border-indigo-500/30">
+                                              {v1ScreenTime} Saat
+                                            </span>
+                                          </div>
+                                          <input
+                                            type="range"
+                                            min="1"
+                                            max="6"
+                                            value={v1ScreenTime}
+                                            onChange={(e) => setV1ScreenTime(Number(e.target.value))}
+                                            className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                                          />
+                                          <div className="text-[9px] leading-snug">
+                                            {v1ScreenTime <= 2 ? (
+                                              <span className="text-emerald-400 font-bold">🟢 Pedagojik Limit (İdeal)</span>
+                                            ) : (
+                                              <span className="text-amber-400 font-bold">🟡 Uzun Ekran Süresi! (Önerilmez)</span>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </motion.div>
+                                    )}
+
+                                    {videoStep === 2 && (
+                                      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
+                                        <div className="p-2.5 bg-indigo-950/50 border border-indigo-500/20 rounded-lg">
+                                          <p className="text-[8px] text-slate-400 font-bold uppercase">ADIM 2 / 3</p>
+                                          <h6 className="text-[11px] font-extrabold text-white mt-0.5">Uygulama Engelleme</h6>
+                                          <p className="text-[10px] text-indigo-200/80 mt-1 leading-normal">
+                                            Çocuğun cihazındaki uygulamaları yönetin.
+                                          </p>
+                                        </div>
+
+                                        <div className="space-y-1.5">
+                                          {Object.entries(v1Apps).map(([app, status]) => (
+                                            <div key={app} className="flex justify-between items-center p-2 rounded bg-slate-900 border border-white/5 text-[10px]">
+                                              <span className="capitalize font-bold text-slate-200">{app}</span>
+                                              <button
+                                                onClick={() => setV1Apps(prev => ({ ...prev, [app]: status === 'izinli' ? 'engelli' : 'izinli' }))}
+                                                className={cx(
+                                                  "px-2 py-0.5 rounded text-[8px] font-extrabold tracking-wider transition uppercase",
+                                                  status === 'izinli'
+                                                    ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+                                                    : "bg-rose-500/20 text-rose-400 border border-rose-500/30"
+                                                )}
+                                              >
+                                                {status === 'izinli' ? 'İzinli' : 'Engelli'}
+                                              </button>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </motion.div>
+                                    )}
+
+                                    {videoStep === 3 && (
+                                      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
+                                        <div className="p-2.5 bg-indigo-950/50 border border-indigo-500/20 rounded-lg">
+                                          <p className="text-[8px] text-slate-400 font-bold uppercase">ADIM 3 / 3</p>
+                                          <h6 className="text-[11px] font-extrabold text-white mt-0.5">Uyku Saati Kilidi</h6>
+                                          <p className="text-[10px] text-indigo-200/80 mt-1 leading-normal">
+                                            Uyku vaktinde cihazı otomatik kilitleyin.
+                                          </p>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                          <label className="block text-[10px] font-bold text-slate-300">Uyku Saati:</label>
+                                          <div className="grid grid-cols-3 gap-1">
+                                            {['20:30', '21:30', '22:30'].map((time) => (
+                                              <button
+                                                key={time}
+                                                onClick={() => setV1Bedtime(time)}
+                                                className={cx(
+                                                  "py-1 rounded text-[10px] font-bold transition",
+                                                  v1Bedtime === time
+                                                    ? "bg-indigo-600 text-white border border-indigo-400"
+                                                    : "bg-slate-900 text-slate-300 border border-white/10 hover:bg-slate-800"
+                                                )}
+                                              >
+                                                {time}
+                                              </button>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      </motion.div>
+                                    )}
+                                  </div>
+
+                                  <div className="pt-2">
+                                    {videoStep < 3 ? (
+                                      <button
+                                        onClick={() => {
+                                          const nextP = videoStep === 1 ? 35 : 68;
+                                          setVideoProgress(nextP);
+                                          setVideoStep(videoStep + 1);
+                                        }}
+                                        className="w-full py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-[10px] font-extrabold text-white transition flex items-center justify-center gap-1"
+                                      >
+                                        İleri <ArrowRight className="h-3 w-3" />
+                                      </button>
+                                    ) : (
+                                      <button
+                                        onClick={() => {
+                                          setVideoProgress(100);
+                                          setV1Stage('success');
+                                        }}
+                                        className="w-full py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-[10px] font-extrabold text-white transition"
+                                      >
+                                        Family Link'i Aktifleştir 🔒
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+                              ) : (
+                                <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex-1 flex flex-col justify-between items-center text-center py-4">
+                                  <div className="space-y-3">
+                                    <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-400">
+                                      <ShieldCheck className="h-6 w-6" />
+                                    </div>
+                                    <h5 className="text-xs font-black text-white">CİHAZ KORUMASI AKTİF!</h5>
+                                    <p className="text-[10px] leading-relaxed text-slate-300">
+                                      Family Link kuralları başarıyla uygulandı ve çocuk cihazı koruma altına alındı.
+                                    </p>
+                                    <div className="p-2.5 bg-emerald-950/40 rounded-lg border border-emerald-500/10 text-[9px] text-left text-emerald-100/90 space-y-1">
+                                      <div className="flex items-center gap-1 font-bold">
+                                        <CheckCircle2 className="h-2.5 w-2.5 text-emerald-400" />
+                                        <span>Günlük Limit: {v1ScreenTime} Saat</span>
+                                      </div>
+                                      <div className="flex items-center gap-1 font-bold">
+                                        <CheckCircle2 className="h-2.5 w-2.5 text-emerald-400" />
+                                        <span>TikTok: {v1Apps.tiktok === 'engelli' ? 'Engelli 🚫' : 'İzinli ✅'}</span>
+                                      </div>
+                                      <div className="flex items-center gap-1 font-bold">
+                                        <CheckCircle2 className="h-2.5 w-2.5 text-emerald-400" />
+                                        <span>Uyku Saati: {v1Bedtime} 🌙</span>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <button
+                                    onClick={() => { setV1Stage('config'); setVideoProgress(0); setVideoStep(1); }}
+                                    className="w-full py-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg text-[9px] font-bold text-slate-200 transition"
+                                  >
+                                    Simülasyonu Yenile 🔄
+                                  </button>
+                                </motion.div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {playingVideo === 1 && (
+                        /* Siber Zorbalık Chat Simulator */
+                        <div className="flex flex-col items-center justify-center w-full relative">
+                          <div className="w-[300px] bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl overflow-hidden flex flex-col h-[380px] relative">
+                            {/* Chat Header */}
+                            <div className="p-3 bg-indigo-950 border-b border-white/5 flex items-center justify-between">
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-7 h-7 rounded-full bg-slate-800 border border-rose-500 flex items-center justify-center text-rose-400 text-[10px] font-black">
+                                  GA
+                                </div>
+                                <div>
+                                  <h5 className="text-[10px] font-extrabold text-white">Gölge_Avcı</h5>
+                                  <span className="text-[8px] text-rose-400 font-bold tracking-wider uppercase">ÇEVRİMİÇİ</span>
+                                </div>
+                              </div>
+                              <div className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+                            </div>
+
+                            {/* Chat Area */}
+                            <div className="flex-1 p-3 overflow-y-auto space-y-2.5 bg-slate-950 flex flex-col justify-end text-[10px]">
+                              {v2Status === 'initial' && (
+                                <div className="text-center my-auto space-y-2 py-4">
+                                  <div className="text-2xl animate-bounce">📱</div>
+                                  <p className="text-slate-400 text-[9px] leading-relaxed max-w-[180px] mx-auto">
+                                    Simülasyonu başlatmak için alttaki <b>Oynat</b> tuşuna basın.
+                                  </p>
+                                </div>
+                              )}
+
+                              {(v2Status === 'chat1' || v2Status === 'decision' || v2Status === 'result_a' || v2Status === 'result_b' || v2Status === 'success') && (
+                                <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="self-start max-w-[85%] bg-slate-900 p-2 rounded-lg border border-white/5 text-slate-100">
+                                  <span className="font-extrabold text-rose-400 block text-[8px] mb-0.5">Gölge_Avcı:</span>
+                                  Hey ezik! Sen bu oyunda çok kötüsün. Hemen oyundan çık yoksa senin IP adresini bulup evine virüs atacağım! 😡👿
+                                </motion.div>
+                              )}
+
+                              {v2Status === 'result_a' && (
+                                <>
+                                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="self-end max-w-[85%] bg-rose-600/20 border border-rose-500/30 p-2 rounded-lg text-rose-200">
+                                    <span className="font-extrabold text-rose-400 block text-[8px] mb-0.5">Sen (Cevap Verdin):</span>
+                                    Sıkıysa gel yap! Senden mi korkacağım! Asıl sen eziksin! 😤
+                                  </motion.div>
+                                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="self-start max-w-[85%] bg-slate-900 p-2 rounded-lg border border-white/5 text-slate-100">
+                                    <span className="font-extrabold text-rose-400 block text-[8px] mb-0.5">Gölge_Avcı:</span>
+                                    Hahaha, demek öyle! Bekle bilgisayarını çökertiyorum şimdi bekle... 💻🔥
+                                  </motion.div>
+                                </>
+                              )}
+
+                              {v2Status === 'result_b' && (
+                                <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="self-end max-w-[85%] bg-emerald-600/20 border border-emerald-500/30 p-2 rounded-lg text-emerald-200">
+                                  <span className="font-extrabold text-emerald-400 block text-[8px] mb-0.5">Sen (Kalkan Şıkkı):</span>
+                                  [Zorbayı Engelledin, Kanıt Kaydettin ve Ebeveynine Söyledin] 🛡️
+                                </motion.div>
+                              )}
+                            </div>
+
+                            {/* Decision Panel overlay */}
+                            {v2Status === 'decision' && (
+                              <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="p-3 bg-slate-900 border-t border-indigo-500/30 flex flex-col gap-1.5 z-10">
+                                <span className="text-[8px] font-black text-amber-400 tracking-wider flex items-center gap-1 uppercase">
+                                  <AlertTriangle className="h-3 w-3" /> KRİTİK SEÇİM ANI!
+                                </span>
+                                <p className="text-[9px] text-slate-300">Tehdit karşısında ne yapmalısın?</p>
+                                <div className="grid gap-1 mt-1">
+                                  <button
+                                    onClick={() => setV2Status('result_a')}
+                                    className="w-full p-1.5 bg-rose-950/50 hover:bg-rose-900/60 border border-rose-500/30 rounded text-left text-[8px] font-bold text-rose-200 transition"
+                                  >
+                                    🔴 A: Cevap ver ve 'Sıkıysa yap, senden mi korkacağım' yaz.
+                                  </button>
+                                  <button
+                                    onClick={() => { setV2Status('result_b'); setVideoProgress(100); setVideoPlaying(true); }}
+                                    className="w-full p-1.5 bg-emerald-950/50 hover:bg-emerald-900/60 border border-emerald-500/30 rounded text-left text-[8px] font-bold text-emerald-200 transition"
+                                  >
+                                    🟢 B: Asla CEVAP VERME! Zorbayı engelle ve ebeveynine bildir.
+                                  </button>
+                                </div>
+                              </motion.div>
+                            )}
+
+                            {/* Error popup */}
+                            {v2Status === 'result_a' && (
+                              <div className="p-2 bg-rose-950 border-t border-rose-500/20 text-center">
+                                <p className="text-[9px] text-rose-200">
+                                  ❌ Hatalı Karar! Tartışmak zorbanın eline koz verir.
+                                </p>
+                                <button
+                                  onClick={() => setV2Status('decision')}
+                                  className="mt-1.5 px-2 py-0.5 bg-white text-rose-950 text-[8px] font-bold rounded hover:bg-slate-100 transition"
+                                >
+                                  Geri Dön ve Güvenli Kal &larr;
+                                </button>
+                              </div>
+                            )}
+
+                            {v2Status === 'success' && (
+                              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-center p-4 text-center z-20">
+                                <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-2 animate-bounce">
+                                  <Sparkles className="h-6 w-6" />
+                                </div>
+                                <h5 className="text-[11px] font-black text-white uppercase">Siber Kalkan Aktif!</h5>
+                                <p className="text-[9px] text-slate-300 leading-relaxed mt-1 max-w-[200px]">
+                                  Mükemmel! Zorbayı engelledin, sessiz kaldın ve ailene haber vererek siber kahraman rozetini kazandın!
+                                </p>
+                                <button
+                                  onClick={() => { setV2Status('initial'); setVideoProgress(0); setVideoPlaying(false); }}
+                                  className="mt-3 px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white rounded text-[9px] font-extrabold transition"
+                                >
+                                  Yeniden Başlat 🔄
+                                </button>
+                              </motion.div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {playingVideo === 2 && (
+                        /* Çevrimiçi Oyun Güvenliği Simülatörü */
+                        <div className="flex flex-col items-center justify-center w-full relative">
+                          <div className="w-[300px] bg-slate-900 rounded-2xl border border-indigo-500/20 shadow-2xl overflow-hidden flex flex-col h-[380px] relative">
+                            {/* Console Header */}
+                            <div className="p-2.5 bg-indigo-950 border-b border-white/5 flex items-center justify-between text-[10px]">
+                              <div className="flex items-center gap-1">
+                                <Gamepad2 className="h-3.5 w-3.5 text-indigo-400" />
+                                <span className="font-extrabold text-white tracking-wider text-[9px]">SİBER_CRAFT OYUN</span>
+                              </div>
+                              <span className="text-[8px] font-bold bg-amber-500/10 border border-amber-500/30 text-amber-400 px-1.5 py-0.2 rounded">
+                                SEVİYE 1
+                              </span>
+                            </div>
+
+                            {/* Game Screen Content */}
+                            <div className="flex-1 p-3 bg-slate-950 flex flex-col justify-center items-center text-center text-[10px] relative">
+                              {v3Status === 'initial' && (
+                                <div className="space-y-2 py-4">
+                                  <div className="text-3xl animate-pulse">🎮</div>
+                                  <h5 className="font-extrabold text-white text-xs">Oyun Güvenliği Simülatörü</h5>
+                                  <p className="text-slate-400 text-[9px] leading-relaxed max-w-[180px] mx-auto">
+                                    Bedava elmas tuzakları ve yabancı sohbet istekleri simülasyonu için <b>Oynat</b> tuşuna basın.
+                                  </p>
+                                </div>
+                              )}
+
+                              {v3Status === 'q1_prompt' && (
+                                <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="space-y-3 max-w-[240px]">
+                                  <div className="text-xl animate-bounce">🎁💎</div>
+                                  <div className="bg-indigo-950/80 p-2 rounded border border-indigo-500/20 text-left">
+                                    <span className="text-[8px] font-black text-indigo-400 uppercase tracking-widest">Hediye Sandığı:</span>
+                                    <p className="text-[9px] text-white mt-0.5 leading-normal">
+                                      Tebrikler! 10,000 Bedava Robux kazandınız. Hesaba aktarmak için <b>şifrenizi girin:</b>
+                                    </p>
+                                  </div>
+                                  <div className="grid gap-1">
+                                    <button
+                                      onClick={() => setV3Status('q1_result_a')}
+                                      className="w-full py-1 bg-rose-950/60 hover:bg-rose-900/70 border border-rose-500/30 rounded text-[8px] font-bold text-rose-200 transition"
+                                    >
+                                      🔴 Şifremi girip bedava Robux'ı alayım.
+                                    </button>
+                                    <button
+                                      onClick={() => setV3Status('q1_result_b')}
+                                      className="w-full py-1 bg-emerald-950/60 hover:bg-emerald-900/70 border border-emerald-500/30 rounded text-[8px] font-bold text-emerald-200 transition"
+                                    >
+                                      🟢 Bu bir dolandırıcılık! Asla şifremi girmem.
+                                    </button>
+                                  </div>
+                                </motion.div>
+                              )}
+
+                              {v3Status === 'q1_result_a' && (
+                                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-2">
+                                  <div className="text-2xl">😢❌</div>
+                                  <h5 className="font-extrabold text-rose-400 text-xs">HESAP ÇALINDI!</h5>
+                                  <p className="text-[9px] text-slate-300 max-w-[200px] leading-relaxed">
+                                    Asla bedava vaat eden sitelere şifrenizi vermemelisiniz. Bu bir hesap çalma tuzağıdır!
+                                  </p>
+                                  <button
+                                    onClick={() => setV3Status('q1_prompt')}
+                                    className="px-2 py-0.5 bg-white text-rose-950 text-[8px] font-bold rounded hover:bg-slate-100 transition"
+                                  >
+                                    Geri Dön ve Tekrar Dene &rarr;
+                                  </button>
+                                </motion.div>
+                              )}
+
+                              {v3Status === 'q1_result_b' && (
+                                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3 max-w-[240px]">
+                                  <div className="text-2xl text-emerald-400">🛡️✨</div>
+                                  <h5 className="font-extrabold text-emerald-400">HARİKA! TUZAĞI FARK ETTİN.</h5>
+                                  <p className="text-[9px] text-slate-350 leading-relaxed">
+                                    Bedava elmas yalanlarına inanmadın. Şimdi ikinci adımdaki yabancı sohbet davetiyle karşılaşacaksın.
+                                  </p>
+                                  <button
+                                    onClick={() => { setV3Status('q2_prompt'); setVideoProgress(50); }}
+                                    className="w-full py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded text-[8px] font-extrabold tracking-wider"
+                                  >
+                                    ADIM 2'YE GEÇ &rarr;
+                                  </button>
+                                </motion.div>
+                              )}
+
+                              {v3Status === 'q2_prompt' && (
+                                <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="space-y-3 max-w-[240px]">
+                                  <div className="bg-slate-900 border border-white/5 p-2 rounded text-left">
+                                    <span className="text-[8px] font-black text-rose-400 uppercase tracking-widest">Süper_Oyuncu2026:</span>
+                                    <p className="text-[9px] text-slate-200 mt-0.5 leading-normal">
+                                      "Selam oyunda çok iyisin. Sana özel kostüm hediye etmek istiyorum. Telefon numaranı ve ev adresini verir misin?"
+                                    </p>
+                                  </div>
+                                  <div className="grid gap-1">
+                                    <button
+                                      onClick={() => setV3Status('q2_result_a')}
+                                      className="w-full py-1 bg-rose-950/60 hover:bg-rose-900/70 border border-rose-500/30 rounded text-[8px] font-bold text-rose-200 transition"
+                                    >
+                                      🔴 Veririm, ne de olsa oyun arkadaşım.
+                                    </button>
+                                    <button
+                                      onClick={() => { setV3Status('q2_result_b'); setVideoProgress(100); setVideoPlaying(true); }}
+                                      className="w-full py-1 bg-emerald-950/60 hover:bg-emerald-900/70 border border-emerald-500/30 rounded text-[8px] font-bold text-emerald-200 transition"
+                                    >
+                                      🟢 Kişisel bilgilerimi asla vermem! Sohbeti kapatırım.
+                                    </button>
+                                  </div>
+                                </motion.div>
+                              )}
+
+                              {v3Status === 'q2_result_a' && (
+                                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-2">
+                                  <div className="text-2xl">⚠️🚨</div>
+                                  <h5 className="font-extrabold text-rose-400 text-xs">TEHLİKE! BİLGİ KAPTIRILDI</h5>
+                                  <p className="text-[9px] text-slate-300 max-w-[200px] leading-relaxed">
+                                    İnternetteki yabancılar gerçek hayatta tehlike oluşturabilir. Ev adresini ve telefonunu kimseye verme!
+                                  </p>
+                                  <button
+                                    onClick={() => setV3Status('q2_prompt')}
+                                    className="px-2 py-0.5 bg-white text-rose-950 text-[8px] font-bold rounded hover:bg-slate-100 transition"
+                                  >
+                                    Geri Dön ve Bilgileri Gizle &rarr;
+                                  </button>
+                                </motion.div>
+                              )}
+
+                              {v3Status === 'success' && (
+                                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-center p-4 text-center z-20">
+                                  <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-2 animate-bounce">
+                                    <Sparkles className="h-6 w-6" />
+                                  </div>
+                                  <h5 className="text-[11px] font-black text-white uppercase">Sertifikalı Güvenli Oyuncu!</h5>
+                                  <p className="text-[9px] text-slate-300 leading-relaxed mt-1 max-w-[200px]">
+                                    Tebrikler! Bedava vaatlere kanmadın, kişisel bilgilerini korudun ve siber dünyada oyunun kralı oldun!
+                                  </p>
+                                  <button
+                                    onClick={() => { setV3Status('initial'); setVideoProgress(0); setVideoPlaying(false); }}
+                                    className="mt-3 px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white rounded text-[9px] font-extrabold transition"
+                                  >
+                                    Yeniden Oyna 🎮
+                                  </button>
+                                </motion.div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Timeline Controls */}
+                    <div className="p-4 bg-slate-950 border-t border-slate-900 flex flex-col gap-2.5">
+                      <div className="flex items-center gap-3">
+                        <span className="text-[9px] text-slate-400 font-bold">0:{(videoProgress * 0.05).toFixed(0).padStart(2, '0')}</span>
+                        <div 
+                          onClick={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            const clickX = e.clientX - rect.left;
+                            const percentage = (clickX / rect.width) * 100;
+                            setVideoProgress(percentage);
+                            if (playingVideo === 0) {
+                              if (percentage < 33) setVideoStep(1);
+                              else if (percentage < 66) setVideoStep(2);
+                              else setVideoStep(3);
+                            }
+                          }}
+                          className="flex-1 h-1.5 bg-slate-800 rounded-full cursor-pointer relative overflow-hidden"
+                        >
+                          <div className="h-full bg-indigo-500 rounded-full transition-all duration-150" style={{ width: `${videoProgress}%` }} />
+                        </div>
+                        <span className="text-[9px] text-slate-400 font-bold">0:05</span>
+                      </div>
+
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => setVideoPlaying(!videoPlaying)}
+                            className="p-1.5 bg-indigo-650 hover:bg-indigo-600 rounded-full text-white transition"
+                          >
+                            {videoPlaying ? (
+                              <svg className="h-3 w-3 fill-current" viewBox="0 0 24 24">
+                                <rect x="5" y="4" width="4" height="16" />
+                                <rect x="15" y="4" width="4" height="16" />
+                              </svg>
+                            ) : (
+                              <svg className="h-3 w-3 fill-current" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            )}
+                          </button>
+
+                          <div className="flex items-center gap-1.5">
+                            <span className={cx("text-[8px] px-1.5 py-0.5 rounded font-black", videoStep === 1 ? "bg-indigo-600/30 text-indigo-400" : "bg-slate-800 text-slate-400")}>ADIM 1</span>
+                            <span className={cx("text-[8px] px-1.5 py-0.5 rounded font-black", videoStep === 2 ? "bg-indigo-600/30 text-indigo-400" : "bg-slate-800 text-slate-400")}>ADIM 2</span>
+                            <span className={cx("text-[8px] px-1.5 py-0.5 rounded font-black", videoStep === 3 ? "bg-indigo-600/30 text-indigo-400" : "bg-slate-800 text-slate-400")}>ADIM 3</span>
+                          </div>
+                        </div>
+
+                        <span className="text-[8px] text-indigo-400 font-extrabold uppercase tracking-wider bg-indigo-950 px-2 py-0.5 rounded border border-indigo-900">
+                          Sıfırdan Üretim Simülatörü 🛠️
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
 
-              <div className="grid gap-6 md:grid-cols-3">
-                {[
-                  {
-                    title: "Google Family Link Parental Control Tutorial",
-                    desc: "Cihaz kilitleri, uygulama izinleri ve çocuk ekran süresi takibini adım adım nasıl yapacağınızı bu kapsamlı Family Link rehberiyle öğrenin.",
-                    embedId: "zoxzE69V5U0",
-                    tag: "Ebeveyn Rehberi",
-                    duration: "4:32"
-                  },
-                  {
-                    title: "Siber Zorbalığı Önleme & Farkındalık Kılavuzu",
-                    desc: "Çocukların siber zorbalığı tanıması, kanıtları saklaması ve durumu ebeveynlerine bildirmesini öğreten harika bir animasyon kılavuz.",
-                    embedId: "yC23MWehCew",
-                    tag: "Çocuklar İçin",
-                    duration: "5:15"
-                  },
-                  {
-                    title: "Çevrimiçi Oyunlarda (Roblox, Minecraft) Güvenli Kalın",
-                    desc: "Bedava oyun parası tuzaklarından, yabancı sohbet davetlerinden ve şifre çalma yöntemlerinden korunmanın en güvenli yolları.",
-                    embedId: "HxySrSbSy7o",
-                    tag: "Oyun Güvenliği",
-                    duration: "3:40"
-                  }
-                ].map((video, idx) => (
-                  <Card key={idx} className="border-slate-200 bg-white hover:border-slate-300 transition shadow-md overflow-hidden flex flex-col h-full justify-between">
-                    <div>
-                      {/* Video Embed Player */}
-                      <div className="w-full aspect-video bg-slate-950 border-b border-slate-200 overflow-hidden relative group">
-                        <iframe 
-                          src={`https://www.youtube.com/embed/${video.embedId}`}
-                          title={video.title}
-                          className="w-full h-full border-0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
-                      </div>
-                      <div className="p-5">
-                        <div className="flex items-center justify-between gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
-                          <span className="rounded-full bg-indigo-50 border border-indigo-150 px-2 py-0.5 text-indigo-700">{video.tag}</span>
-                          <span className="flex items-center gap-1">
-                            <PlayCircle className="h-3.5 w-3.5 text-slate-400" />
-                            {video.duration}
+                  {/* Playlist sidebar */}
+                  <div className="space-y-2.5">
+                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Siber Akademi Dersleri</h4>
+                    {[
+                      {
+                        title: "Google Family Link Parental Control Tutorial",
+                        desc: "Cihaz kilitleri, uygulama izinleri ve çocuk ekran süresi takibini adım adım nasıl yapacağınızı bu kapsamlı Family Link rehberiyle öğrenin.",
+                        tag: "Ebeveyn Rehberi",
+                        duration: "4:32"
+                      },
+                      {
+                        title: "Siber Zorbalığı Önleme & Farkındalık Kılavuzu",
+                        desc: "Çocukların siber zorbalığı tanıması, kanıtları saklaması ve durumu ebeveynlerine bildirmesini öğreten harika bir animasyon kılavuz.",
+                        tag: "Çocuklar İçin",
+                        duration: "5:15"
+                      },
+                      {
+                        title: "Çevrimiçi Oyunlarda (Roblox, Minecraft) Güvenli Kalın",
+                        desc: "Bedava oyun parası tuzaklarından, yabancı sohbet davetlerinden ve şifre çalma yöntemlerinden korunmanın en güvenli yolları.",
+                        tag: "Oyun Güvenliği",
+                        duration: "3:40"
+                      }
+                    ].map((video, idx) => (
+                      <div 
+                        key={idx}
+                        onClick={() => {
+                          setPlayingVideo(idx);
+                          setVideoProgress(0);
+                          setVideoStep(1);
+                          setVideoPlaying(true);
+                          if (idx === 0) { setV1Stage('config'); setV1ScreenTime(2); setV1Apps({ tiktok: 'engelli', instagram: 'engelli', minecraft: 'izinli' }); setV1Bedtime('21:30'); }
+                          if (idx === 1) setV2Status('initial');
+                          if (idx === 2) setV3Status('initial');
+                        }}
+                        className={cx(
+                          "p-3 rounded-xl border transition cursor-pointer flex flex-col justify-between gap-1.5",
+                          playingVideo === idx
+                            ? "bg-slate-900 border-indigo-500 text-white shadow"
+                            : "bg-white border-slate-200 hover:border-slate-300 text-slate-800"
+                        )}
+                      >
+                        <div>
+                          <span className={cx("text-[7px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded", playingVideo === idx ? "bg-indigo-500/20 text-indigo-400" : "bg-indigo-50 text-indigo-700")}>
+                            {video.tag}
                           </span>
+                          <h5 className="text-[11px] font-black mt-1 leading-snug">{video.title}</h5>
                         </div>
-                        <h4 className="font-bold text-slate-900 leading-snug">{video.title}</h4>
-                        <p className="text-xs text-slate-500 leading-relaxed mt-2">{video.desc}</p>
+                        <p className="text-[9px] text-slate-450 leading-normal line-clamp-2">{video.desc}</p>
                       </div>
-                    </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                /* GRID CARDS VIEW */
+                <>
+                  <Card className="overflow-hidden border-slate-200 bg-gradient-to-br from-slate-900 to-indigo-950 text-white shadow-lg mb-6 print-hide">
+                    <CardContent className="p-0">
+                      <div className="grid gap-6 md:grid-cols-[1fr_200px] p-6 items-center">
+                        <div>
+                          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/20 text-indigo-400 mb-3 border border-indigo-500/30">
+                            <Tv className="h-5 w-5" />
+                          </div>
+                          <h3 className="text-xl font-bold text-white">Siber Güvenlik İnteraktif Video Kütüphanesi</h3>
+                          <p className="text-xs leading-relaxed text-indigo-200 mt-2">
+                            Aşağıdaki eğitimlerden birini seçip, sıfırdan sizin için özel olarak simüle edilen <b>interaktif video deneyimini</b> başlatabilirsiniz.
+                          </p>
+                        </div>
+                        <div className="hidden md:block">
+                          <img 
+                            src="/safety_hero.png" 
+                            alt="Siber TV" 
+                            className="w-full h-auto rounded-lg object-cover shadow border border-white/10"
+                          />
+                        </div>
+                      </div>
+                    </CardContent>
                   </Card>
-                ))}
-              </div>
+
+                  <div className="grid gap-6 md:grid-cols-3">
+                    {[
+                      {
+                        title: "Google Family Link Parental Control Tutorial",
+                        desc: "Cihaz kilitleri, uygulama izinleri ve çocuk ekran süresi takibini adım adım nasıl yapacağınızı bu kapsamlı Family Link rehberiyle öğrenin.",
+                        tag: "Ebeveyn Rehberi",
+                        duration: "4:32"
+                      },
+                      {
+                        title: "Siber Zorbalığı Önleme & Farkındalık Kılavuzu",
+                        desc: "Çocukların siber zorbalığı tanıması, kanıtları saklaması ve durumu ebeveynlerine bildirmesini öğreten harika bir animasyon kılavuz.",
+                        tag: "Çocuklar İçin",
+                        duration: "5:15"
+                      },
+                      {
+                        title: "Çevrimiçi Oyunlarda (Roblox, Minecraft) Güvenli Kalın",
+                        desc: "Bedava oyun parası tuzaklarından, yabancı sohbet davetlerinden ve şifre çalma yöntemlerinden korunmanın en güvenli yolları.",
+                        tag: "Oyun Güvenliği",
+                        duration: "3:40"
+                      }
+                    ].map((video, idx) => (
+                      <Card key={idx} className="border-slate-200 bg-white hover:border-slate-350 hover:shadow-lg transition shadow-md overflow-hidden flex flex-col h-full justify-between">
+                        <div>
+                          {/* Video Custom Local Thumbnail */}
+                          <div className="w-full aspect-video bg-slate-950 border-b border-slate-200 overflow-hidden relative group flex items-center justify-center">
+                            <img 
+                              src={`/safety_hero.png`} 
+                              alt={video.title} 
+                              className="w-full h-full object-cover opacity-40 group-hover:scale-105 transition-all duration-300"
+                            />
+                            <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/20 transition-all duration-300" />
+                            {/* Glowing Play Icon Button overlay */}
+                            <button 
+                              onClick={() => {
+                                setPlayingVideo(idx);
+                                setVideoProgress(0);
+                                setVideoStep(1);
+                                setVideoPlaying(true);
+                                if (idx === 0) { setV1Stage('config'); setV1ScreenTime(2); setV1Apps({ tiktok: 'engelli', instagram: 'engelli', minecraft: 'izinli' }); setV1Bedtime('21:30'); }
+                                if (idx === 1) setV2Status('initial');
+                                if (idx === 2) setV3Status('initial');
+                              }}
+                              className="absolute w-12 h-12 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center shadow-lg transition transform group-hover:scale-110 duration-200"
+                            >
+                              <PlayCircle className="h-7 w-7" />
+                            </button>
+                          </div>
+                          <div className="p-5">
+                            <div className="flex items-center justify-between gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                              <span className="rounded-full bg-indigo-50 border border-indigo-150 px-2 py-0.5 text-indigo-700">{video.tag}</span>
+                              <span className="flex items-center gap-1">
+                                <PlayCircle className="h-3.5 w-3.5 text-slate-400" />
+                                {video.duration}
+                              </span>
+                            </div>
+                            <h4 className="font-bold text-slate-900 leading-snug">{video.title}</h4>
+                            <p className="text-xs text-slate-500 leading-relaxed mt-2">{video.desc}</p>
+                          </div>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                </>
+              )}
             </motion.section>
           )}
 
