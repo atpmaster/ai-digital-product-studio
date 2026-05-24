@@ -98,6 +98,13 @@ const securityModules = [
       "Çocuğun zorbalığa maruz kaldığında neyi kaydedeceğini, kime söyleyeceğini ve ailenin hangi sırayla hareket edeceğini netleştirir.",
     deliverables: ["Kanıt toplama sayfası", "Okul görüşme notu", "Çocukla konuşma rehberi", "Acil durum akışı"],
     firstStep: "Zorbalık kanıtlarını ekran görüntüsü, tarih ve platform bilgisiyle saklayan tek sayfalık şablon hazırla.",
+    minTechLevel: "basic",
+    suggestedForWorkStyle: ["desk", "field", "flexible"],
+    stepsByTechLevel: {
+      basic: "Çocukla sakin bir konuşma yapın, ekran görüntüsü alın ve durumu okul rehberlik servisine bildirin.",
+      intermediate: "Uygulama içi şikayet mekanizmasını çalıştırın, zorbalık yapan hesabı engelleyin ve delilleri e-posta ile arşivleyin.",
+      advanced: "Zorba hesapların IP/meta-verilerini analiz edin, mesaj loglarını kriptografik zaman damgasıyla mühürleyip resmi bilişim suçları ihbar kanallarından bildirin."
+    }
   },
   {
     id: "digital-footprint",
@@ -117,6 +124,13 @@ const securityModules = [
       "Eski hesaplar, açık profiller, arama sonuçları, fotoğraf izinleri ve veri paylaşımı noktalarını sistemli şekilde azaltır.",
     deliverables: ["Hesap envanteri", "Silme talebi şablonları", "Profil gizlilik kontrolü", "30 günlük temizlik planı"],
     firstStep: "Çocuğun kullandığı uygulama, oyun, e-posta ve sosyal medya hesapları için görünürlük envanteri oluştur.",
+    minTechLevel: "intermediate",
+    suggestedForWorkStyle: ["desk", "flexible"],
+    stepsByTechLevel: {
+      basic: "Çocuğun kullandığı tarayıcı geçmişini temizleyin ve sosyal medya hesaplarını birlikte inceleyip eski fotoğrafları kaldırın.",
+      intermediate: "Google arama sonuçlarından ad-soyad temizleme formunu doldurun ve kullanılmayan eski oyun/web üyeliklerini silin.",
+      advanced: "Çocuğun adına açılmış sahte hesapları tespit etmek için otomatik OSINT (açık kaynak istihbaratı) araçları çalıştırın ve veri koruma kanunu (KVKK) kapsamında resmi silme talepleri gönderin."
+    }
   },
   {
     id: "family-link",
@@ -136,6 +150,13 @@ const securityModules = [
       "Google Family Link, ekran süresi, uygulama onayı, konum paylaşımı ve uyku saatleri gibi aile kurallarını tek çerçevede toplar.",
     deliverables: ["Kurulum kontrol listesi", "Ekran süresi anlaşması", "Uygulama onay kuralları", "Haftalık aile kontrolü"],
     firstStep: "Yaşa göre ekran süresi, uygulama indirme izni ve uyku saati sınırlarını tek aile kural sayfasında tanımla.",
+    minTechLevel: "intermediate",
+    suggestedForWorkStyle: ["field", "desk", "flexible"],
+    stepsByTechLevel: {
+      basic: "Cihazı geceleri ortak alanda şarj etme kuralı koyun ve ekran süresini saatle takip edin.",
+      intermediate: "Google Family Link veya Apple Aile Paylaşımı uygulamasını kurarak günlük ekran sınırı ve uygulama indirme onayı tanımlayın.",
+      advanced: "Cihazlarda özel DNS profilleri tanımlayarak uygulama mağazası dışı APK indirmelerini engelleyin ve MDM (Mobil Cihaz Yönetimi) profili oluşturun."
+    }
   },
   {
     id: "privacy",
@@ -155,6 +176,13 @@ const securityModules = [
       "Profil görünürlüğü, etiketleme, mesaj izinleri, arkadaş listesi ve fotoğraf paylaşımı risklerini aile diliyle anlatır.",
     deliverables: ["Gizlilik kontrol kartları", "Paylaşmadan önce soruları", "DM güvenlik kuralları", "Aile konuşma metni"],
     firstStep: "Instagram, TikTok ve oyun profilleri için görünürlük ve mesajlaşma ayarlarını tek kontrol listesine indir.",
+    minTechLevel: "basic",
+    suggestedForWorkStyle: ["desk", "flexible"],
+    stepsByTechLevel: {
+      basic: "Çocuğun sosyal medya hesaplarını gizli profile getirin ve sadece tanıdığı kişileri arkadaş olarak eklemesini sağlayın.",
+      intermediate: "Etiketleme, konum ekleme, mesaj alma ve yorum yapma izinlerini sadece çift taraflı takipçilere/arkadaşlara sınırlandırın.",
+      advanced: "Sosyal medya API'leri üzerinden veri sızıntılarını kontrol edin, iki aşamalı doğrulamayı (2FA) donanımsal güvenlik anahtarlarıyla (Yubikey) kurun."
+    }
   },
   {
     id: "gaming-chat",
@@ -174,6 +202,13 @@ const securityModules = [
       "Oyun içi sohbet, yabancılarla iletişim, hediye dolandırıcılığı ve özel bilgi paylaşımı için açık aile sınırları kurar.",
     deliverables: ["Oyun izin matrisi", "Yabancı mesaj kuralı", "Dolandırıcılık örnekleri", "Haftalık oyun kontrolü"],
     firstStep: "Çocuğun oynadığı oyunları sohbet, satın alma ve yabancı etkileşimi risklerine göre puanla.",
+    minTechLevel: "basic",
+    suggestedForWorkStyle: ["field", "flexible"],
+    stepsByTechLevel: {
+      basic: "Çocuğun oyun oynadığı odayı ortak yaşam alanı olarak seçin ve kulaklık yerine hoparlör kullanmasını isteyin.",
+      intermediate: "Roblox, Discord ve Steam gibi platformlarda sesli/yazılı sohbeti kapatın veya sadece onaylı arkadaşlarla sınırlandırın.",
+      advanced: "Discord web-hook'ları veya ağ paket analizörleri kullanarak çocuğun oyun içi sohbetlerde maruz kaldığı bağlantıları ve dosyaları filtreleyin."
+    }
   },
   {
     id: "incident-response",
@@ -193,13 +228,46 @@ const securityModules = [
       "Şantaj, tehdit, hesap ele geçirme, uygunsuz görüntü paylaşımı veya yoğun zorbalık anında ailenin ilk 24 saatini düzenler.",
     deliverables: ["İlk 24 saat akışı", "Şifre yenileme listesi", "Bildirim kanalları", "Duygusal destek notları"],
     firstStep: "Acil durumda kapatılacak hesaplar, aranacak kişiler ve saklanacak kanıtları tek sayfada topla.",
+    minTechLevel: "basic",
+    suggestedForWorkStyle: ["desk", "field", "flexible"],
+    stepsByTechLevel: {
+      basic: "İnternet bağlantısını kesin, çocuğa güvende olduğunu hissettirin ve durumu okul rehberlik öğretmeni ile paylaşın.",
+      intermediate: "Siber suçlar ihbar hattına bildirim yapın ve ele geçirilen hesapların şifre sıfırlama akışlarını başlatın.",
+      advanced: "Etkilenen cihazlarda RAM imajı ve ağ trafik loglarını (PCAP) yedekleyin, adli bilişim analizi için disk imajını güvenli bir yere kopyalayın."
+    }
   },
+  {
+    id: "network-filter",
+    title: "Ev Tipi Ağ Filtreleme (NextDNS / Pi-hole)",
+    shortTitle: "Ağ filtreleme",
+    icon: LockKeyhole,
+    age: "Tüm yaşlar",
+    priority: "Öncelik",
+    score: 89,
+    effort: "1 gün",
+    format: "Kurulum rehberi",
+    channel: "Modem ayarı",
+    accent: "bg-indigo-50 text-indigo-700 ring-indigo-200",
+    iconAccent: "bg-indigo-600 text-white",
+    chart: "bg-indigo-500",
+    summary: "Evdeki tüm cihazların internet trafiğini modem seviyesinde süzerek reklamları, takipçileri ve zararlı içerikleri otomatik engeller.",
+    deliverables: ["NextDNS profil şablonu", "Pi-hole Raspberry Pi kurulum rehberi", "Ortak blocklist listesi", "Ebeveyn kontrol DNS profili"],
+    firstStep: "NextDNS üzerinde ücretsiz hesap oluşturup ev ağınız için ebeveyn koruma filtresi tanımlayın.",
+    minTechLevel: "advanced",
+    suggestedForWorkStyle: ["desk"],
+    stepsByTechLevel: {
+      basic: "İnternet sağlayıcınızın (TTNET, Turkcell vb.) ücretsiz sunduğu Güvenli İnternet Aile Profilini aktif edin.",
+      intermediate: "Evdeki modemin arayüzüne girerek DNS adreslerini temiz ve güvenli DNS servisleri (Cloudflare Aile DNS veya AdGuard DNS) ile değiştirin.",
+      advanced: "Ev ağınız için Pi-hole sunucusu kurun veya NextDNS profilini modeminize DoT/DoH (DNS over TLS/HTTPS) protokolüyle entegre edin."
+    }
+  }
 ];
 
 const ageFilters = ["Tüm yaşlar", "6-12", "8-14", "10-16", "13-16"];
 const priorityFilters = ["Tümü", "Acil", "Öncelik", "Rutin", "Rehber"];
 
 const sortOptions = [
+  { key: "dynamicScore", label: "Profil eşleşme skoru" },
   { key: "score", label: "Risk önceliği" },
   { key: "effortValue", label: "En hızlı üretim" },
   { key: "ageValue", label: "Yaş grubu" },
@@ -428,14 +496,71 @@ export default function FamilyDigitalSafetyDashboard() {
   const [query, setQuery] = useState("");
   const [ageFilter, setAgeFilter] = useState("Tüm yaşlar");
   const [priorityFilter, setPriorityFilter] = useState("Tümü");
-  const [sortKey, setSortKey] = useState("score");
+  const [sortKey, setSortKey] = useState("dynamicScore");
   const [completedTasks, setCompletedTasks] = useState(["scope"]);
   const [activeAgeGroup, setActiveAgeGroup] = useState("12-14");
+
+  // YENİ EBEVEYN PROFİL DURUM DEĞİŞKENLERİ
+  const [profileAges, setProfileAges] = useState(["12-14"]);
+  const [profileTechLevel, setProfileTechLevel] = useState("intermediate");
+  const [profileWorkStyle, setProfileWorkStyle] = useState("desk");
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  // Yaş aralığı çakışma kontrolü yardımcısı
+  const isAgeRangeOverlapping = (ageRangeStr, selectedRanges) => {
+    if (ageRangeStr === "Tüm yaşlar") return true;
+    return selectedRanges.some(selectedRange => {
+      const [sStart, sEnd] = selectedRange.split("-").map(Number);
+      const [mStart, mEnd] = ageRangeStr.split("-").map(Number);
+      return (sStart <= mEnd && sEnd >= mStart);
+    });
+  };
+
+  // Dinamik Eşleştirme Motoru: Modülleri ebeveyn profiline göre yeniden puanla ve aksiyonları belirle
+  const personalizedModules = useMemo(() => {
+    return securityModules.map(module => {
+      let personalizationScore = module.score;
+
+      // 1. Yazılım / Teknoloji Seviyesi Faktörü
+      if (profileTechLevel === "basic") {
+        if (module.minTechLevel === "advanced") personalizationScore -= 40;
+        else if (module.minTechLevel === "intermediate") personalizationScore -= 15;
+      } else if (profileTechLevel === "intermediate") {
+        if (module.minTechLevel === "advanced") personalizationScore -= 20;
+      } else if (profileTechLevel === "advanced") {
+        if (module.minTechLevel === "advanced") personalizationScore += 15;
+      }
+
+      // 2. Meslek / Çalışma Düzeni Faktörü
+      if (module.suggestedForWorkStyle && module.suggestedForWorkStyle.includes(profileWorkStyle)) {
+        personalizationScore += 10;
+      } else {
+        personalizationScore -= 5;
+      }
+
+      // 3. Çocuk Yaş Grubu Faktörü
+      const ageMatches = isAgeRangeOverlapping(module.age, profileAges);
+      if (ageMatches) {
+        personalizationScore += 15;
+      } else {
+        personalizationScore -= 30;
+      }
+
+      const dynamicScore = Math.min(100, Math.max(10, personalizationScore));
+      const activeStep = module.stepsByTechLevel?.[profileTechLevel] || module.firstStep;
+
+      return {
+        ...module,
+        dynamicScore,
+        activeStep
+      };
+    });
+  }, [profileAges, profileTechLevel, profileWorkStyle]);
 
   const visibleModules = useMemo(() => {
     const normalizedQuery = normalizeSearchText(query.trim());
 
-    return securityModules
+    return personalizedModules
       .filter((module) => ageFilter === "Tüm yaşlar" || module.age === ageFilter || module.age === "Tüm yaşlar")
       .filter((module) => priorityFilter === "Tümü" || module.priority === priorityFilter)
       .filter((module) => {
@@ -446,22 +571,38 @@ export default function FamilyDigitalSafetyDashboard() {
       .sort((a, b) => {
         if (sortKey === "effortValue") return getEffortValue(a.effort) - getEffortValue(b.effort);
         if (sortKey === "ageValue") return getAgeValue(a.age) - getAgeValue(b.age);
-        return b.score - a.score;
+        if (sortKey === "score") return b.score - a.score;
+        return b.dynamicScore - a.dynamicScore;
       });
-  }, [ageFilter, priorityFilter, query, sortKey]);
+  }, [personalizedModules, ageFilter, priorityFilter, query, sortKey]);
 
   const selectedModule = useMemo(
     () =>
       visibleModules.find((module) => module.id === selectedModuleId) ||
-      securityModules.find((module) => module.id === selectedModuleId) ||
+      personalizedModules.find((module) => module.id === selectedModuleId) ||
       visibleModules[0] ||
-      securityModules[0],
-    [selectedModuleId, visibleModules]
+      personalizedModules[0],
+    [selectedModuleId, visibleModules, personalizedModules]
   );
 
   const completedCount = completedTasks.length;
   const completionRate = Math.round((completedCount / sprintTasks.length) * 100);
-  const topModule = securityModules.reduce((best, module) => (module.score > best.score ? module : best), securityModules[0]);
+
+  // Profil puanlamasına göre dinamik olarak en iyi 3 modülü belirleme (Metriklerde göstermek için)
+  const topModule = useMemo(() => {
+    return personalizedModules.reduce((best, module) => (module.dynamicScore > best.dynamicScore ? module : best), personalizedModules[0]);
+  }, [personalizedModules]);
+
+  const secondModule = useMemo(() => {
+    const sorted = [...personalizedModules].sort((a, b) => b.dynamicScore - a.dynamicScore);
+    return sorted[1] || sorted[0];
+  }, [personalizedModules]);
+
+  const thirdModule = useMemo(() => {
+    const sorted = [...personalizedModules].sort((a, b) => b.dynamicScore - a.dynamicScore);
+    return sorted[2] || sorted[0];
+  }, [personalizedModules]);
+
   const selectedAgePath =
     ageContentRoadmaps.find((item) => item.id === activeAgeGroup) || ageContentRoadmaps[0];
 
@@ -567,12 +708,156 @@ export default function FamilyDigitalSafetyDashboard() {
         </aside>
 
         <main className="min-w-0 px-4 py-6 sm:px-6 lg:px-8">
+          {/* AKILLI EBEYEN PROFİL SİHİRBAZI */}
+          <Card className="mb-6 border-slate-200 bg-white shadow-sm overflow-hidden">
+            <CardContent className="p-5">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-950 text-white">
+                    <Sparkles className="h-5 w-5 text-amber-400 animate-pulse" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-slate-950">Akıllı Aile Profilleme & Öneri Motoru</h3>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      Profilinizi mesleğinize, yazılım bilginize ve çocuklarınızın yaşlarına göre özelleştirerek kişiselleştirilmiş güvenlik adımları edinin.
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  variant={isProfileOpen ? "outline" : "default"}
+                  size="sm"
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="text-xs font-semibold"
+                >
+                  <Filter className="h-3.5 w-3.5" />
+                  {isProfileOpen ? "Profili Kapat" : "Profil Ayarlarını Düzenle"}
+                </Button>
+              </div>
+
+              {/* Collapsible Form */}
+              {isProfileOpen && (
+                <div className="mt-5 border-t border-slate-100 pt-5 grid gap-5 md:grid-cols-3">
+                  {/* Yaş Grupları */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Çocukların Yaş Grupları</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {["3-5", "6-8", "9-11", "12-14", "15-17"].map((age) => {
+                        const checked = profileAges.includes(age);
+                        return (
+                          <button
+                            key={age}
+                            type="button"
+                            onClick={() => {
+                              setProfileAges((prev) =>
+                                prev.includes(age)
+                                  ? prev.length > 1
+                                    ? prev.filter((a) => a !== age)
+                                    : prev
+                                  : [...prev, age]
+                              );
+                            }}
+                            className={cx(
+                              "flex h-9 items-center justify-center rounded-lg border text-xs font-semibold transition",
+                              checked
+                                ? "border-slate-950 bg-slate-950 text-white"
+                                : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                            )}
+                          >
+                            {age} Yaş
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Ebeveyn Teknoloji Düzeyi */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Ebeveyn Teknoloji Düzeyi</label>
+                    <div className="flex flex-col gap-2">
+                      {[
+                        { key: "basic", label: "Başlangıç / Temel", desc: "Fiziksel kurallar ve basılı rehberler" },
+                        { key: "intermediate", label: "Orta Düzey", desc: "Uygulama kurulumları ve hesap gizlilikleri" },
+                        { key: "advanced", label: "İleri / Teknik", desc: "Ağ filtreleme (DNS/Modem), Pi-hole vb." }
+                      ].map((level) => {
+                        const active = profileTechLevel === level.key;
+                        return (
+                          <button
+                            key={level.key}
+                            type="button"
+                            onClick={() => setProfileTechLevel(level.key)}
+                            className={cx(
+                              "w-full flex flex-col items-start p-2.5 rounded-lg border text-left transition",
+                              active
+                                ? "border-slate-950 bg-slate-50 ring-1 ring-slate-950"
+                                : "border-slate-200 bg-white hover:bg-slate-50"
+                            )}
+                          >
+                            <span className="text-xs font-semibold text-slate-950">{level.label}</span>
+                            <span className="text-[10px] text-slate-500 mt-0.5">{level.desc}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Çalışma Düzeni / Meslek */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Çalışma Düzeni / Meslek</label>
+                    <div className="flex flex-col gap-2">
+                      {[
+                        { key: "desk", label: "Masa Başı / Uzaktan Çalışan", desc: "PC başı. Tarayıcı eklentileri & anlık loglar" },
+                        { key: "field", label: "Saha / Mobil Yoğun", desc: "Dışarıda aktif. Otomatik kilitler & SMS bildirimleri" },
+                        { key: "flexible", label: "Esnek / Ev Odaklı", desc: "Esnek zamanlı. Aile toplantıları & basılı panolar" }
+                      ].map((style) => {
+                        const active = profileWorkStyle === style.key;
+                        return (
+                          <button
+                            key={style.key}
+                            type="button"
+                            onClick={() => setProfileWorkStyle(style.key)}
+                            className={cx(
+                              "w-full flex flex-col items-start p-2.5 rounded-lg border text-left transition",
+                              active
+                                ? "border-slate-950 bg-slate-50 ring-1 ring-slate-950"
+                                : "border-slate-200 bg-white hover:bg-slate-50"
+                            )}
+                          >
+                            <span className="text-xs font-semibold text-slate-950">{style.label}</span>
+                            <span className="text-[10px] text-slate-500 mt-0.5">{style.desc}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Aktif Profil Hapları */}
+              <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-xs">
+                <span className="text-slate-500 py-1 font-medium">Aktif Filtreler:</span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-50 border border-slate-200 px-2.5 py-1 font-semibold text-slate-800">
+                  <Users className="h-3 w-3 text-slate-500" />
+                  {profileAges.join(", ")} Yaş
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-50 border border-slate-200 px-2.5 py-1 font-semibold text-slate-800">
+                  <LockKeyhole className="h-3 w-3 text-slate-500" />
+                  {profileTechLevel === "basic" ? "Temel Ebeveyn" : profileTechLevel === "intermediate" ? "Orta Ebeveyn" : "Teknik Ebeveyn"}
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-50 border border-slate-200 px-2.5 py-1 font-semibold text-slate-800">
+                  <Smartphone className="h-3 w-3 text-slate-500" />
+                  {profileWorkStyle === "desk" ? "Masa Başı" : profileWorkStyle === "field" ? "Saha / Mobil" : "Esnek / Ev"}
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* DİNAMİK METRİKLER */}
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-            <MetricTile icon={ShieldAlert} label="Öncelikli risk" value="Siber zorbalık" note="İlk müdahale paketi" tone="bg-rose-50 text-rose-700" />
-            <MetricTile icon={Fingerprint} label="Ana dönüşüm" value="Ayak izi temizliği" note="30 günlük aile planı" tone="bg-cyan-50 text-cyan-700" />
-            <MetricTile icon={Smartphone} label="Cihaz güvenliği" value="Family Link" note="Kurallar ve haftalık kontrol" tone="bg-emerald-50 text-emerald-700" />
-            <MetricTile icon={Users} label="Yaş içerikleri" value="5 grup" note="3-17 yaş arası yol haritası" tone="bg-violet-50 text-violet-700" />
-            <MetricTile icon={Clock3} label="Sprint" value={`${completionRate}%`} note={`${completedCount}/${sprintTasks.length} görev tamamlandı`} tone="bg-amber-50 text-amber-800" />
+            <MetricTile icon={topModule.icon} label="1. Öncelikli Risk" value={topModule.shortTitle} note="Profilinize göre en acil" tone={topModule.accent} />
+            <MetricTile icon={secondModule.icon} label="2. Öncelikli Risk" value={secondModule.shortTitle} note="Profil uyumuna göre ikinci" tone={secondModule.accent} />
+            <MetricTile icon={thirdModule.icon} label="3. Öncelikli Risk" value={thirdModule.shortTitle} note="Profil uyumuna göre üçüncü" tone={thirdModule.accent} />
+            <MetricTile icon={Users} label="Aktif Çocuklar" value={`${profileAges.length} Yaş Grubu`} note={profileAges.join(", ") + " yaş odaklı"} tone="bg-violet-50 text-violet-700" />
+            <MetricTile icon={Clock3} label="Sprint İlerlemesi" value={`${completionRate}%`} note={`${completedCount}/${sprintTasks.length} görev tamamlandı`} tone="bg-amber-50 text-amber-800" />
           </div>
 
           {activeTab === "overview" && (
@@ -595,7 +880,7 @@ export default function FamilyDigitalSafetyDashboard() {
                     </div>
 
                     <div className="mt-5 grid gap-3 lg:grid-cols-2">
-                      {securityModules.slice(0, 4).map((module) => (
+                      {personalizedModules.slice(0, 4).map((module) => (
                         <ModuleCard
                           key={module.id}
                           module={module}
@@ -652,13 +937,19 @@ export default function FamilyDigitalSafetyDashboard() {
                       </div>
                       <PriorityBadge priority={topModule.priority} />
                     </div>
-                    <p className="mt-4 text-sm leading-6 text-slate-600">{topModule.firstStep}</p>
+                    <div className="flex items-center gap-2 mt-4">
+                      <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Profilinize Özel İlk Adım</p>
+                      <span className="rounded-full bg-slate-100 border border-slate-200 text-[8px] text-slate-700 px-1.5 py-0.5 font-semibold uppercase">
+                        {profileTechLevel === "basic" ? "Temel" : profileTechLevel === "intermediate" ? "Orta" : "İleri"}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">{topModule.activeStep}</p>
                     <div className="mt-5 space-y-3">
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-slate-500">Risk önceliği</span>
-                        <span className="font-semibold">{topModule.score}/100</span>
+                        <span className="text-slate-500">Profil Eşleşme Skoru</span>
+                        <span className="font-semibold">{topModule.dynamicScore}/100</span>
                       </div>
-                      <ScoreBar score={topModule.score} className={topModule.chart} />
+                      <ScoreBar score={topModule.dynamicScore} className={topModule.chart} />
                     </div>
                     <Button className="mt-5 w-full" onClick={() => setActiveTab("path")}>
                       <ClipboardList className="h-4 w-4" />
@@ -818,10 +1109,17 @@ export default function FamilyDigitalSafetyDashboard() {
                   <div className="mt-5 space-y-4">
                     <div>
                       <div className="mb-2 flex items-center justify-between text-sm">
-                        <span className="text-slate-500">Risk önceliği</span>
+                        <span className="text-slate-500">Profil Eşleşme Skoru</span>
+                        <span className="font-semibold text-slate-950">{selectedModule.dynamicScore}%</span>
+                      </div>
+                      <ScoreBar score={selectedModule.dynamicScore} className={selectedModule.chart} />
+                    </div>
+                    <div>
+                      <div className="mb-2 flex items-center justify-between text-sm">
+                        <span className="text-slate-500">Genel Risk Önceliği</span>
                         <span className="font-semibold text-slate-950">{selectedModule.score}%</span>
                       </div>
-                      <ScoreBar score={selectedModule.score} className={selectedModule.chart} />
+                      <ScoreBar score={selectedModule.score} className="bg-slate-200" />
                     </div>
                   </div>
 
@@ -857,8 +1155,13 @@ export default function FamilyDigitalSafetyDashboard() {
                   </div>
 
                   <div className="mt-6 border-t border-slate-200 pt-5">
-                    <p className="text-sm font-semibold text-slate-950">İlk aksiyon</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{selectedModule.firstStep}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-semibold text-slate-950">Profilinize Özel İlk Aksiyon</p>
+                      <span className="rounded-full bg-slate-950 text-[10px] text-white px-2 py-0.5 font-bold uppercase tracking-wider">
+                        {profileTechLevel === "basic" ? "Temel" : profileTechLevel === "intermediate" ? "Orta" : "İleri"}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">{selectedModule.activeStep}</p>
                   </div>
 
                   <Button className="mt-6 w-full" onClick={() => setActiveTab("plan")}>
