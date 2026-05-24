@@ -1170,34 +1170,46 @@ export default function FamilyDigitalSafetyDashboard() {
           {activeTab === "overview" && (
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_390px]">
               <section className="space-y-6">
-                <Card>
-                  <CardContent className="p-5 sm:p-6">
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <Card className="overflow-hidden bg-gradient-to-br from-white to-indigo-50/20">
+                  <CardContent className="p-0">
+                    <div className="grid gap-6 md:grid-cols-[1fr_240px] p-5 sm:p-6 items-center">
                       <div>
-                        <p className="text-sm font-medium text-slate-500">Ürün yolu</p>
-                        <h2 className="mt-1 text-2xl font-semibold">Aileler için dijital güvenlik operasyon sistemi</h2>
-                        <p className="mt-3 max-w-3xl leading-7 text-slate-600">
-                          Tek odak; çocukların dijital dünyada zorbalık, mahremiyet, ekran süresi, oyun içi sohbet ve iz bırakma risklerine karşı korunması.
+                        <p className="text-sm font-medium text-indigo-600">Ürün Yolu & Vizyonu</p>
+                        <h2 className="mt-1 text-2xl font-bold text-slate-900">Aileler İçin Dijital Güvenlik Operasyon Sistemi</h2>
+                        <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                          Tek odak; çocukların siber zorbalık, dijital mahremiyet ihlalleri, ekran bağımlılığı, oyun içi sohbet dolandırıcılıkları ve kalıcı dijital ayak izleri gibi risklere karşı 360 derece korunması ve bilinçlendirilmesidir.
                         </p>
+                        <div className="mt-4 flex gap-2">
+                          <Button variant="outline" onClick={() => setActiveTab("path")} className="text-xs h-8">
+                            <BarChart3 className="h-3.5 w-3.5" />
+                            Tüm Modülleri Gör
+                          </Button>
+                        </div>
                       </div>
-                      <Button variant="subtle" onClick={() => setActiveTab("path")}>
-                        <BarChart3 className="h-4 w-4" />
-                        Modüller
-                      </Button>
+                      <div className="hidden md:block">
+                        <img 
+                          src="/safety_hero.png" 
+                          alt="Aile Siber Güvenlik" 
+                          className="w-full h-auto rounded-xl object-cover shadow-md border border-white"
+                        />
+                      </div>
                     </div>
 
-                    <div className="mt-5 grid gap-3 lg:grid-cols-2">
-                      {personalizedModules.slice(0, 4).map((module) => (
-                        <ModuleCard
-                          key={module.id}
-                          module={module}
-                          active={selectedModule.id === module.id}
-                          onClick={() => {
-                            setSelectedModuleId(module.id);
-                            setActiveTab("path");
-                          }}
-                        />
-                      ))}
+                    <div className="p-5 sm:p-6 border-t border-slate-100 bg-slate-50/50">
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">En Popüler Güvenlik Modülleri</p>
+                      <div className="grid gap-3 lg:grid-cols-2">
+                        {personalizedModules.slice(0, 4).map((module) => (
+                          <ModuleCard
+                            key={module.id}
+                            module={module}
+                            active={selectedModule.id === module.id}
+                            onClick={() => {
+                              setSelectedModuleId(module.id);
+                              setActiveTab("path");
+                            }}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -1617,68 +1629,94 @@ export default function FamilyDigitalSafetyDashboard() {
             <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6">
               {/* QUIZ SEÇİMİ EKRANI */}
               {!activeQuiz && (
-                <div className="grid gap-6 md:grid-cols-2">
-                  {/* Ebeveyn Testi Kartı */}
-                  <Card className="border-slate-200 bg-white hover:border-slate-300 transition overflow-hidden">
-                    <CardContent className="p-6 flex flex-col justify-between h-full min-h-[320px]">
-                      <div>
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-950 text-white mb-5 shadow-md">
-                          <Users className="h-6 w-6" />
+                <div className="space-y-6">
+                  {/* Quiz Giriş Bannerı */}
+                  <Card className="overflow-hidden border-slate-200 bg-gradient-to-br from-slate-900 to-indigo-950 text-white shadow-lg">
+                    <CardContent className="p-0">
+                      <div className="grid gap-6 md:grid-cols-[1fr_200px] p-6 items-center">
+                        <div>
+                          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/20 text-indigo-400 mb-3 border border-indigo-500/30">
+                            <GraduationCap className="h-5 w-5" />
+                          </div>
+                          <h3 className="text-xl font-bold text-white">Siber Güvenlik Farkındalık Akademisi</h3>
+                          <p className="text-xs leading-relaxed text-indigo-200 mt-2">
+                            Hem çocukların hem de ebeveynlerin dijital dünyada karşılaştığı siber tehditleri (siber zorbalık, oyun dolandırıcılıkları, hesap çalma tuzakları) ne düzeyde tanıdığını ve önlediğini ölçen zenginleştirilmiş testler.
+                          </p>
                         </div>
-                        <h2 className="text-xl font-bold text-slate-950">Ebeveyn Dijital Farkındalık Testi</h2>
-                        <p className="mt-3 text-sm leading-6 text-slate-600">
-                          Çocuklarımızın maruz kalabileceği siber zorbalık belirtilerini tanıma, cihaz denetimlerini doğru kurma ve kriz anında sergilenmesi gereken ebeveyn reflekslerini ölçen 5 senaryolu farkındalık testi.
-                        </p>
-                      </div>
-                      <div className="mt-6">
-                        <Button 
-                          className="w-full flex items-center justify-center gap-2"
-                          onClick={() => {
-                            setActiveQuiz("parent");
-                            setCurrentQuestionIndex(0);
-                            setSelectedAnswer(null);
-                            setIsAnswerSubmitted(false);
-                            setQuizScore(0);
-                            setQuizCompleted(false);
-                          }}
-                        >
-                          <GraduationCap className="h-4 w-4" />
-                          Testi Başlat (Ebeveyn)
-                        </Button>
+                        <div className="hidden md:block">
+                          <img 
+                            src="/safety_hero.png" 
+                            alt="Bilinç Akademisi" 
+                            className="w-full h-auto rounded-lg object-cover shadow border border-white/10"
+                          />
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
 
-                  {/* Çocuk Testi Kartı */}
-                  <Card className="border-slate-200 bg-white hover:border-slate-300 transition overflow-hidden">
-                    <CardContent className="p-6 flex flex-col justify-between h-full min-h-[320px]">
-                      <div>
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600 text-white mb-5 shadow-md">
-                          <Gamepad2 className="h-6 w-6" />
+                  <div className="grid gap-6 md:grid-cols-2">
+                    {/* Ebeveyn Testi Kartı */}
+                    <Card className="border-slate-200 bg-white hover:border-slate-300 transition overflow-hidden">
+                      <CardContent className="p-6 flex flex-col justify-between h-full min-h-[320px]">
+                        <div>
+                          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-950 text-white mb-5 shadow-md">
+                            <Users className="h-6 w-6" />
+                          </div>
+                          <h2 className="text-xl font-bold text-slate-950">Ebeveyn Dijital Farkındalık Testi</h2>
+                          <p className="mt-3 text-sm leading-6 text-slate-600">
+                            Çocuklarımızın maruz kalabileceği siber zorbalık belirtilerini tanıma, cihaz denetimlerini doğru kurma ve kriz anında sergilenmesi gereken ebeveyn reflekslerini ölçen 5 senaryolu farkındalık testi.
+                          </p>
                         </div>
-                        <h2 className="text-xl font-bold text-slate-950">Siber Süper Kahraman Testi (Çocuk)</h2>
-                        <p className="mt-3 text-sm leading-6 text-slate-600">
-                          İnternet dünyasında ve çevrimiçi oyunlarda şifre güvenliği, yabancı mesajlara yaklaşım, siber zorbalıkla baş etme ve zararlı linkleri ayırt edebilme becerisini ölçen eğlenceli ve çocuk dostu siber kahraman testi.
-                        </p>
-                      </div>
-                      <div className="mt-6">
-                        <Button 
-                          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white flex items-center justify-center gap-2"
-                          onClick={() => {
-                            setActiveQuiz("child");
-                            setCurrentQuestionIndex(0);
-                            setSelectedAnswer(null);
-                            setIsAnswerSubmitted(false);
-                            setQuizScore(0);
-                            setQuizCompleted(false);
-                          }}
-                        >
-                          <Rocket className="h-4 w-4" />
-                          Kahramanlık Testini Başlat
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
+                        <div className="mt-6">
+                          <Button 
+                            className="w-full flex items-center justify-center gap-2"
+                            onClick={() => {
+                              setActiveQuiz("parent");
+                              setCurrentQuestionIndex(0);
+                              setSelectedAnswer(null);
+                              setIsAnswerSubmitted(false);
+                              setQuizScore(0);
+                              setQuizCompleted(false);
+                            }}
+                          >
+                            <GraduationCap className="h-4 w-4" />
+                            Testi Başlat (Ebeveyn)
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Çocuk Testi Kartı */}
+                    <Card className="border-slate-200 bg-white hover:border-slate-300 transition overflow-hidden">
+                      <CardContent className="p-6 flex flex-col justify-between h-full min-h-[320px]">
+                        <div>
+                          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600 text-white mb-5 shadow-md">
+                            <Gamepad2 className="h-6 w-6" />
+                          </div>
+                          <h2 className="text-xl font-bold text-slate-950">Siber Süper Kahraman Testi (Çocuk)</h2>
+                          <p className="mt-3 text-sm leading-6 text-slate-600">
+                            İnternet dünyasında ve çevrimiçi oyunlarda şifre güvenliği, yabancı mesajlara yaklaşım, siber zorbalıkla baş etme ve zararlı linkleri ayırt edebilme becerisini ölçen eğlenceli ve çocuk dostu siber kahraman testi.
+                          </p>
+                        </div>
+                        <div className="mt-6">
+                          <Button 
+                            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white flex items-center justify-center gap-2"
+                            onClick={() => {
+                              setActiveQuiz("child");
+                              setCurrentQuestionIndex(0);
+                              setSelectedAnswer(null);
+                              setIsAnswerSubmitted(false);
+                              setQuizScore(0);
+                              setQuizCompleted(false);
+                            }}
+                          >
+                            <Rocket className="h-4 w-4" />
+                            Kahramanlık Testini Başlat
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
               )}
 
@@ -2039,10 +2077,19 @@ export default function FamilyDigitalSafetyDashboard() {
 
                       {/* Kılavuz Ana İçeriği */}
                       <div className="p-6 sm:p-8 space-y-8 print-pdf-layout">
-                        {/* Özet ve Giriş */}
-                        <div className="p-5 rounded-xl border border-slate-100 bg-slate-50">
-                          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">GENEL BAKIŞ</p>
-                          <p className="mt-1.5 text-sm leading-relaxed text-slate-700 font-medium">{guide.summary}</p>
+                        {/* Özet ve Giriş Görsel Destekli */}
+                        <div className="grid gap-6 md:grid-cols-[1fr_180px] items-center p-5 rounded-xl border border-slate-100 bg-slate-50/50">
+                          <div>
+                            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">GENEL BAKIŞ & REHBER VİZYONU</p>
+                            <p className="mt-2 text-sm leading-relaxed text-slate-700 font-semibold">{guide.summary}</p>
+                          </div>
+                          <div className="hidden md:block print-hide">
+                            <img 
+                              src={`/safety_${guide.age}.png`} 
+                              alt={guide.title} 
+                              className="w-full h-24 rounded-lg object-cover shadow border border-white"
+                            />
+                          </div>
                         </div>
 
                         {/* İki Sütunlu İçerik (Ebeveyn & Çocuk) */}
