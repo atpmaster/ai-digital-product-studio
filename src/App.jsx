@@ -1,31 +1,28 @@
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
+  AlertTriangle,
   ArrowRight,
-  ArrowUpDown,
   BarChart3,
-  BookOpen,
-  Bot,
-  CalendarCheck,
   CheckCircle2,
-  ChevronRight,
   ClipboardList,
   Clock3,
-  Euro,
   Filter,
+  Fingerprint,
+  Gamepad2,
   Globe2,
   LayoutDashboard,
   ListChecks,
-  Mail,
+  LockKeyhole,
+  MessageSquareWarning,
   Rocket,
   Search,
+  ShieldAlert,
   ShieldCheck,
+  Smartphone,
   Sparkles,
-  Store,
   Target,
-  TrendingUp,
   Users,
-  Video,
 } from "lucide-react";
 
 function cx(...classes) {
@@ -53,7 +50,7 @@ function Button({ className = "", variant = "default", size = "md", type = "butt
     default: "bg-slate-950 text-white hover:bg-slate-800",
     outline: "border border-slate-300 bg-white text-slate-950 hover:bg-slate-50",
     subtle: "bg-slate-100 text-slate-800 hover:bg-slate-200",
-    ghost: "text-slate-600 hover:bg-slate-100 hover:text-slate-950",
+    warning: "bg-amber-500 text-slate-950 hover:bg-amber-400",
   };
   const sizes = {
     sm: "h-8 gap-2 px-3 text-xs",
@@ -77,273 +74,190 @@ function Button({ className = "", variant = "default", size = "md", type = "butt
 
 const navigation = [
   { id: "overview", label: "Genel Bakış", shortLabel: "Genel", icon: LayoutDashboard },
-  { id: "validation", label: "Validasyon", shortLabel: "Validasyon", icon: BarChart3 },
-  { id: "sprint", label: "Sprint Planı", shortLabel: "Sprint", icon: ListChecks },
+  { id: "path", label: "Güvenlik Yolu", shortLabel: "Yol", icon: ShieldCheck },
+  { id: "plan", label: "Aile Planı", shortLabel: "Plan", icon: ListChecks },
 ];
 
-const productTracks = [
+const securityModules = [
   {
-    key: "math",
-    title: "Matematik + AI",
-    shortTitle: "Matematik",
-    icon: BookOpen,
-    score: 95,
-    mvpTime: "10 gün",
-    target: "Öğrenci, veli, öğretmen",
-    promise: "Hazır çalışma paketleri ve AI destekli kişiselleştirme.",
-    market: "Yüksek talep",
-    risk: "Orta rekabet",
+    id: "cyberbullying",
+    title: "Siber Zorbalık Müdahale Kiti",
+    shortTitle: "Siber zorbalık",
+    icon: MessageSquareWarning,
+    age: "10-16",
+    priority: "Acil",
+    score: 96,
+    effort: "3 gün",
+    format: "PDF + kontrol listesi",
+    channel: "Ebeveyn rehberi",
+    accent: "bg-rose-50 text-rose-700 ring-rose-200",
+    iconAccent: "bg-rose-600 text-white",
+    chart: "bg-rose-500",
+    summary:
+      "Çocuğun zorbalığa maruz kaldığında neyi kaydedeceğini, kime söyleyeceğini ve ailenin hangi sırayla hareket edeceğini netleştirir.",
+    deliverables: ["Kanıt toplama sayfası", "Okul görüşme notu", "Çocukla konuşma rehberi", "Acil durum akışı"],
+    firstStep: "Zorbalık kanıtlarını ekran görüntüsü, tarih ve platform bilgisiyle saklayan tek sayfalık şablon hazırla.",
+  },
+  {
+    id: "digital-footprint",
+    title: "Dijital Ayak İzini Temizleme Rehberi",
+    shortTitle: "Dijital ayak izi",
+    icon: Fingerprint,
+    age: "13-16",
+    priority: "Öncelik",
+    score: 91,
+    effort: "5 gün",
+    format: "Rehber + takip tablosu",
+    channel: "Mini kurs",
     accent: "bg-cyan-50 text-cyan-700 ring-cyan-200",
     iconAccent: "bg-cyan-600 text-white",
     chart: "bg-cyan-500",
-    formats: ["Workbook", "Worksheet", "PDF", "Prompt Pack"],
-    nextMove: "5. sınıf için tek konuya odaklanan 25 sayfalık çalışma paketi üret.",
+    summary:
+      "Eski hesaplar, açık profiller, arama sonuçları, fotoğraf izinleri ve veri paylaşımı noktalarını sistemli şekilde azaltır.",
+    deliverables: ["Hesap envanteri", "Silme talebi şablonları", "Profil gizlilik kontrolü", "30 günlük temizlik planı"],
+    firstStep: "Çocuğun kullandığı uygulama, oyun, e-posta ve sosyal medya hesapları için görünürlük envanteri oluştur.",
   },
   {
-    key: "parents",
-    title: "Ebeveyn + AI",
-    shortTitle: "Ebeveyn",
-    icon: Users,
-    score: 84,
-    mvpTime: "7 gün",
-    target: "Yoğun aileler",
-    promise: "Ev rutini, ekran süresi ve öğrenme aktiviteleri için pratik sistemler.",
-    market: "Güçlü niş",
-    risk: "Düşük teknik bariyer",
+    id: "family-link",
+    title: "Family Link ve Cihaz Kurulum Planı",
+    shortTitle: "Family Link",
+    icon: Smartphone,
+    age: "6-12",
+    priority: "Rutin",
+    score: 88,
+    effort: "2 gün",
+    format: "Kurulum checklist",
+    channel: "Printable",
     accent: "bg-emerald-50 text-emerald-700 ring-emerald-200",
     iconAccent: "bg-emerald-600 text-white",
     chart: "bg-emerald-500",
-    formats: ["Printable", "Planner", "Routine Kit", "PDF"],
-    nextMove: "7 günlük çocuk rutin planlayıcısı ve kısa ebeveyn rehberi hazırla.",
+    summary:
+      "Google Family Link, ekran süresi, uygulama onayı, konum paylaşımı ve uyku saatleri gibi aile kurallarını tek çerçevede toplar.",
+    deliverables: ["Kurulum kontrol listesi", "Ekran süresi anlaşması", "Uygulama onay kuralları", "Haftalık aile kontrolü"],
+    firstStep: "Yaşa göre ekran süresi, uygulama indirme izni ve uyku saati sınırlarını tek aile kural sayfasında tanımla.",
   },
   {
-    key: "ai",
-    title: "AI Verimlilik",
-    shortTitle: "AI Sistem",
-    icon: Bot,
-    score: 88,
-    mvpTime: "5 gün",
-    target: "Freelancer, öğretmen, küçük işletme",
-    promise: "Hazır prompt sistemleri ve tekrar kullanılabilir üretim şablonları.",
-    market: "Hızlı test",
-    risk: "Konumlandırma kritik",
+    id: "privacy",
+    title: "Sosyal Medya Gizlilik Kilidi",
+    shortTitle: "Gizlilik kilidi",
+    icon: LockKeyhole,
+    age: "10-16",
+    priority: "Öncelik",
+    score: 86,
+    effort: "4 gün",
+    format: "Adım adım rehber",
+    channel: "PDF paket",
     accent: "bg-violet-50 text-violet-700 ring-violet-200",
     iconAccent: "bg-violet-600 text-white",
     chart: "bg-violet-500",
-    formats: ["Prompt Pack", "Template", "Mini E-kitap", "Agent"],
-    nextMove: "Almanca küçük işletmeler için satış metni prompt paketini çıkar.",
+    summary:
+      "Profil görünürlüğü, etiketleme, mesaj izinleri, arkadaş listesi ve fotoğraf paylaşımı risklerini aile diliyle anlatır.",
+    deliverables: ["Gizlilik kontrol kartları", "Paylaşmadan önce soruları", "DM güvenlik kuralları", "Aile konuşma metni"],
+    firstStep: "Instagram, TikTok ve oyun profilleri için görünürlük ve mesajlaşma ayarlarını tek kontrol listesine indir.",
   },
   {
-    key: "cyber",
-    title: "Cybersecurity Başlangıç",
-    shortTitle: "Cyber",
-    icon: ShieldCheck,
-    score: 76,
-    mvpTime: "14 gün",
-    target: "IT kariyerine başlayanlar",
-    promise: "SOC analyst yol haritası, checklist ve AI destekli çalışma planı.",
-    market: "Uzun vadeli güven",
-    risk: "İlk satış daha yavaş",
+    id: "gaming-chat",
+    title: "Oyun ve Sohbet Güvenliği Planı",
+    shortTitle: "Oyun güvenliği",
+    icon: Gamepad2,
+    age: "8-14",
+    priority: "Rehber",
+    score: 82,
+    effort: "4 gün",
+    format: "Aile anlaşması",
+    channel: "Worksheet",
     accent: "bg-amber-50 text-amber-800 ring-amber-200",
     iconAccent: "bg-amber-500 text-white",
     chart: "bg-amber-500",
-    formats: ["Roadmap", "Checklist", "Prompt Kit", "Mini Course"],
-    nextMove: "Security+ sonrası 30 günlük SOC Analyst öğrenme planı oluştur.",
+    summary:
+      "Oyun içi sohbet, yabancılarla iletişim, hediye dolandırıcılığı ve özel bilgi paylaşımı için açık aile sınırları kurar.",
+    deliverables: ["Oyun izin matrisi", "Yabancı mesaj kuralı", "Dolandırıcılık örnekleri", "Haftalık oyun kontrolü"],
+    firstStep: "Çocuğun oynadığı oyunları sohbet, satın alma ve yabancı etkileşimi risklerine göre puanla.",
+  },
+  {
+    id: "incident-response",
+    title: "Acil Dijital Güvenlik Protokolü",
+    shortTitle: "Acil protokol",
+    icon: ShieldAlert,
+    age: "Tüm yaşlar",
+    priority: "Acil",
+    score: 94,
+    effort: "2 gün",
+    format: "Tek sayfa protokol",
+    channel: "Aile panosu",
+    accent: "bg-red-50 text-red-700 ring-red-200",
+    iconAccent: "bg-red-600 text-white",
+    chart: "bg-red-500",
+    summary:
+      "Şantaj, tehdit, hesap ele geçirme, uygunsuz görüntü paylaşımı veya yoğun zorbalık anında ailenin ilk 24 saatini düzenler.",
+    deliverables: ["İlk 24 saat akışı", "Şifre yenileme listesi", "Bildirim kanalları", "Duygusal destek notları"],
+    firstStep: "Acil durumda kapatılacak hesaplar, aranacak kişiler ve saklanacak kanıtları tek sayfada topla.",
   },
 ];
 
-const ideas = [
-  {
-    id: "math-workbook",
-    trackKey: "math",
-    product: "5. Sınıf Matematik Çalışma Paketi",
-    category: "Matematik + AI",
-    lang: "TR",
-    demand: 9,
-    competition: 5,
-    speed: 8,
-    revenue: 8,
-    score: 92,
-    platform: "Etsy",
-    status: "Öncelik",
-    price: "7-12€",
-    owner: "MVP",
-    week: "Bu hafta",
-    angle: "Velilerin evde hızlı pratik yaptırması için konu bazlı, çözümlü ve yazdırılabilir paket.",
-    firstStep: "Kesirler konusunda 20 soru, 5 mini test ve cevap anahtarı üret.",
-  },
-  {
-    id: "math-abitur",
-    trackKey: "math",
-    product: "Realschule Sınav Hazırlık PDF",
-    category: "Matematik + AI",
-    lang: "DE",
-    demand: 8,
-    competition: 6,
-    speed: 6,
-    revenue: 9,
-    score: 84,
-    platform: "Gumroad",
-    status: "Test",
-    price: "15-29€",
-    owner: "Araştırma",
-    week: "2. hafta",
-    angle: "Almanya'daki öğrenciler için sınav odaklı, kısa açıklamalı ve pratik ağırlıklı kaynak.",
-    firstStep: "En çok çıkan 5 konu ve arama hacmi için başlık listesi çıkar.",
-  },
-  {
-    id: "ai-teacher-prompts",
-    trackKey: "ai",
-    product: "Öğretmenler İçin AI Ders Planı Paketi",
-    category: "AI Verimlilik",
-    lang: "TR/DE",
-    demand: 8,
-    competition: 4,
-    speed: 9,
-    revenue: 7,
-    score: 87,
-    platform: "Gumroad",
-    status: "Hızlı MVP",
-    price: "9-19€",
-    owner: "MVP",
-    week: "Bu hafta",
-    angle: "Ders planı, çalışma kağıdı, değerlendirme ve veli mesajı için kopyala-kullan prompt sistemi.",
-    firstStep: "10 temel öğretmen iş akışını tek sayfalık prompt sistemine dönüştür.",
-  },
-  {
-    id: "ai-small-business",
-    trackKey: "ai",
-    product: "Almanca Küçük İşletme Prompt Seti",
-    category: "AI Verimlilik",
-    lang: "DE",
-    demand: 7,
-    competition: 4,
-    speed: 8,
-    revenue: 8,
-    score: 82,
-    platform: "Gumroad",
-    status: "Test",
-    price: "12-24€",
-    owner: "Validasyon",
-    week: "2. hafta",
-    angle: "Yerel işletmeler için teklif, sosyal medya, e-posta ve Google yorum cevap şablonları.",
-    firstStep: "Kuaför, restoran ve tamirci için 3 örnek kullanım senaryosu yaz.",
-  },
-  {
-    id: "kids-routine",
-    trackKey: "parents",
-    product: "Çocuk Rutin Planlayıcı Sistemi",
-    category: "Ebeveyn + AI",
-    lang: "TR/EN",
-    demand: 7,
-    competition: 6,
-    speed: 8,
-    revenue: 7,
-    score: 78,
-    platform: "Etsy",
-    status: "Test",
-    price: "5-9€",
-    owner: "Validasyon",
-    week: "Bu hafta",
-    angle: "Sabah, okul sonrası ve uyku rutini için ailelerin yazdırıp kullanacağı sade planlayıcı.",
-    firstStep: "3 rutin şablonu ve 20 davranış kartı taslağı hazırla.",
-  },
-  {
-    id: "screen-time",
-    trackKey: "parents",
-    product: "Ekran Süresi Anlaşma Kiti",
-    category: "Ebeveyn + AI",
-    lang: "TR",
-    demand: 8,
-    competition: 5,
-    speed: 7,
-    revenue: 7,
-    score: 80,
-    platform: "Etsy",
-    status: "Öncelik",
-    price: "6-10€",
-    owner: "MVP",
-    week: "2. hafta",
-    angle: "Çocukla çatışmadan ekran süresi sınırı koymak için anlaşma, takip ve ödül sistemi.",
-    firstStep: "Aile sözleşmesi, haftalık takip sayfası ve ödül fikirleri oluştur.",
-  },
-  {
-    id: "cyber-roadmap",
-    trackKey: "cyber",
-    product: "SOC Analyst Başlangıç Yol Haritası",
-    category: "Cybersecurity",
-    lang: "EN",
-    demand: 6,
-    competition: 7,
-    speed: 6,
-    revenue: 8,
-    score: 72,
-    platform: "Gumroad",
-    status: "Faz 2",
-    price: "19-39€",
-    owner: "Plan",
-    week: "4. hafta",
-    angle: "Security+ sonrası dağınık öğrenmeyi 30 günlük görev planına çeviren pratik rehber.",
-    firstStep: "Hafta hafta beceri listesi ve mini lab önerilerini çıkar.",
-  },
+const ageFilters = ["Tüm yaşlar", "6-12", "8-14", "10-16", "13-16"];
+const priorityFilters = ["Tümü", "Acil", "Öncelik", "Rutin", "Rehber"];
+
+const sortOptions = [
+  { key: "score", label: "Risk önceliği" },
+  { key: "effortValue", label: "En hızlı üretim" },
+  { key: "ageValue", label: "Yaş grubu" },
 ];
+
+const priorityStyles = {
+  Acil: "bg-red-100 text-red-800",
+  Öncelik: "bg-slate-950 text-white",
+  Rutin: "bg-emerald-100 text-emerald-800",
+  Rehber: "bg-amber-100 text-amber-900",
+};
 
 const channels = [
-  { name: "Etsy", icon: Store, role: "Printable ve workbook için hızlı pazar testi", priority: "Birincil", fit: 92 },
-  { name: "Gumroad", icon: Euro, role: "PDF, prompt pack ve mini ürün satışları", priority: "Birincil", fit: 88 },
-  { name: "Kendi Site", icon: Globe2, role: "Marka, blog, lead magnet ve e-posta listesi", priority: "Büyüme", fit: 74 },
-  { name: "YouTube", icon: Video, role: "No-face trafik ve otorite kanalı", priority: "Büyüme", fit: 69 },
-  { name: "E-posta", icon: Mail, role: "Tekrar satış ve ürün ailesi duyuruları", priority: "Sistem", fit: 81 },
+  { name: "PDF Rehber", icon: ClipboardList, role: "Ailelerin çıktı alıp takip edeceği ana ürün", fit: 94 },
+  { name: "Mini Kurs", icon: Globe2, role: "Ebeveynlere kısa video ve örnek senaryo anlatımı", fit: 83 },
+  { name: "Aile Kontrol Panosu", icon: Users, role: "Haftalık konuşma, kontrol ve aksiyon takibi", fit: 89 },
+  { name: "Acil Durum Kartı", icon: AlertTriangle, role: "Buzdolabı veya aile dosyasında tutulacak hızlı protokol", fit: 96 },
 ];
 
 const sprintTasks = [
-  { id: "niche", label: "Tek nişi seç", detail: "İlk MVP için tek hedef kitle ve tek problem." },
-  { id: "brief", label: "Ürün brief'i yaz", detail: "Fiyat, format, sonuç vaadi ve içerik bölümleri." },
-  { id: "sample", label: "Örnek sayfa üret", detail: "Satış sayfasında gösterilecek 3 gerçek ekran." },
-  { id: "listing", label: "Satış başlığı hazırla", detail: "Etsy/Gumroad için SEO uyumlu 5 başlık." },
-  { id: "publish", label: "Yayına al", detail: "Ürün dosyası, kapak görseli ve kısa açıklama." },
-  { id: "measure", label: "7 gün ölç", detail: "Görüntülenme, favori, tıklama ve satış sinyali." },
+  { id: "scope", label: "Tek ürün vaadini yaz", detail: "Ailelere çocuklarını dijital risklerden koruyan net sonuç cümlesi." },
+  { id: "map", label: "6 güvenlik modülünü sırala", detail: "Zorbalık, ayak izi, Family Link, gizlilik, oyun, acil protokol." },
+  { id: "template", label: "İlk kontrol listesini üret", detail: "Siber zorbalık kanıt toplama ve ilk 24 saat adımları." },
+  { id: "familylink", label: "Family Link sayfasını hazırla", detail: "Ekran süresi, uygulama izni ve uyku saati kuralları." },
+  { id: "footprint", label: "Dijital ayak izi envanteri", detail: "Eski hesaplar, açık profiller ve silme talepleri için takip tablosu." },
+  { id: "publish", label: "MVP paketini yayına al", detail: "PDF kapak, örnek sayfalar, satış açıklaması ve fiyat aralığı." },
 ];
 
-const phases = [
+const roadmap = [
   {
-    phase: "Faz 1",
+    phase: "1. Aşama",
     weeks: "1-2. hafta",
-    title: "Validasyon",
-    goal: "3 küçük ürün çıkarıp gerçek talep sinyali topla.",
-    tasks: ["1 Etsy printable", "1 Gumroad PDF", "1 prompt paketi", "Basit satış sayfası"],
+    title: "Koruma Temeli",
+    goal: "Aile kuralları, cihaz ayarları ve acil durum dilini netleştir.",
+    tasks: ["Family Link kurulumu", "Ekran süresi anlaşması", "Acil kişi listesi", "Kanıt toplama şablonu"],
   },
   {
-    phase: "Faz 2",
-    weeks: "3-6. hafta",
-    title: "Ürün Ailesi",
-    goal: "Kazanan fikri paket, seviye ve dil varyasyonlarıyla büyüt.",
-    tasks: ["Bundle paketi", "SEO başlıkları", "Pinterest pinleri", "E-posta listesi"],
+    phase: "2. Aşama",
+    weeks: "3-5. hafta",
+    title: "Risk Temizliği",
+    goal: "Dijital ayak izini azalt, sosyal medya ve oyun profillerini güvenli hale getir.",
+    tasks: ["Hesap envanteri", "Gizlilik kilidi", "Eski hesap silme", "Oyun sohbet kuralları"],
   },
   {
-    phase: "Faz 3",
-    weeks: "7-12. hafta",
-    title: "Otorite",
-    goal: "No-face içerik ve lead magnet ile sürekli trafik kur.",
-    tasks: ["YouTube içerikleri", "Lead magnet", "Mini kurs", "AI agent demo"],
+    phase: "3. Aşama",
+    weeks: "6-8. hafta",
+    title: "Aile Rutini",
+    goal: "Haftalık kontrol ve açık konuşma sistemiyle güvenliği sürdürülebilir yap.",
+    tasks: ["Haftalık aile toplantısı", "Risk senaryoları", "Güvenli paylaşım kartları", "Aylık ayar kontrolü"],
   },
 ];
 
-const statusFilters = ["Tümü", "Öncelik", "Hızlı MVP", "Test", "Faz 2"];
+function getEffortValue(effort) {
+  return Number.parseInt(effort, 10) || 10;
+}
 
-const sortOptions = [
-  { key: "score", label: "Öncelik skoru" },
-  { key: "speed", label: "Üretim hızı" },
-  { key: "revenue", label: "Gelir potansiyeli" },
-  { key: "demand", label: "Talep" },
-];
-
-const statusStyles = {
-  Öncelik: "bg-slate-950 text-white",
-  "Hızlı MVP": "bg-emerald-100 text-emerald-800",
-  Test: "bg-cyan-100 text-cyan-800",
-  "Faz 2": "bg-amber-100 text-amber-900",
-};
+function getAgeValue(age) {
+  return Number.parseInt(age, 10) || 99;
+}
 
 function ScoreBar({ score, className = "bg-slate-900" }) {
   return (
@@ -351,17 +265,17 @@ function ScoreBar({ score, className = "bg-slate-900" }) {
       <motion.div
         initial={{ width: 0 }}
         animate={{ width: `${score}%` }}
-        transition={{ duration: 0.55, ease: "easeOut" }}
+        transition={{ duration: 0.45, ease: "easeOut" }}
         className={cx("h-full rounded-full", className)}
       />
     </div>
   );
 }
 
-function StatusBadge({ status }) {
+function PriorityBadge({ priority }) {
   return (
-    <span className={cx("inline-flex rounded-full px-2.5 py-1 text-xs font-semibold", statusStyles[status] || "bg-slate-100 text-slate-700")}>
-      {status}
+    <span className={cx("inline-flex rounded-full px-2.5 py-1 text-xs font-semibold", priorityStyles[priority] || "bg-slate-100 text-slate-700")}>
+      {priority}
     </span>
   );
 }
@@ -375,7 +289,7 @@ function MetricTile({ icon: Icon, label, value, note, tone }) {
         </div>
         <div className="min-w-0">
           <p className="text-sm text-slate-500">{label}</p>
-          <p className="mt-1 text-2xl font-semibold tracking-tight text-slate-950">{value}</p>
+          <p className="mt-1 text-2xl font-semibold text-slate-950">{value}</p>
           <p className="mt-1 text-sm text-slate-500">{note}</p>
         </div>
       </CardContent>
@@ -383,8 +297,8 @@ function MetricTile({ icon: Icon, label, value, note, tone }) {
   );
 }
 
-function TrackButton({ track, active, onClick }) {
-  const Icon = track.icon;
+function ModuleCard({ module, active, onClick }) {
+  const Icon = module.icon;
 
   return (
     <button
@@ -397,17 +311,19 @@ function TrackButton({ track, active, onClick }) {
       )}
     >
       <div className="flex items-start gap-3">
-        <div className={cx("flex h-10 w-10 shrink-0 items-center justify-center rounded-lg", track.iconAccent)}>
+        <div className={cx("flex h-10 w-10 shrink-0 items-center justify-center rounded-lg", module.iconAccent)}>
           <Icon className="h-5 w-5" />
         </div>
         <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-3">
-            <p className="font-semibold text-slate-950">{track.title}</p>
-            <span className="text-sm font-semibold text-slate-700">{track.score}</span>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="font-semibold text-slate-950">{module.title}</p>
+              <p className="mt-1 text-sm leading-5 text-slate-500">{module.summary}</p>
+            </div>
+            <span className="text-sm font-semibold text-slate-700">{module.score}</span>
           </div>
-          <p className="mt-1 text-sm leading-5 text-slate-500">{track.promise}</p>
           <div className="mt-3">
-            <ScoreBar score={track.score} className={track.chart} />
+            <ScoreBar score={module.score} className={module.chart} />
           </div>
         </div>
       </div>
@@ -415,55 +331,45 @@ function TrackButton({ track, active, onClick }) {
   );
 }
 
-export default function AIDigitalProductStudioDashboard() {
+export default function FamilyDigitalSafetyDashboard() {
   const [activeTab, setActiveTab] = useState("overview");
-  const [activeTrack, setActiveTrack] = useState("math");
-  const [validationTrack, setValidationTrack] = useState("all");
+  const [selectedModuleId, setSelectedModuleId] = useState("cyberbullying");
   const [query, setQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("Tümü");
+  const [ageFilter, setAgeFilter] = useState("Tüm yaşlar");
+  const [priorityFilter, setPriorityFilter] = useState("Tümü");
   const [sortKey, setSortKey] = useState("score");
-  const [selectedIdeaId, setSelectedIdeaId] = useState("math-workbook");
-  const [completedTasks, setCompletedTasks] = useState(["niche"]);
+  const [completedTasks, setCompletedTasks] = useState(["scope"]);
 
-  const currentTrack = useMemo(
-    () => productTracks.find((track) => track.key === activeTrack) || productTracks[0],
-    [activeTrack]
-  );
-
-  const visibleIdeas = useMemo(() => {
+  const visibleModules = useMemo(() => {
     const normalizedQuery = normalizeSearchText(query.trim());
 
-    return ideas
-      .filter((idea) => validationTrack === "all" || idea.trackKey === validationTrack)
-      .filter((idea) => statusFilter === "Tümü" || idea.status === statusFilter)
-      .filter((idea) => {
+    return securityModules
+      .filter((module) => ageFilter === "Tüm yaşlar" || module.age === ageFilter || module.age === "Tüm yaşlar")
+      .filter((module) => priorityFilter === "Tümü" || module.priority === priorityFilter)
+      .filter((module) => {
         if (!normalizedQuery) return true;
-        const haystack = normalizeSearchText(`${idea.product} ${idea.category} ${idea.lang} ${idea.platform} ${idea.angle}`);
+        const haystack = normalizeSearchText(`${module.title} ${module.summary} ${module.deliverables.join(" ")} ${module.firstStep}`);
         return haystack.includes(normalizedQuery);
       })
-      .sort((a, b) => b[sortKey] - a[sortKey]);
-  }, [query, sortKey, statusFilter, validationTrack]);
+      .sort((a, b) => {
+        if (sortKey === "effortValue") return getEffortValue(a.effort) - getEffortValue(b.effort);
+        if (sortKey === "ageValue") return getAgeValue(a.age) - getAgeValue(b.age);
+        return b.score - a.score;
+      });
+  }, [ageFilter, priorityFilter, query, sortKey]);
 
-  const selectedIdea = useMemo(
+  const selectedModule = useMemo(
     () =>
-      visibleIdeas.find((idea) => idea.id === selectedIdeaId) ||
-      visibleIdeas[0] ||
-      ideas.find((idea) => idea.id === selectedIdeaId) ||
-      ideas[0],
-    [selectedIdeaId, visibleIdeas]
+      visibleModules.find((module) => module.id === selectedModuleId) ||
+      securityModules.find((module) => module.id === selectedModuleId) ||
+      visibleModules[0] ||
+      securityModules[0],
+    [selectedModuleId, visibleModules]
   );
 
   const completedCount = completedTasks.length;
   const completionRate = Math.round((completedCount / sprintTasks.length) * 100);
-  const trackIdeas = ideas.filter((idea) => idea.trackKey === activeTrack);
-  const bestIdea = trackIdeas.reduce((best, idea) => (idea.score > best.score ? idea : best), trackIdeas[0]);
-
-  function selectTrack(trackKey) {
-    const firstIdea = ideas.find((idea) => idea.trackKey === trackKey);
-    setActiveTrack(trackKey);
-    setValidationTrack(trackKey);
-    if (firstIdea) setSelectedIdeaId(firstIdea.id);
-  }
+  const topModule = securityModules.reduce((best, module) => (module.score > best.score ? module : best), securityModules[0]);
 
   function toggleTask(taskId) {
     setCompletedTasks((current) =>
@@ -477,22 +383,22 @@ export default function AIDigitalProductStudioDashboard() {
         <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-950 text-white">
-              <Sparkles className="h-5 w-5" />
+              <ShieldCheck className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm font-medium text-slate-500">AI Digital Product Studio</p>
-              <h1 className="text-xl font-semibold tracking-tight text-slate-950">Ürün karar ve validasyon paneli</h1>
+              <p className="text-sm font-medium text-slate-500">Aile Dijital Güvenlik Stüdyosu</p>
+              <h1 className="text-xl font-semibold text-slate-950">Çocuklar için güvenli dijital yaşam planı</h1>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <Button variant="outline" onClick={() => setActiveTab("validation")}>
+            <Button variant="outline" onClick={() => setActiveTab("path")}>
               <Target className="h-4 w-4" />
-              MVP seç
+              Güvenlik yolunu aç
             </Button>
-            <Button onClick={() => setActiveTab("sprint")}>
+            <Button onClick={() => setActiveTab("plan")}>
               <Rocket className="h-4 w-4" />
-              Sprinti aç
+              Aile planı
             </Button>
           </div>
         </div>
@@ -522,36 +428,38 @@ export default function AIDigitalProductStudioDashboard() {
           </div>
 
           <div className="mt-6 hidden lg:block">
-            <p className="mb-3 text-xs font-semibold uppercase text-slate-400">Odak alanları</p>
-            <div className="space-y-2">
-              {productTracks.map((track) => {
-                const Icon = track.icon;
-                return (
-                  <button
-                    key={track.key}
-                    type="button"
-                    onClick={() => selectTrack(track.key)}
-                    className={cx(
-                      "flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition",
-                      activeTrack === track.key ? "bg-slate-100 text-slate-950" : "text-slate-600 hover:bg-slate-50"
-                    )}
-                  >
-                    <span className="flex min-w-0 items-center gap-2">
-                      <Icon className="h-4 w-4 shrink-0" />
-                      <span className="truncate">{track.shortTitle}</span>
-                    </span>
-                    <span className="font-semibold">{track.score}</span>
-                  </button>
-                );
-              })}
+            <p className="mb-3 text-xs font-semibold uppercase text-slate-400">Tek odak</p>
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-rose-600 text-white">
+                  <Users className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="font-semibold">Aile ve çocuk güvenliği</p>
+                  <p className="text-sm text-slate-500">6 modüllü ürün yolu</p>
+                </div>
+              </div>
+              <div className="mt-4 space-y-2 text-sm text-slate-600">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                  Siber zorbalık müdahalesi
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                  Dijital ayak izi temizliği
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                  Family Link ve cihaz kuralları
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="mt-6 hidden rounded-lg border border-slate-200 bg-slate-50 p-4 lg:block">
-            <p className="text-sm font-semibold text-slate-950">Bu haftanın odağı</p>
-            <p className="mt-2 text-sm leading-6 text-slate-600">{bestIdea.product}</p>
+          <div className="mt-6 hidden rounded-lg border border-slate-200 bg-white p-4 lg:block">
+            <p className="text-sm font-semibold text-slate-950">Sprint ilerleme</p>
             <div className="mt-4 flex items-center justify-between text-sm">
-              <span className="text-slate-500">Sprint</span>
+              <span className="text-slate-500">MVP paket</span>
               <span className="font-semibold text-slate-950">{completionRate}%</span>
             </div>
             <div className="mt-2">
@@ -562,10 +470,10 @@ export default function AIDigitalProductStudioDashboard() {
 
         <main className="min-w-0 px-4 py-6 sm:px-6 lg:px-8">
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <MetricTile icon={Target} label="En güçlü niş" value={currentTrack.shortTitle} note={`${currentTrack.score}/100 pazar uyumu`} tone={currentTrack.accent} />
-            <MetricTile icon={Clock3} label="MVP süresi" value={currentTrack.mvpTime} note="İlk satış sinyali için" tone="bg-blue-50 text-blue-700" />
-            <MetricTile icon={TrendingUp} label="İlk gelir hedefi" value="300-500€" note="90 gün içinde aylık" tone="bg-emerald-50 text-emerald-700" />
-            <MetricTile icon={CalendarCheck} label="Sprint ilerleme" value={`${completionRate}%`} note={`${completedCount}/${sprintTasks.length} görev tamamlandı`} tone="bg-amber-50 text-amber-800" />
+            <MetricTile icon={ShieldAlert} label="Öncelikli risk" value="Siber zorbalık" note="İlk müdahale paketi" tone="bg-rose-50 text-rose-700" />
+            <MetricTile icon={Fingerprint} label="Ana dönüşüm" value="Ayak izi temizliği" note="30 günlük aile planı" tone="bg-cyan-50 text-cyan-700" />
+            <MetricTile icon={Smartphone} label="Cihaz güvenliği" value="Family Link" note="Kurallar ve haftalık kontrol" tone="bg-emerald-50 text-emerald-700" />
+            <MetricTile icon={Clock3} label="Sprint" value={`${completionRate}%`} note={`${completedCount}/${sprintTasks.length} görev tamamlandı`} tone="bg-amber-50 text-amber-800" />
           </div>
 
           {activeTab === "overview" && (
@@ -573,20 +481,31 @@ export default function AIDigitalProductStudioDashboard() {
               <section className="space-y-6">
                 <Card>
                   <CardContent className="p-5 sm:p-6">
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div>
-                        <p className="text-sm font-medium text-slate-500">Stratejik seçim</p>
-                        <h2 className="mt-1 text-2xl font-semibold tracking-tight">Önce tek nişi kazanılabilir hale getir</h2>
+                        <p className="text-sm font-medium text-slate-500">Ürün yolu</p>
+                        <h2 className="mt-1 text-2xl font-semibold">Aileler için dijital güvenlik operasyon sistemi</h2>
+                        <p className="mt-3 max-w-3xl leading-7 text-slate-600">
+                          Tek odak; çocukların dijital dünyada zorbalık, mahremiyet, ekran süresi, oyun içi sohbet ve iz bırakma risklerine karşı korunması.
+                        </p>
                       </div>
-                      <Button variant="subtle" onClick={() => setActiveTab("validation")}>
+                      <Button variant="subtle" onClick={() => setActiveTab("path")}>
                         <BarChart3 className="h-4 w-4" />
-                        Validasyon
+                        Modüller
                       </Button>
                     </div>
 
                     <div className="mt-5 grid gap-3 lg:grid-cols-2">
-                      {productTracks.map((track) => (
-                        <TrackButton key={track.key} track={track} active={activeTrack === track.key} onClick={() => selectTrack(track.key)} />
+                      {securityModules.slice(0, 4).map((module) => (
+                        <ModuleCard
+                          key={module.id}
+                          module={module}
+                          active={selectedModule.id === module.id}
+                          onClick={() => {
+                            setSelectedModuleId(module.id);
+                            setActiveTab("path");
+                          }}
+                        />
                       ))}
                     </div>
                   </CardContent>
@@ -596,37 +515,29 @@ export default function AIDigitalProductStudioDashboard() {
                   <CardContent className="p-5 sm:p-6">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                       <div>
-                        <p className="text-sm font-medium text-slate-500">Seçili strateji</p>
-                        <h2 className="mt-1 text-2xl font-semibold tracking-tight">{currentTrack.title}</h2>
-                        <p className="mt-3 max-w-3xl leading-7 text-slate-600">{currentTrack.promise}</p>
+                        <p className="text-sm font-medium text-slate-500">İlk MVP paketi</p>
+                        <h2 className="mt-1 text-2xl font-semibold">{topModule.title}</h2>
+                        <p className="mt-3 max-w-3xl leading-7 text-slate-600">{topModule.summary}</p>
                       </div>
-                      <div className={cx("inline-flex w-fit items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold ring-1", currentTrack.accent)}>
-                        <currentTrack.icon className="h-4 w-4" />
-                        {currentTrack.market}
+                      <div className={cx("inline-flex w-fit items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold ring-1", topModule.accent)}>
+                        <MessageSquareWarning className="h-4 w-4" />
+                        {topModule.priority}
                       </div>
                     </div>
 
                     <div className="mt-6 grid gap-4 md:grid-cols-3">
                       <div className="border-t border-slate-200 pt-4">
-                        <p className="text-sm text-slate-500">Hedef kitle</p>
-                        <p className="mt-1 font-semibold">{currentTrack.target}</p>
+                        <p className="text-sm text-slate-500">Hedef aile</p>
+                        <p className="mt-1 font-semibold">10-16 yaş çocuk sahibi ebeveynler</p>
                       </div>
                       <div className="border-t border-slate-200 pt-4">
-                        <p className="text-sm text-slate-500">Risk</p>
-                        <p className="mt-1 font-semibold">{currentTrack.risk}</p>
+                        <p className="text-sm text-slate-500">Format</p>
+                        <p className="mt-1 font-semibold">PDF, checklist, aile anlaşması</p>
                       </div>
                       <div className="border-t border-slate-200 pt-4">
-                        <p className="text-sm text-slate-500">Sıradaki hamle</p>
-                        <p className="mt-1 font-semibold">{currentTrack.mvpTime} içinde MVP</p>
+                        <p className="text-sm text-slate-500">İlk teslim</p>
+                        <p className="mt-1 font-semibold">14 gün içinde MVP</p>
                       </div>
-                    </div>
-
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {currentTrack.formats.map((format) => (
-                        <span key={format} className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
-                          {format}
-                        </span>
-                      ))}
                     </div>
                   </CardContent>
                 </Card>
@@ -635,24 +546,24 @@ export default function AIDigitalProductStudioDashboard() {
               <aside className="space-y-6">
                 <Card>
                   <CardContent className="p-5">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-start justify-between gap-4">
                       <div>
-                        <p className="text-sm font-medium text-slate-500">En yakın ürün</p>
-                        <h3 className="mt-1 text-lg font-semibold">{bestIdea.product}</h3>
+                        <p className="text-sm font-medium text-slate-500">Acil ürün çekirdeği</p>
+                        <h3 className="mt-1 text-lg font-semibold">{topModule.title}</h3>
                       </div>
-                      <StatusBadge status={bestIdea.status} />
+                      <PriorityBadge priority={topModule.priority} />
                     </div>
-                    <p className="mt-4 text-sm leading-6 text-slate-600">{bestIdea.angle}</p>
+                    <p className="mt-4 text-sm leading-6 text-slate-600">{topModule.firstStep}</p>
                     <div className="mt-5 space-y-3">
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-slate-500">Skor</span>
-                        <span className="font-semibold">{bestIdea.score}/100</span>
+                        <span className="text-slate-500">Risk önceliği</span>
+                        <span className="font-semibold">{topModule.score}/100</span>
                       </div>
-                      <ScoreBar score={bestIdea.score} className={currentTrack.chart} />
+                      <ScoreBar score={topModule.score} className={topModule.chart} />
                     </div>
-                    <Button className="mt-5 w-full" onClick={() => setActiveTab("validation")}>
+                    <Button className="mt-5 w-full" onClick={() => setActiveTab("path")}>
                       <ClipboardList className="h-4 w-4" />
-                      Ürün detayına geç
+                      Detaylara geç
                     </Button>
                   </CardContent>
                 </Card>
@@ -660,8 +571,8 @@ export default function AIDigitalProductStudioDashboard() {
                 <Card>
                   <CardContent className="p-5">
                     <div className="mb-4 flex items-center justify-between">
-                      <h3 className="font-semibold">Kanal uyumu</h3>
-                      <Globe2 className="h-4 w-4 text-slate-400" />
+                      <h3 className="font-semibold">Ürün bileşenleri</h3>
+                      <Sparkles className="h-4 w-4 text-slate-400" />
                     </div>
                     <div className="space-y-4">
                       {channels.map((channel) => {
@@ -690,72 +601,48 @@ export default function AIDigitalProductStudioDashboard() {
             </motion.div>
           )}
 
-          {activeTab === "validation" && (
+          {activeTab === "path" && (
             <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
               <Card>
                 <CardContent className="p-5 sm:p-6">
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                     <div>
-                      <p className="text-sm font-medium text-slate-500">Product Validation Board</p>
-                      <h2 className="mt-1 text-2xl font-semibold tracking-tight">Fikirleri veriyle sırala, tek MVP seç</h2>
+                      <p className="text-sm font-medium text-slate-500">Güvenlik modülleri</p>
+                      <h2 className="mt-1 text-2xl font-semibold">Aile siber güvenliği yol haritası</h2>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      <Button variant="outline" onClick={() => setQuery("")}>
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setQuery("");
+                          setAgeFilter("Tüm yaşlar");
+                          setPriorityFilter("Tümü");
+                        }}
+                      >
                         <Filter className="h-4 w-4" />
                         Temizle
                       </Button>
-                      <Button onClick={() => setActiveTab("sprint")}>
+                      <Button onClick={() => setActiveTab("plan")}>
                         <ArrowRight className="h-4 w-4" />
-                        Sprint
+                        Plan
                       </Button>
                     </div>
                   </div>
 
-                  <div className="mt-5 flex gap-2 overflow-x-auto pb-1">
-                    <button
-                      type="button"
-                      onClick={() => setValidationTrack("all")}
-                      className={cx(
-                        "flex h-9 shrink-0 items-center gap-2 rounded-lg px-3 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400",
-                        validationTrack === "all" ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                      )}
-                    >
-                      <Sparkles className="h-4 w-4" />
-                      Tüm alanlar
-                    </button>
-                    {productTracks.map((track) => {
-                      const Icon = track.icon;
-                      return (
-                        <button
-                          key={track.key}
-                          type="button"
-                          onClick={() => setValidationTrack(track.key)}
-                          className={cx(
-                            "flex h-9 shrink-0 items-center gap-2 rounded-lg px-3 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400",
-                            validationTrack === track.key ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                          )}
-                        >
-                          <Icon className="h-4 w-4" />
-                          {track.shortTitle}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  <div className="mt-4 grid gap-3 lg:grid-cols-[minmax(0,1fr)_180px]">
+                  <div className="mt-5 grid gap-3 lg:grid-cols-[minmax(0,1fr)_180px]">
                     <label className="flex h-11 items-center gap-3 rounded-lg border border-slate-300 bg-white px-3 focus-within:ring-2 focus-within:ring-slate-300">
                       <Search className="h-4 w-4 shrink-0 text-slate-400" />
                       <input
                         value={query}
                         onChange={(event) => setQuery(event.target.value)}
                         className="min-w-0 flex-1 bg-transparent text-sm outline-none"
-                        placeholder="Ürün, platform veya açı ara"
-                        aria-label="Ürün ara"
+                        placeholder="Zorbalık, ayak izi, Family Link ara"
+                        aria-label="Güvenlik modülü ara"
                       />
                     </label>
 
                     <label className="flex h-11 items-center gap-2 rounded-lg border border-slate-300 bg-white px-3">
-                      <ArrowUpDown className="h-4 w-4 text-slate-400" />
+                      <BarChart3 className="h-4 w-4 text-slate-400" />
                       <select
                         value={sortKey}
                         onChange={(event) => setSortKey(event.target.value)}
@@ -772,75 +659,45 @@ export default function AIDigitalProductStudioDashboard() {
                   </div>
 
                   <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
-                    {statusFilters.map((status) => (
+                    {ageFilters.map((age) => (
                       <button
-                        key={status}
+                        key={age}
                         type="button"
-                        onClick={() => setStatusFilter(status)}
+                        onClick={() => setAgeFilter(age)}
                         className={cx(
                           "h-9 shrink-0 rounded-lg px-3 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400",
-                          statusFilter === status ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                          ageFilter === age ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                         )}
                       >
-                        {status}
+                        {age}
                       </button>
                     ))}
                   </div>
 
-                  <div className="mt-5 overflow-hidden rounded-lg border border-slate-200">
-                    <div className="overflow-x-auto">
-                      <table className="min-w-[920px] w-full text-sm">
-                        <thead className="bg-slate-50 text-left text-slate-600">
-                          <tr>
-                            <th className="px-4 py-3 font-semibold">Ürün</th>
-                            <th className="px-4 py-3 font-semibold">Dil</th>
-                            <th className="px-4 py-3 font-semibold">Talep</th>
-                            <th className="px-4 py-3 font-semibold">Rekabet</th>
-                            <th className="px-4 py-3 font-semibold">Hız</th>
-                            <th className="px-4 py-3 font-semibold">Gelir</th>
-                            <th className="px-4 py-3 font-semibold">Platform</th>
-                            <th className="px-4 py-3 font-semibold">Durum</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100">
-                          {visibleIdeas.map((idea) => (
-                            <tr
-                              key={idea.id}
-                              onClick={() => setSelectedIdeaId(idea.id)}
-                              className={cx(
-                                "cursor-pointer bg-white transition hover:bg-slate-50",
-                                selectedIdea.id === idea.id && "bg-cyan-50/60"
-                              )}
-                            >
-                              <td className="px-4 py-4">
-                                <div className="flex items-center gap-3">
-                                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
-                                    <ChevronRight className="h-4 w-4" />
-                                  </div>
-                                  <div>
-                                    <p className="font-semibold text-slate-950">{idea.product}</p>
-                                    <p className="mt-1 text-xs text-slate-500">{idea.category} · {idea.price}</p>
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="px-4 py-4 font-medium">{idea.lang}</td>
-                              <td className="px-4 py-4">{idea.demand}/10</td>
-                              <td className="px-4 py-4">{idea.competition}/10</td>
-                              <td className="px-4 py-4">{idea.speed}/10</td>
-                              <td className="px-4 py-4">{idea.revenue}/10</td>
-                              <td className="px-4 py-4">{idea.platform}</td>
-                              <td className="px-4 py-4">
-                                <StatusBadge status={idea.status} />
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                    {visibleIdeas.length === 0 && (
-                      <div className="bg-white px-4 py-12 text-center">
+                  <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+                    {priorityFilters.map((priority) => (
+                      <button
+                        key={priority}
+                        type="button"
+                        onClick={() => setPriorityFilter(priority)}
+                        className={cx(
+                          "h-9 shrink-0 rounded-lg px-3 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400",
+                          priorityFilter === priority ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                        )}
+                      >
+                        {priority}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="mt-5 grid gap-3">
+                    {visibleModules.map((module) => (
+                      <ModuleCard key={module.id} module={module} active={selectedModule.id === module.id} onClick={() => setSelectedModuleId(module.id)} />
+                    ))}
+                    {visibleModules.length === 0 && (
+                      <div className="rounded-lg border border-slate-200 bg-white px-4 py-12 text-center">
                         <p className="font-medium text-slate-900">Sonuç bulunamadı</p>
-                        <p className="mt-1 text-sm text-slate-500">Aramayı veya durum filtresini değiştir.</p>
+                        <p className="mt-1 text-sm text-slate-500">Aramayı veya filtreleri değiştir.</p>
                       </div>
                     )}
                   </div>
@@ -851,76 +708,83 @@ export default function AIDigitalProductStudioDashboard() {
                 <CardContent className="p-5">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-sm font-medium text-slate-500">Seçili MVP</p>
-                      <h3 className="mt-1 text-xl font-semibold leading-7">{selectedIdea.product}</h3>
+                      <p className="text-sm font-medium text-slate-500">Seçili modül</p>
+                      <h3 className="mt-1 text-xl font-semibold leading-7">{selectedModule.title}</h3>
                     </div>
-                    <StatusBadge status={selectedIdea.status} />
+                    <PriorityBadge priority={selectedModule.priority} />
                   </div>
 
-                  <p className="mt-4 text-sm leading-6 text-slate-600">{selectedIdea.angle}</p>
+                  <p className="mt-4 text-sm leading-6 text-slate-600">{selectedModule.summary}</p>
 
                   <div className="mt-5 space-y-4">
-                    {[
-                      ["Öncelik skoru", selectedIdea.score, "bg-slate-900"],
-                      ["Talep", selectedIdea.demand * 10, "bg-cyan-500"],
-                      ["Üretim hızı", selectedIdea.speed * 10, "bg-emerald-500"],
-                      ["Gelir potansiyeli", selectedIdea.revenue * 10, "bg-amber-500"],
-                    ].map(([label, value, color]) => (
-                      <div key={label}>
-                        <div className="mb-2 flex items-center justify-between text-sm">
-                          <span className="text-slate-500">{label}</span>
-                          <span className="font-semibold text-slate-950">{value}%</span>
-                        </div>
-                        <ScoreBar score={value} className={color} />
+                    <div>
+                      <div className="mb-2 flex items-center justify-between text-sm">
+                        <span className="text-slate-500">Risk önceliği</span>
+                        <span className="font-semibold text-slate-950">{selectedModule.score}%</span>
                       </div>
-                    ))}
+                      <ScoreBar score={selectedModule.score} className={selectedModule.chart} />
+                    </div>
                   </div>
 
                   <div className="mt-6 grid grid-cols-2 gap-3 border-t border-slate-200 pt-5">
                     <div>
-                      <p className="text-sm text-slate-500">Platform</p>
-                      <p className="mt-1 font-semibold">{selectedIdea.platform}</p>
+                      <p className="text-sm text-slate-500">Yaş</p>
+                      <p className="mt-1 font-semibold">{selectedModule.age}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-slate-500">Fiyat</p>
-                      <p className="mt-1 font-semibold">{selectedIdea.price}</p>
+                      <p className="text-sm text-slate-500">Üretim</p>
+                      <p className="mt-1 font-semibold">{selectedModule.effort}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-slate-500">Sahip</p>
-                      <p className="mt-1 font-semibold">{selectedIdea.owner}</p>
+                      <p className="text-sm text-slate-500">Format</p>
+                      <p className="mt-1 font-semibold">{selectedModule.format}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-slate-500">Zaman</p>
-                      <p className="mt-1 font-semibold">{selectedIdea.week}</p>
+                      <p className="text-sm text-slate-500">Kanal</p>
+                      <p className="mt-1 font-semibold">{selectedModule.channel}</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 border-t border-slate-200 pt-5">
+                    <p className="text-sm font-semibold text-slate-950">Teslim edilecek parçalar</p>
+                    <div className="mt-3 space-y-2">
+                      {selectedModule.deliverables.map((item) => (
+                        <div key={item} className="flex items-center gap-2 text-sm text-slate-600">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                          {item}
+                        </div>
+                      ))}
                     </div>
                   </div>
 
                   <div className="mt-6 border-t border-slate-200 pt-5">
                     <p className="text-sm font-semibold text-slate-950">İlk aksiyon</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{selectedIdea.firstStep}</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">{selectedModule.firstStep}</p>
                   </div>
 
-                  <Button className="mt-6 w-full" onClick={() => setActiveTab("sprint")}>
+                  <Button className="mt-6 w-full" onClick={() => setActiveTab("plan")}>
                     <CheckCircle2 className="h-4 w-4" />
-                    Sprint görevlerine ekle
+                    Aile planına geç
                   </Button>
                 </CardContent>
               </Card>
             </motion.section>
           )}
 
-          {activeTab === "sprint" && (
+          {activeTab === "plan" && (
             <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6 grid gap-6 xl:grid-cols-[390px_minmax(0,1fr)]">
               <Card>
                 <CardContent className="p-5 sm:p-6">
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-sm font-medium text-slate-500">Sprint 1</p>
-                      <h2 className="mt-1 text-2xl font-semibold tracking-tight">İlk satış sinyali</h2>
+                      <h2 className="mt-1 text-2xl font-semibold">Aile Güvenlik Kiti MVP</h2>
                     </div>
                     <span className="rounded-lg bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800">{completionRate}%</span>
                   </div>
-                  <p className="mt-3 leading-7 text-slate-600">{currentTrack.nextMove}</p>
+                  <p className="mt-3 leading-7 text-slate-600">
+                    İlk paket; siber zorbalık müdahalesi, dijital ayak izi envanteri ve Family Link kurallarını tek aile dosyasında birleştirir.
+                  </p>
 
                   <div className="mt-6 space-y-3">
                     {sprintTasks.map((task) => {
@@ -954,12 +818,12 @@ export default function AIDigitalProductStudioDashboard() {
                 <Card>
                   <CardContent className="p-5 sm:p-6">
                     <div className="mb-5 flex items-center gap-3">
-                      <CalendarCheck className="h-5 w-5 text-slate-500" />
-                      <h2 className="text-xl font-semibold">90 günlük yol haritası</h2>
+                      <ListChecks className="h-5 w-5 text-slate-500" />
+                      <h2 className="text-xl font-semibold">8 haftalık aile güvenliği yolu</h2>
                     </div>
 
                     <div className="grid gap-4 lg:grid-cols-3">
-                      {phases.map((phase) => (
+                      {roadmap.map((phase) => (
                         <div key={phase.phase} className="rounded-lg border border-slate-200 bg-white p-4">
                           <div className="flex items-center justify-between gap-3">
                             <span className="rounded-full bg-slate-950 px-3 py-1 text-xs font-semibold text-white">{phase.phase}</span>
@@ -986,14 +850,14 @@ export default function AIDigitalProductStudioDashboard() {
                     <div className="grid gap-5 lg:grid-cols-[1fr_260px] lg:items-center">
                       <div>
                         <p className="text-sm font-medium text-slate-300">Bir sonraki karar</p>
-                        <h2 className="mt-1 text-2xl font-semibold">Mükemmel ürün değil, ölçülebilir ürün çıkar</h2>
+                        <h2 className="mt-1 text-2xl font-semibold">Önce acil protokolü ve Family Link temelini çıkar</h2>
                         <p className="mt-3 leading-7 text-slate-300">
-                          İlk hafta hedefi; tek probleme odaklanan küçük bir ürün, net satış başlığı ve 7 günlük veri takibi.
+                          İlk sürümde aileye hemen uygulanabilir üç şey ver: zorbalık kanıt şablonu, cihaz kural sayfası ve dijital ayak izi envanteri.
                         </p>
                       </div>
-                      <Button variant="outline" className="border-white/20 bg-white text-slate-950 hover:bg-slate-100" onClick={() => setActiveTab("validation")}>
-                        <BarChart3 className="h-4 w-4" />
-                        Panoya dön
+                      <Button variant="outline" className="border-white/20 bg-white text-slate-950 hover:bg-slate-100" onClick={() => setActiveTab("path")}>
+                        <ArrowRight className="h-4 w-4" />
+                        Modüllere dön
                       </Button>
                     </div>
                   </CardContent>
