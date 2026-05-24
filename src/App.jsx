@@ -20,8 +20,31 @@ import {
   ArrowRight,
   Sparkles,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+
+function Card({ className = "", ...props }) {
+  return <div className={className} {...props} />;
+}
+
+function CardContent({ className = "", ...props }) {
+  return <div className={className} {...props} />;
+}
+
+function Button({ className = "", variant = "default", type = "button", ...props }) {
+  const variants = {
+    default: "bg-slate-950 text-white hover:bg-slate-800",
+    outline: "border border-slate-300 bg-white text-slate-950 hover:bg-slate-50",
+  };
+
+  return (
+    <button
+      type={type}
+      className={`inline-flex items-center justify-center font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 disabled:pointer-events-none disabled:opacity-50 ${
+        variants[variant] || variants.default
+      } ${className}`}
+      {...props}
+    />
+  );
+}
 
 const productTracks = [
   {
