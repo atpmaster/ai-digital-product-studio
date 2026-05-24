@@ -25,6 +25,8 @@ import {
   Users,
   GraduationCap,
   HelpCircle,
+  BookOpen,
+  LogOut,
 } from "lucide-react";
 
 function cx(...classes) {
@@ -79,6 +81,7 @@ const navigation = [
   { id: "path", label: "Güvenlik Yolu", shortLabel: "Yol", icon: ShieldCheck },
   { id: "ages", label: "Yaş İçerikleri", shortLabel: "Yaş", icon: Users },
   { id: "quizzes", label: "Bilinç Testleri", shortLabel: "Test", icon: GraduationCap },
+  { id: "guides", label: "Güvenlik Rehberleri", shortLabel: "Rehber", icon: BookOpen },
   { id: "plan", label: "Aile Planı", shortLabel: "Plan", icon: ListChecks },
 ];
 
@@ -529,6 +532,109 @@ const childQuizQuestions = [
   }
 ];
 
+const safetyGuidesData = [
+  {
+    id: "3-5",
+    age: "3-5",
+    title: "İlk Ekran Alışkanlıkları Rehberi",
+    color: "from-emerald-500 to-teal-600 bg-emerald-50/50 text-emerald-900 border-emerald-200",
+    icon: Smartphone,
+    summary: "Okul öncesi dönemdeki çocuklar için sağlıklı ekran alışkanlıkları ve ebeveyn eşliğinde güvenli teknoloji kullanımı rehberi.",
+    parentTips: [
+      "Ekran süresini günlük maksimum 30-45 dakika ile sınırlayın.",
+      "Cihazı yalnız başına bırakılan bir 'bakıcı' değil, birlikte etkileşim kurulan interaktif bir araç olarak kullanın.",
+      "Yemek saatlerini ve uykudan önceki 1 saati tamamen ekransız bölge ilan edin.",
+      "Sadece sizin onayladığınız çocuk dostu, reklamsız uygulamaları ve video listelerini (YT Kids vb.) açın."
+    ],
+    childRules: [
+      "Tablet veya telefon kullanmak istediğimde önce anneme veya babama sorarım.",
+      "Süre dolduğunda cihazı güler yüzle kapatır ve yerine koyarım.",
+      "Ekranda bilmediğim veya korkutucu bir şey çıkarsa hemen aileme gösteririm."
+    ],
+    agreement: "Biz bir aileyiz! Ekran saatlerimizi birlikte planlar, göz sağlığımızı korur ve ekransız fiziksel oyunlara (resim yapma, boyama, yapboz vb.) her gün bolca vakit ayırırız."
+  },
+  {
+    id: "6-8",
+    age: "6-8",
+    title: "İlk Cihaz ve Temel Mahremiyet Kılavuzu",
+    color: "from-cyan-500 to-blue-600 bg-cyan-50/50 text-cyan-900 border-cyan-200",
+    icon: ShieldCheck,
+    summary: "İlkokul çağındaki çocuklar için Family Link cihaz sınırları ve ilk dijital mahremiyet kuralları rehberi.",
+    parentTips: [
+      "Google Family Link uygulamasını kurup indirme onayı ve uyku saati kilidi tanımlayın.",
+      "Çocuğun cihaz kullanımını fiziksel olarak gözlemleyebileceğiniz ortak alanlarda (salon vb.) yapmasını sağlayın.",
+      "Ev ağınızda modem seviyesinde Güvenli İnternet veya Aile Filtre profillerini aktif edin.",
+      "Çocuğunuza yabancılardan gelen arkadaşlık veya oyun davetlerini reddetmesi gerektiğini uygulamalı gösterin."
+    ],
+    childRules: [
+      "Yeni bir oyun veya uygulama indirmeden önce mutlaka ailemden onay alırım.",
+      "İnternette karşılaştığım yabancılara adımı, okulumu, fotoğrafımı veya ev adresimi asla söylemem.",
+      "Ekrandayken beni üzen veya şaşırtan bir şey olursa korkmadan hemen aileme haber veririm."
+    ],
+    agreement: "İnternet dünyasını keşfederken sınırlarımızı biliriz! Aile cihaz kurallarına saygı duyar, dijital mahremiyetimizi korur ve güvenliğimizi her şeyin önünde tutarız."
+  },
+  {
+    id: "9-11",
+    age: "9-11",
+    title: "Oyun, Çevrimiçi Sohbet ve Dolandırıcılık Kılavuzu",
+    color: "from-amber-500 to-orange-600 bg-amber-50/50 text-amber-900 border-amber-200",
+    icon: Gamepad2,
+    summary: "Çevrimiçi oyunlar (Roblox, Minecraft vb.), Discord kanalları, arkadaş ekleme ve bedava oyun içi para dolandırıcılıklarından korunma rehberi.",
+    parentTips: [
+      "Çocuğun oynadığı oyunlardaki sohbet izinlerini kısıtlayın ve yabancılarla birebir konuşmalarını engelleyin.",
+      "Oyun içi hediye veya bedava para (Robux, V-Bucks vb.) tekliflerinin kimlik/hesap hırsızlığı tuzuğı olduğunu öğretin.",
+      "Çocuğunuzun takma adlarında (kullanıcı adlarında) gerçek adını, soyadını veya doğum yılını kullanmamasını sağlayın.",
+      "Haftalık olarak oynadığı oyunları ve arkadaş listesini birlikte gözden geçirme rutini oluşturun."
+    ],
+    childRules: [
+      "Oyunlarda tanımadığım birinin bana ücretsiz hediye veya oyun parası verme tekliflerini hemen reddederim.",
+      "Şifremi en yakın arkadaşım dahil hiç kimseyle paylaşmam, şifremin sadece aileme özel olduğunu bilirim.",
+      "Oyun içi sohbetlerde birisi canımı sıkacak veya beni korkutacak bir şey yazarsa onu engeller ve aileme söylerim."
+    ],
+    agreement: "Çevrimiçi oyunlarda adil ve güvende kalırız! Yabancılarla oyun içi sohbet etmeyiz, bedava hediyelere inanmayız ve şifremizi bir sır gibi saklarız."
+  },
+  {
+    id: "12-14",
+    age: "12-14",
+    title: "Sosyal Medya ve Siber Zorbalıkla Mücadele Kılavuzu",
+    color: "from-rose-500 to-red-600 bg-rose-50/50 text-rose-900 border-rose-200",
+    icon: MessageSquareWarning,
+    summary: "Sosyal medya platformları (Instagram, TikTok vb.), grup sohbetleri, siber zorbalığı tanıma ve yasal kanıt toplama rehberi.",
+    parentTips: [
+      "Platform gizlilik ayarlarını kilitleyin: Hesabı gizliye alın, DM (doğrudan mesaj) izinlerini sadece takipçilere sınırlayın.",
+      "Siber zorbalık anında ilk 24 saat içinde panik yapmadan ekran görüntüsü ve platform linki kanıtlarını arşivleyin.",
+      "Çocuğunuzun siber zorbalık yaşadığında utanmaması veya cihazının elinden alınacağını düşünmemesi için ona güven verin.",
+      "Okul yönetimi ve rehberlik servisiyle koordinasyon içinde kalarak siber akran zorbalığını raporlayın."
+    ],
+    childRules: [
+      "Grup sohbetlerinde veya profillerimde başkalarını üzecek kırıcı mesajlar veya fotoğraflar paylaşmam.",
+      "Birisi bana siber zorbalık yaparsa ona aynı şekilde yanıt vermem, mesajları saklayıp o kişiyi hemen engellerim.",
+      "Yaşadığım olumsuz durumları utanmadan, çekinmeden hemen ailemle veya öğretmenimle paylaşırım."
+    ],
+    agreement: "Sosyal medyada sevgi ve saygıyı koruruz! Siber zorbalığa asla sessiz kalmayız, kanıtlarımızı saklarız, zorbalara karşılık vermeyiz ve ailemizle her şeyi şeffafça konuşuruz."
+  },
+  {
+    id: "15-17",
+    age: "15-17",
+    title: "Dijital Ayak İzi ve Gelecek İtibarı Kılavuzu",
+    color: "from-indigo-500 to-violet-600 bg-indigo-50/50 text-indigo-900 border-indigo-200",
+    icon: Fingerprint,
+    summary: "Gelecekteki üniversite, burs veya iş başvurularını etkileyebilecek eski internet hesaplarının silinmesi ve dijital itibar temizliği rehberi.",
+    parentTips: [
+      "Gence denetleyici değil, bir 'dijital itibar danışmanı' olarak yaklaşın ve internetin kalıcı doğasını anlatın.",
+      "Çocuğunuzla birlikte eski forum, oyun ve kullanılmayan sosyal medya hesaplarını kapatmak için 30 günlük plan yapın.",
+      "Google arama motorunda çocuğunuzun adını aratarak çıkan sonuçları analiz edin ve gerekirse silme talebi gönderin.",
+      "İki aşamalı doğrulama (2FA) ve şifre yöneticisi kullanımı konusunda gence rehberlik edin."
+    ],
+    childRules: [
+      "Bugün paylaştığım bir fotoğrafın veya yorumun yıllar sonra karşıma çıkabileceğini bilerek paylaşım yaparım.",
+      "Kullanmadığım eski hesaplarımı tamamen siler, aktif hesaplarımın gizlilik ve etiketleme ayarlarını yüksek tutarım.",
+      "Başkalarının özel fotoğraflarını veya bilgilerini onların izni olmadan asla internette paylaşmam."
+    ],
+    agreement: "Dijital ayak izimizin bilincindeyiz! Gelecekteki hayallerimizi korumak için internette temiz ve saygın izler bırakır, eski hesaplarımızı temizler ve güvenlik ayarlarımızı en üstte tutarız."
+  }
+];
+
 function getEffortValue(effort) {
   return Number.parseInt(effort, 10) || 10;
 }
@@ -624,6 +730,20 @@ export default function FamilyDigitalSafetyDashboard() {
   const [profileTechLevel, setProfileTechLevel] = useState("intermediate");
   const [profileWorkStyle, setProfileWorkStyle] = useState("desk");
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  // YENİ ÜYE GİRİŞ & KAYIT DURUM DEĞİŞKENLERİ
+  const [currentUser, setCurrentUser] = useState(() => {
+    const saved = localStorage.getItem("digital_safety_user");
+    return saved ? JSON.parse(saved) : null;
+  });
+  const [authMode, setAuthMode] = useState("login"); // 'login' veya 'register'
+  const [emailInput, setEmailInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [nameInput, setNameInput] = useState("");
+  const [authError, setAuthError] = useState("");
+
+  // YENİ REHBER DURUM DEĞİŞKENLERİ
+  const [selectedGuideAge, setSelectedGuideAge] = useState("12-14");
 
   // YENİ BİLİNÇ TESTLERİ DURUM DEĞİŞKENLERİ
   const [activeQuiz, setActiveQuiz] = useState(null); // 'parent', 'child' veya null
@@ -739,6 +859,145 @@ export default function FamilyDigitalSafetyDashboard() {
     );
   }
 
+  // YENİ ÜYE GİRİŞ & ÇIKIŞ İŞLEYİCİLERİ
+  const handleLogin = (e) => {
+    if (e) e.preventDefault();
+    if (!emailInput || !passwordInput) {
+      setAuthError("Lütfen tüm alanları doldurun.");
+      return;
+    }
+    const user = { email: emailInput, name: emailInput.split("@")[0] };
+    localStorage.setItem("digital_safety_user", JSON.stringify(user));
+    setCurrentUser(user);
+    setEmailInput("");
+    setPasswordInput("");
+    setAuthError("");
+  };
+
+  const handleRegister = (e) => {
+    if (e) e.preventDefault();
+    if (!emailInput || !passwordInput || !nameInput) {
+      setAuthError("Lütfen tüm alanları doldurun.");
+      return;
+    }
+    const user = { email: emailInput, name: nameInput };
+    localStorage.setItem("digital_safety_user", JSON.stringify(user));
+    setCurrentUser(user);
+    setEmailInput("");
+    setPasswordInput("");
+    setNameInput("");
+    setAuthError("");
+  };
+
+  const handleDemoLogin = () => {
+    const user = { email: "demo@ebeveyn.com", name: "Demo Ebeveyn" };
+    localStorage.setItem("digital_safety_user", JSON.stringify(user));
+    setCurrentUser(user);
+    setAuthError("");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("digital_safety_user");
+    setCurrentUser(null);
+  };
+
+  if (!currentUser) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white px-4 relative overflow-hidden">
+        {/* Background Decorative Gradients */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-600/20 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-8 shadow-2xl relative z-10">
+          <div className="text-center mb-6">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-slate-900 text-white mb-4 shadow-lg">
+              <ShieldCheck className="h-6 w-6 text-emerald-400" />
+            </div>
+            <h1 className="text-2xl font-black tracking-tight">Ebeveyn Dijital Stüdyosu</h1>
+            <p className="text-xs text-slate-400 mt-1">Çocuklar için güvenli dijital yaşam ve bilinç paneli</p>
+          </div>
+
+          {authError && (
+            <div className="mb-4 p-3 rounded-lg border border-red-500/20 bg-red-500/10 text-xs text-red-400 font-semibold flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 shrink-0" />
+              {authError}
+            </div>
+          )}
+
+          <form onSubmit={authMode === "login" ? handleLogin : handleRegister} className="space-y-4">
+            {authMode === "register" && (
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" htmlFor="name">Adınız Soyadınız</label>
+                <input
+                  id="name"
+                  type="text"
+                  required
+                  placeholder="Ahmet Yılmaz"
+                  value={nameInput}
+                  onChange={(e) => setNameInput(e.target.value)}
+                  className="w-full h-11 bg-white/5 border border-white/10 rounded-lg px-3.5 text-sm text-white placeholder-slate-500 outline-none focus:border-indigo-500 transition"
+                />
+              </div>
+            )}
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" htmlFor="email">E-posta Adresi</label>
+              <input
+                id="email"
+                type="email"
+                required
+                placeholder="ebeveyn@ornek.com"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                className="w-full h-11 bg-white/5 border border-white/10 rounded-lg px-3.5 text-sm text-white placeholder-slate-500 outline-none focus:border-indigo-500 transition"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" htmlFor="password">Şifre</label>
+              <input
+                id="password"
+                type="password"
+                required
+                placeholder="••••••••"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                className="w-full h-11 bg-white/5 border border-white/10 rounded-lg px-3.5 text-sm text-white placeholder-slate-500 outline-none focus:border-indigo-500 transition"
+              />
+            </div>
+
+            <Button type="submit" className="w-full bg-slate-900 text-white hover:bg-slate-800 border border-white/10 font-semibold shadow-lg">
+              {authMode === "login" ? "Giriş Yap" : "Kayıt Ol"}
+            </Button>
+          </form>
+
+          <div className="relative my-5">
+            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10"></div></div>
+            <div className="relative flex justify-center text-xs uppercase"><span className="bg-[#0b0f19] px-2 text-slate-500">VEYA</span></div>
+          </div>
+
+          <Button type="button" variant="outline" onClick={handleDemoLogin} className="w-full border-white/10 bg-transparent text-white hover:bg-white/5 font-semibold">
+            Demo Girişi Yap (Tek Tıkla Dene)
+          </Button>
+
+          <p className="text-center text-xs text-slate-400 mt-6">
+            {authMode === "login" ? "Hesabınız yok mu? " : "Zaten üye misiniz? "}
+            <button
+              type="button"
+              onClick={() => {
+                setAuthMode(authMode === "login" ? "register" : "login");
+                setAuthError("");
+              }}
+              className="text-indigo-400 hover:underline font-bold"
+            >
+              {authMode === "login" ? "Hemen Kayıt Olun" : "Giriş Yapın"}
+            </button>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-slate-100 text-slate-950">
       <div className="border-b border-slate-200 bg-white">
@@ -749,7 +1008,9 @@ export default function FamilyDigitalSafetyDashboard() {
             </div>
             <div>
               <p className="text-sm font-medium text-slate-500">Aile Dijital Güvenlik Stüdyosu</p>
-              <h1 className="text-xl font-semibold text-slate-950">Çocuklar için güvenli dijital yaşam planı</h1>
+              <h1 className="text-xl font-semibold text-slate-950">
+                Merhaba, <span className="text-indigo-600 font-bold">{currentUser.name}</span>
+              </h1>
             </div>
           </div>
 
@@ -765,6 +1026,10 @@ export default function FamilyDigitalSafetyDashboard() {
             <Button onClick={() => setActiveTab("plan")}>
               <Rocket className="h-4 w-4" />
               Aile planı
+            </Button>
+            <Button variant="outline" onClick={handleLogout} className="border-red-200 hover:bg-red-50 text-red-600">
+              <LogOut className="h-4 w-4" />
+              Çıkış
             </Button>
           </div>
         </div>
@@ -1755,6 +2020,176 @@ export default function FamilyDigitalSafetyDashboard() {
                   );
                 })()
               )}
+            </motion.section>
+          )}
+
+          {activeTab === "guides" && (
+            <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6 grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)]">
+              {/* YAŞ GRUBU SEÇİM MENÜSÜ */}
+              <aside className="space-y-2 print-hide">
+                <Card>
+                  <CardContent className="p-4">
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Rehber Yaş Grupları</p>
+                    <div className="flex flex-col gap-1">
+                      {safetyGuidesData.map((guide) => {
+                        const active = selectedGuideAge === guide.age;
+                        const GuideIcon = guide.icon;
+
+                        return (
+                          <button
+                            key={guide.id}
+                            type="button"
+                            onClick={() => setSelectedGuideAge(guide.age)}
+                            className={cx(
+                              "w-full flex items-center gap-3 h-11 px-3 rounded-lg text-xs font-semibold text-left transition",
+                              active
+                                ? "bg-slate-950 text-white shadow-sm"
+                                : "text-slate-600 hover:bg-slate-100 hover:text-slate-950"
+                            )}
+                          >
+                            <GuideIcon className="h-4 w-4 shrink-0" />
+                            <span>{guide.age} Yaş Rehberi</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* PDF Hızlı Bilgi Kartı */}
+                <Card className="bg-slate-900 text-white">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Sparkles className="h-4 w-4 text-amber-400" />
+                      <h4 className="font-bold text-xs">Vektörel PDF Çıktısı</h4>
+                    </div>
+                    <p className="text-[11px] leading-5 text-slate-300">
+                      Rehberi yazdırırken tarayıcınızın 'PDF Olarak Kaydet' özelliğini kullanarak yüksek kalitede, A4 boyutunda dikey kılavuzlar üretebilirsiniz.
+                    </p>
+                  </CardContent>
+                </Card>
+              </aside>
+
+              {/* REHBER İÇERİK SAYFASI (Yazdırılabilir A4 Layout) */}
+              <div className="min-w-0">
+                {(() => {
+                  const guide = safetyGuidesData.find(g => g.age === selectedGuideAge) || safetyGuidesData[0];
+                  const GuideIcon = guide.icon;
+
+                  return (
+                    <Card className="border-slate-200 bg-white shadow-md print-card overflow-hidden">
+                      {/* PDF Yazdırma Başlığı */}
+                      <div className="hidden print:block text-center border-b-2 border-slate-950 pb-6 mb-8">
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                          <ShieldCheck className="h-8 w-8 text-slate-950" />
+                          <span className="text-xl font-black tracking-tight uppercase">Aile Siber Güvenlik Akademisi</span>
+                        </div>
+                        <h1 className="text-2xl font-black">{guide.title}</h1>
+                        <p className="text-xs text-slate-500 mt-1">Bu kılavuz {currentUser.name} Ailesi için özel olarak hazırlanmıştır.</p>
+                      </div>
+
+                      {/* Web Ekranı Başlığı */}
+                      <div className="p-6 sm:p-8 border-b border-slate-100 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between print-hide">
+                        <div className="flex items-start gap-4">
+                          <div className={cx(
+                            "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white shadow-md",
+                            guide.id === "3-5" ? "bg-emerald-600" :
+                            guide.id === "6-8" ? "bg-cyan-600" :
+                            guide.id === "9-11" ? "bg-amber-600" :
+                            guide.id === "12-14" ? "bg-rose-600" : "bg-indigo-600"
+                          )}>
+                            <GuideIcon className="h-6 w-6" />
+                          </div>
+                          <div>
+                            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{guide.age} YAŞ DİJİTAL REHBERİ</span>
+                            <h2 className="text-2xl font-extrabold text-slate-950 mt-0.5">{guide.title}</h2>
+                          </div>
+                        </div>
+
+                        {/* PDF İNDİR BUTONU */}
+                        <Button
+                          onClick={() => window.print()}
+                          className={cx(
+                            "flex items-center justify-center gap-2 shadow-sm font-semibold",
+                            guide.id === "3-5" ? "bg-emerald-600 hover:bg-emerald-700 text-white" :
+                            guide.id === "6-8" ? "bg-cyan-600 hover:bg-cyan-700 text-white" :
+                            guide.id === "9-11" ? "bg-amber-600 hover:bg-amber-700 text-white" :
+                            guide.id === "12-14" ? "bg-rose-600 hover:bg-rose-700 text-white" : "bg-indigo-600 hover:bg-indigo-700 text-white"
+                          )}
+                        >
+                          <ClipboardList className="h-4 w-4" />
+                          PDF / Çıktı Olarak Al
+                        </Button>
+                      </div>
+
+                      {/* Kılavuz Ana İçeriği */}
+                      <div className="p-6 sm:p-8 space-y-8 print-pdf-layout">
+                        {/* Özet ve Giriş */}
+                        <div className="p-5 rounded-xl border border-slate-100 bg-slate-50">
+                          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">GENEL BAKIŞ</p>
+                          <p className="mt-1.5 text-sm leading-relaxed text-slate-700 font-medium">{guide.summary}</p>
+                        </div>
+
+                        {/* İki Sütunlu İçerik (Ebeveyn & Çocuk) */}
+                        <div className="grid gap-6 md:grid-cols-2">
+                          {/* Ebeveyn Kılavuzu */}
+                          <div className="space-y-4">
+                            <h3 className="text-base font-bold text-slate-950 flex items-center gap-2 border-b border-slate-100 pb-2">
+                              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-950 text-white text-xs font-bold">1</span>
+                              Ebeveyn Denetim Rehberi
+                            </h3>
+                            <div className="space-y-3">
+                              {guide.parentTips.map((tip, idx) => (
+                                <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-600 leading-relaxed">
+                                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500 mt-0.5" />
+                                  <span>{tip}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Çocuk Kuralları */}
+                          <div className="space-y-4">
+                            <h3 className="text-base font-bold text-slate-950 flex items-center gap-2 border-b border-slate-100 pb-2">
+                              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-white text-xs font-bold">2</span>
+                              Çocuk Siber Kuralları
+                            </h3>
+                            <div className="space-y-3">
+                              {guide.childRules.map((rule, idx) => (
+                                <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-600 leading-relaxed">
+                                  <Sparkles className="h-4 w-4 shrink-0 text-amber-500 mt-0.5" />
+                                  <span>{rule}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Aile Siber Sözleşmesi */}
+                        <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center bg-slate-50/50">
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">AİLE ORTAK ANLAŞMASI</p>
+                          <h4 className="text-base font-black tracking-tight text-slate-900 mt-1">Siber Güvenlik Sözleşmemiz</h4>
+                          <p className="mt-3 text-xs leading-relaxed text-slate-600 max-w-lg mx-auto font-medium italic">
+                            "{guide.agreement}"
+                          </p>
+
+                          {/* İmza Alanı */}
+                          <div className="hidden print:flex items-center justify-around mt-8 pt-6 border-t border-slate-200 text-xs">
+                            <div className="text-center">
+                              <div className="w-32 border-b border-slate-400 h-8 mx-auto"></div>
+                              <p className="mt-2 font-bold text-slate-700">Ebeveyn İmzası</p>
+                            </div>
+                            <div className="text-center">
+                              <div className="w-32 border-b border-slate-400 h-8 mx-auto"></div>
+                              <p className="mt-2 font-bold text-slate-700">Çocuk İmzası</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  );
+                })()}
+              </div>
             </motion.section>
           )}
 

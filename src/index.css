@@ -22,3 +22,50 @@ body {
   max-width: 100%;
   overflow-x: hidden;
 }
+
+/* @media print: Vektörel PDF Çıktı Motoru Kuralları */
+@media print {
+  body {
+    background: white !important;
+    color: #0f172a !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Dashboard elemanlarını, yan menüyü, üst menüyü ve butonları gizle */
+  aside,
+  header,
+  .border-b,
+  button,
+  .print-hide,
+  .mb-6 {
+    display: none !important;
+  }
+
+  /* Main alanını A4 sayfaya tam oturt */
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* A4 sınırlandırmaları */
+  @page {
+    size: A4 portrait;
+    margin: 1.5cm;
+  }
+
+  /* Yazdırma esnasında gölgeleri ve çerçeveleri sıfırla */
+  .rounded-lg, .rounded-xl, .border {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  /* Yazdırılacak rehberin dikey düzeni */
+  .print-pdf-layout {
+    display: block !important;
+    width: 100% !important;
+  }
+}
